@@ -3,7 +3,7 @@ import { AiFillGoogleSquare } from "react-icons/ai";
 
 function RegisterPage() {
   return (
-    <div className="w-[100vw] h-[100vh]  flex items-center justify-center">
+    <div className="w-[100vw] h-[100vh]  flex items-center justify-center mt-5">
       <div className="w-[450px]">
         <img
           src="../../src/images/authHero.png"
@@ -12,7 +12,7 @@ function RegisterPage() {
         />
       </div>
 
-      <div className="w-[400px] border-[1px] border-[#dbdbdb] rounded-sm">
+      <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
         <div className="w-[235px]  mx-auto pt-10 mt-2">
           <img src={logo} alt="instagram logo" />
         </div>
@@ -21,8 +21,8 @@ function RegisterPage() {
             Sign up to see photos and videos from your friends
           </p>
         </div>
-        <div className="mt-3">
-          <button className="flex items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[320px]  ml-[40px]  rounded-lg text-white font-bold">
+        <div className="mt-3 flex items-center justify-center">
+          <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold">
             <p
               className="text-xl
             "
@@ -80,7 +80,7 @@ function RegisterPage() {
           <input
             type="submit"
             value="Sign up"
-            className="bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[320px] py-[6px] rounded-lg text-white font-bold self-center"
+            className="bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[80%] py-[6px] rounded-lg text-white font-bold self-center"
           />
         </form>
       </div>
