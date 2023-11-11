@@ -8,7 +8,7 @@ import logo from "../../../public/logo.svg";
 
 function Sidebar() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-5 justify-between w-min">
       <NavLink className="flex items-center gap-3 mb-5" to={"/feed"}>
         <div className="text-[30px]">
           <img src={logo} alt="Logo" />

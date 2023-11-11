@@ -3,7 +3,7 @@ import { BsBookmarkHeart } from "react-icons/bs";
 BsBookmarkHeart;
 function Profile() {
   return (
-    <>
+    <div className="flex flex-col">
       <div className="flex items-center justify-center mt-10 gap-10">
         <div className="w-[160px] h-[160px] rounded-[50%] bg-slate-200"></div>
         <div className="flex flex-col items-start gap-5">
@@ -47,7 +47,7 @@ function Profile() {
           <p>FAVORITES</p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
