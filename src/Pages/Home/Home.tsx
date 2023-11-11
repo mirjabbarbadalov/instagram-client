@@ -1,7 +1,11 @@
-import React from "react";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <Sidebar />
+    </div>
+  );
 }
 
 export default Home;
