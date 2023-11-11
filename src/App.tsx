@@ -1,12 +1,17 @@
-import LoginPage from "./authPage/loginPage/LoginPage";
-import RegisterPage from "./authPage/registerPage/RegisterPage";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="">
-      <RegisterPage />
-      <LoginPage />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={} />
+        <Route path="/feed" element={} />
+        <Route path="/favourites" element={} />
+        <Route path="/messages" element={} />
+        <Route path="/notifications" element={} />
+        <Route path="/profile" element={} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
