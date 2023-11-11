@@ -1,5 +1,5 @@
-import LoginPage from "./pages/Authentication/loginPage/LoginPage";
-import RegisterPage from "./pages/Authentication/registerPage/RegisterPage";
+import LoginPage from "./authPage/loginPage/LoginPage";
+import RegisterPage from "./authPage/registerPage/RegisterPage";
 
 function App() {
   return (
