@@ -1,52 +1,140 @@
-import { NavLink } from "react-router-dom";
-import { BsBookmarkHeart } from "react-icons/bs";
-import { HiOutlinePaperAirplane } from "react-icons/hi";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { RiAccountCircleLine, RiStackLine } from "react-icons/ri";
-import { GoHome } from "react-icons/go";
-import logo from "../../../public/logo.svg";
+import logo from "/logo.svg";
+import { NavLink, useLocation } from "react-router-dom";
+import { GoHome, GoHomeFill } from "react-icons/go";
+import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
+import { HiOutlinePaperAirplane, HiPaperAirplane } from "react-icons/hi";
+import { IoMdNotificationsOutline, IoMdNotifications } from "react-icons/io";
+import {
+  RiAccountCircleLine,
+  RiStackLine,
+  RiAccountCircleFill,
+  RiStackFill,
+} from "react-icons/ri";
 
 function Sidebar() {
+  const location = useLocation();
+
+  const isNavLinkActive = (path: string) => location.pathname === path;
+
   return (
-    <div className="flex flex-col gap-5 justify-between w-min">
-      <NavLink className="flex items-center gap-3 mb-5" to={"/feed"}>
-        <div className="text-[30px]">
-          <img src={logo} alt="Logo" />
-        </div>
+    <div className="flex flex-col gap-5 justify-between w-min ml-5">
+      <NavLink className="flex items-center gap-3 mt-10 mb-3 ml-3" to={"/feed"}>
+        <img src={logo} alt="Instagram Logo" className="w-[100px]" />
       </NavLink>
-      <NavLink className="flex items-center gap-3 mb-5" to={"/feed"}>
-        <div className="text-[30px]">
-          <GoHome />
+
+      <div className="border-s border-solid border-slate-300 h-screen absolute ml-[14.5vw] "></div>
+
+      <NavLink
+        className={`flex items-center gap-3 p-3 ${
+          isNavLinkActive("/feed") ? "text-black-500" : ""
+        } hover:bg-[#f2f2f2] hover:rounded-md `}
+        to="/feed"
+      >
+        <div className="text-[28px] ">
+          {isNavLinkActive("/feed") ? (
+            <GoHomeFill
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          ) : (
+            <GoHome
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          )}
         </div>
         <p>Home</p>
       </NavLink>
-      <NavLink className="flex items-center gap-3 mb-5" to={"/favourites"}>
-        <div className="text-[30px]">
-          <BsBookmarkHeart />
+      <NavLink
+        className={`flex items-center gap-3 p-3 ${
+          isNavLinkActive("/favourites") ? "text-black-500" : ""
+        }hover:bg-[#f2f2f2] hover:rounded-md `}
+        to={"/favourites"}
+      >
+        <div className="text-[28px]">
+          {isNavLinkActive("/favourites") ? (
+            <BsBookmarkHeartFill
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          ) : (
+            <BsBookmarkHeart
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          )}
         </div>
         <p>Favourites</p>
       </NavLink>
-      <NavLink className="flex items-center gap-3 mb-5" to={"/messages"}>
-        <div className="text-[30px]">
-          <HiOutlinePaperAirplane />
+      <NavLink
+        className={`flex items-center gap-3 p-3 ${
+          isNavLinkActive("/messages") ? "text-black-500" : ""
+        } hover:bg-[#f2f2f2] hover:rounded-md `}
+        to={"/messages"}
+      >
+        <div className="text-[28px]">
+          {isNavLinkActive("/messages") ? (
+            <HiPaperAirplane
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          ) : (
+            <HiOutlinePaperAirplane
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          )}
         </div>
         <p>Messages</p>
       </NavLink>
-      <NavLink className="flex items-center gap-3 mb-5" to={"/notifications"}>
-        <div className="text-[30px]">
-          <IoMdNotificationsOutline />
+      <NavLink
+        className={`flex items-center gap-3 p-3 ${
+          isNavLinkActive("/notifications") ? "text-black-500" : ""
+        }hover:bg-[#f2f2f2] hover:rounded-md `}
+        to={"/notifications"}
+      >
+        <div className="text-[28px]">
+          {isNavLinkActive("/notifications") ? (
+            <IoMdNotifications
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          ) : (
+            <IoMdNotificationsOutline
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          )}
         </div>
         <p>Notifications</p>
       </NavLink>
-      <NavLink className="flex items-center gap-3 mb-5" to={"/profile"}>
-        <div className="text-[30px]">
-          <RiAccountCircleLine />
+      <NavLink
+        className={`flex items-center gap-3 p-3 ${
+          isNavLinkActive("/profile") ? "text-black-500" : ""
+        }hover:bg-[#f2f2f2] hover:rounded-md `}
+        to={"/profile"}
+      >
+        <div className="text-[28px]">
+          {isNavLinkActive("/profile") ? (
+            <RiAccountCircleFill
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          ) : (
+            <RiAccountCircleLine
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          )}
         </div>
         <p>Profile</p>
       </NavLink>
-      <NavLink className="flex items-center gap-3 mb-5" to={"/more"}>
-        <div className="text-[30px]">
-          <RiStackLine />
+      <NavLink
+        className={`flex items-center gap-3 p-3 ${
+          isNavLinkActive("/more") ? "text-black-500" : ""
+        }hover:bg-[#f2f2f2] hover:rounded-md `}
+        to={"/more"}
+      >
+        <div className="text-[28px]">
+          {isNavLinkActive("/more") ? (
+            <RiStackFill
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          ) : (
+            <RiStackLine
+              className={"transform hover:scale-110 transition-transform"}
+            />
+          )}
         </div>
         <p>More</p>
       </NavLink>

@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
+import LoginPage from "./pages/Authentication/loginPage/LoginPage.tsx";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <BrowserRouter>
         <Sidebar />
         <Routes>
+          <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/" element={<Home />} />
           <Route path="/feed" element={<Home />} />
           <Route path="/favourites" />
