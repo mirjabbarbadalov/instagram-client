@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Profile from "./pages/Profile/Profile";
-import Sidebar from "./components/Sidebar/Sidebar";
+import Home from "./pages/Home/Home.tsx";
+import Profile from "./pages/Profile/Profile.tsx";
+import Sidebar from "./components/Sidebar/Sidebar.tsx";
 
 function App() {
   return (

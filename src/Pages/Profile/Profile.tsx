@@ -1,5 +1,6 @@
 import { BsGrid3X3 } from "react-icons/bs";
 import { BsBookmarkHeart } from "react-icons/bs";
+
 BsBookmarkHeart;
 function Profile() {
   return (
@@ -9,10 +10,16 @@ function Profile() {
         <div className="flex flex-col items-start gap-5">
           <div className="flex ">
             <p className="text-lg">mrcbedelov</p>
-            <button className="ml-[30px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg">
+            <button
+              type="submit"
+              className="ml-[30px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg"
+            >
               Edit profile
             </button>
-            <button className="ml-[10px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg ">
+            <button
+              type="button"
+              className="ml-[10px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg "
+            >
               View profile
             </button>
           </div>
