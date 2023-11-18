@@ -1,7 +1,92 @@
+import { useState } from "react";
 import logo from "/logo.svg";
 import { AiFillGoogleSquare } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [userNameError, setUserNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [fullNameError, setFullNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  async function registerUser(userName, password, email, fullName) {
+    const data = {
+      username: userName,
+      password: password,
+      email: email,
+      fullname: fullName,
+    };
+    try {
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/api/register",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Success! Registration completed.");
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } else {
+        console.error("Registration failed with status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  function handleUserNameChange(value: string) {
+    setUserName(value);
+    if (value.length === 0) {
+      setUserNameError("Username is required");
+    } else {
+      setUserNameError("");
+    }
+  }
+
+  function handlePasswordChange(value: string) {
+    setPassword(value);
+    if (value.length === 0) {
+      setPasswordError("Password is required");
+    } else {
+      setPasswordError("");
+    }
+  }
+
+  function handleFullNameChange(value: string) {
+    setFullName(value);
+    if (value.length === 0) {
+      setFullNameError("Full Name is required");
+    } else {
+      setFullNameError("");
+    }
+  }
+
+  function handleEmailChange(value: string) {
+    setEmail(value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (value.length === 0) {
+      setEmailError("Email is required");
+    } else if (!emailRegex.test(value)) {
+      setEmailError("Invalid email format");
+    } else {
+      setEmailError("");
+    }
+  }
+
   return (
     <div className="w-[100vw] h-[100vh]  flex items-center justify-center mt-5">
       <div className="w-[450px]">
@@ -36,35 +121,36 @@ function RegisterPage() {
         <form action="" className=" flex flex-col justify-between p-10 gap-5">
           <input
             type="email"
-            name=""
-            id=""
             placeholder="Email"
             className="px-4 py-2 bg-[#fafafa]"
+            onChange={(e) => handleEmailChange(e.target.value)}
           />
+          {emailError && <p className="text-red-500">{emailError}</p>}
 
           <input
             type="text"
-            name=""
-            id=""
             placeholder="Full Name"
             className="px-4 py-2 bg-[#fafafa]"
+            onChange={(e) => handleFullNameChange(e.target.value)}
           />
+          {fullNameError && <p className="text-red-500">{fullNameError}</p>}
 
           <input
             type="text"
-            name=""
-            id=""
             placeholder="Username"
             className="px-4 py-2 bg-[#fafafa]"
+            onChange={(e) => handleUserNameChange(e.target.value)}
           />
+          {userNameError && <p className="text-red-500">{userNameError}</p>}
 
           <input
             type="password"
-            name=""
-            id=""
             placeholder="Password"
             className="px-4 py-2 bg-[#fafafa]"
+            onChange={(e) => handlePasswordChange(e.target.value)}
           />
+          {passwordError && <p className="text-red-500">{passwordError}</p>}
+
           <div className="flex flex-col gap-4 text-center  text-sm">
             <p className="text-[#737373]">
               People who use our service may have uploaded your contact
@@ -76,11 +162,14 @@ function RegisterPage() {
               Policy.
             </p>
           </div>
-
           <input
             type="submit"
             value="Sign up"
             className="bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[80%] py-[6px] rounded-lg text-white font-bold self-center"
+            onClick={(e) => {
+              registerUser(userName, password, email, fullName);
+              e.preventDefault();
+            }}
           />
         </form>
       </div>

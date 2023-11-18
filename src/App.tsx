@@ -3,6 +3,7 @@ import Home from "./pages/Home/Home.tsx";
 import Profile from "./pages/Profile/Profile.tsx";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
 import LoginPage from "./pages/Authentication/loginPage/LoginPage.tsx";
+import RegisterPage from "./pages/Authentication/registerPage/RegisterPage.tsx";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/" element={<Home />} />
           <Route path="/feed" element={<Home />} />
           <Route path="/favourites" />
