@@ -95,7 +95,7 @@ function LoginPage() {
           <img src={logo} alt="instagram logo" />
         </div>
 
-        <div className="mt-3 mt-3 flex items-center justify-center">
+        <div className="mt-3  flex items-center justify-center">
           <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold">
             <p
               className="text-xl
