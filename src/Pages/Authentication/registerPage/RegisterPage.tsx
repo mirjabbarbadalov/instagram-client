@@ -2,6 +2,8 @@ import { useState } from "react";
 import logo from "/logo.svg";
 import { AiFillGoogleSquare } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -13,8 +15,18 @@ function RegisterPage() {
   const [passwordError, setPasswordError] = useState("");
   const [fullNameError, setFullNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  async function registerUser(userName, password, email, fullName) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSnackbarClose = (_event: any, reason: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
+  async function registerUser(userName: string, password: string, email: string, fullName: string) {
     const data = {
       username: userName,
       password: password,
@@ -36,6 +48,8 @@ function RegisterPage() {
 
       if (response.ok) {
         console.log("Success! Registration completed.");
+
+        setSnackbarOpen(true);
 
         setTimeout(() => {
           navigate("/login");
@@ -173,6 +187,20 @@ function RegisterPage() {
           />
         </form>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+        >
+          Registration completed successfully!
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 }
