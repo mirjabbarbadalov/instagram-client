@@ -41,7 +41,13 @@ function LoginPage() {
 
       if (response.ok) {
         console.log("Success! Login completed.");
-        console.log(response.json());
+        setSnackbarOpen(true);
+        const data = await response.json();
+        const token = await data.token;
+
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + 7);
+        document.cookie = `token=${token}; expires=${expiryDate.toUTCString()}; path=/`;
 
         setSnackbarOpen(true);
 
