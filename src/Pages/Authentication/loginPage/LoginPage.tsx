@@ -2,6 +2,8 @@ import { useState } from "react";
 import logo from "/logo.svg";
 import { AiFillGoogleSquare } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -9,6 +11,15 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarClose = (_event: any, reason: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
 
   async function loginUser(userName: string, password: string) {
     const data = {
@@ -17,7 +28,7 @@ function LoginPage() {
     };
     try {
       const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/api/register",
+        "https://instagram-api-88fv.onrender.com/api/login",
         {
           method: "POST",
           mode: "cors",
@@ -31,6 +42,9 @@ function LoginPage() {
       if (response.ok) {
         console.log("Success! Login completed.");
         console.log(response.json());
+
+        setSnackbarOpen(true);
+
         setTimeout(() => {
           navigate("/feed");
         }, 3000);
@@ -124,6 +138,20 @@ function LoginPage() {
           />
         </form>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleSnackbarClose}
+          severity="success"
+        >
+          Login successfull!
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 }
