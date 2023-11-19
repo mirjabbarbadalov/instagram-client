@@ -13,7 +13,7 @@ function LoginPage() {
   const [passwordError, setPasswordError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSnackbarClose = (_event: any, reason: string) => {
+  const handleSnackbarClose = (_event: unknown, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -40,6 +40,7 @@ function LoginPage() {
       );
 
       if (response.ok) {
+        setSnackbarOpen(true);
         console.log("Success! Login completed.");
         setSnackbarOpen(true);
         const data = await response.json();
@@ -49,11 +50,9 @@ function LoginPage() {
         expiryDate.setDate(expiryDate.getDate() + 7);
         document.cookie = `token=${token}; expires=${expiryDate.toUTCString()}; path=/`;
 
-        setSnackbarOpen(true);
-
         setTimeout(() => {
           navigate("/feed");
-        }, 3000);
+        }, 1000);
       } else {
         console.error("Login failed with status:", response.status);
       }

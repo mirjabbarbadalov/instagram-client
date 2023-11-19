@@ -6,7 +6,7 @@
     "moduleResolution": "NodeNext",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames":true,
-    "strict": true
+    "strict":true
   },
   "include": ["vite.config.ts"]
 }

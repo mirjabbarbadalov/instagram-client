@@ -5,7 +5,7 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "NodeNext",
     "skipLibCheck": true,
-    "types": ["react-icons", "vite/client", "react", "react-dom"],
+    "forceConsistentCasingInFileNames":true,
 
     /* Bundler mode */
     "moduleResolution": "NodeNext",
@@ -14,8 +14,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "forceConsistentCasingInFileNames":true,
-
 
     /* Linting */
     "strict": true,

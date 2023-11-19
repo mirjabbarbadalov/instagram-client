@@ -26,7 +26,12 @@ function RegisterPage() {
     setSnackbarOpen(false);
   };
 
-  async function registerUser(userName: string, password: string, email: string, fullName: string) {
+  async function registerUser(
+    userName: string,
+    password: string,
+    email: string,
+    fullName: string
+  ) {
     const data = {
       username: userName,
       password: password,
@@ -47,13 +52,12 @@ function RegisterPage() {
       );
 
       if (response.ok) {
-        console.log("Success! Registration completed.");
-
         setSnackbarOpen(true);
+        console.log("Success! Registration completed.");
 
         setTimeout(() => {
           navigate("/login");
-        }, 3000);
+        }, 1000);
       } else {
         console.error("Registration failed with status:", response.status);
       }
@@ -102,7 +106,7 @@ function RegisterPage() {
   }
 
   return (
-    <div className="w-[100vw] h-[100vh]  flex items-center justify-center mt-5">
+    <div className="w-[100%] flex items-center justify-center mt-10">
       <div className="w-[450px]">
         <img
           src="../../src/images/authHero.png"
@@ -112,7 +116,7 @@ function RegisterPage() {
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
-        <div className="w-[235px]  mx-auto pt-10 mt-2">
+        <div className="w-[235px]  mx-auto pt-5 mt-2">
           <img src={logo} alt="instagram logo" />
         </div>
         <div className="w-[70%] mx-auto mt-3">
@@ -166,10 +170,6 @@ function RegisterPage() {
           {passwordError && <p className="text-red-500">{passwordError}</p>}
 
           <div className="flex flex-col gap-4 text-center  text-sm">
-            <p className="text-[#737373]">
-              People who use our service may have uploaded your contact
-              information to Instagram. Learn More
-            </p>
             <p className="text-[#737373] px-2  ">
               {" "}
               By signing up, you agree to our Terms , Privacy Policy and Cookies
