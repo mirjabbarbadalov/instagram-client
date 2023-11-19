@@ -111,7 +111,7 @@ export default function Register() {
     <div className="w-[100%] flex items-center justify-center mt-10">
       <div className="w-[450px]">
         <img
-          src="../../src/images/authHero.png"
+          src="../../src/images/authImg.png"
           alt=""
           className="select-none"
         />
@@ -127,13 +127,13 @@ export default function Register() {
           </p>
         </div>
         <div className="mt-3 flex items-center justify-center">
-          <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold">
+          <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[62.5%] rounded-lg text-white font-bold">
             <p
               className="text-xl
             "
             >
               <AiFillGoogleSquare />
-            </p>{" "}
+            </p>
             Log in with Google
           </button>
         </div>
