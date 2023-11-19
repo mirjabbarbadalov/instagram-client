@@ -1,10 +1,10 @@
+import * as React from "react";
 import { useState } from "react";
-import logo from "/logo.svg";
-import { AiFillGoogleSquare } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import Snackbar from "@mui/material/Snackbar";
+import { AiFillGoogleSquare } from "react-icons/ai";
 import MuiAlert from "@mui/material/Alert";
-import React from "react";
+import Snackbar from "@mui/material/Snackbar";
+import logo from "/logo.svg";
 
 function RegisterPage() {
   const navigate = useNavigate();
