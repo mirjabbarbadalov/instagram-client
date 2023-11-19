@@ -1,4 +1,4 @@
-import logo from "/logo.svg";
+import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
@@ -10,6 +10,7 @@ import {
   RiAccountCircleFill,
   RiStackFill,
 } from "react-icons/ri";
+import logo from "/logo.svg";
 
 function Sidebar() {
   const location = useLocation();
@@ -19,7 +20,11 @@ function Sidebar() {
   return (
     <div className="flex flex-col gap-5 justify-between w-min ml-5">
       <NavLink className="flex items-center gap-3 mt-10 mb-3 ml-3" to={"/feed"}>
-        <img src={logo} alt="Instagram Logo" className="w-[100px]" />
+        <img
+          src={logo as unknown as string}
+          alt="Instagram Logo"
+          className="w-[100px]"
+        />
       </NavLink>
 
       <div className="border-s border-solid border-slate-300 h-screen absolute ml-[14.5vw] "></div>

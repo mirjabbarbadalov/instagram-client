@@ -4,6 +4,7 @@ import { AiFillGoogleSquare } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import React from "react";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -17,8 +18,10 @@ function RegisterPage() {
   const [emailError, setEmailError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSnackbarClose = (_event: any, reason: string) => {
+  const handleSnackbarClose = (
+    _event: React.SyntheticEvent<unknown, Event> | Event,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
@@ -117,7 +120,7 @@ function RegisterPage() {
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
         <div className="w-[235px]  mx-auto pt-5 mt-2">
-          <img src={logo} alt="instagram logo" />
+          <img src={logo as unknown as string} alt="instagram logo" />
         </div>
         <div className="w-[70%] mx-auto mt-3">
           <p className="text-center text-[#737373] font-semibold ">
@@ -192,13 +195,8 @@ function RegisterPage() {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          onClose={handleSnackbarClose}
-          severity="success"
-        >
-          Registration completed successfully!
+        <MuiAlert elevation={6} variant="filled" severity="success">
+          Registered successfully!
         </MuiAlert>
       </Snackbar>
     </div>

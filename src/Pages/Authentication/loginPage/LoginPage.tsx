@@ -1,9 +1,9 @@
-import { useState } from "react";
-import logo from "/logo.svg";
-import { AiFillGoogleSquare } from "react-icons/ai";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AiFillGoogleSquare } from "react-icons/ai";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import logo from "/logo.svg";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -13,7 +13,10 @@ function LoginPage() {
   const [passwordError, setPasswordError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSnackbarClose = (_event: unknown, reason: string) => {
+  const handleSnackbarClose = (
+    _event: React.SyntheticEvent<unknown, Event> | Event,
+    reason?: string
+  ) => {
     if (reason === "clickaway") {
       return;
     }
@@ -91,7 +94,7 @@ function LoginPage() {
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
         <div className="w-[235px]  mx-auto pt-10 mt-2">
-          <img src={logo} alt="instagram logo" />
+          <img src={logo as unknown as string} alt="instagram logo" />
         </div>
 
         <div className="mt-3  flex items-center justify-center">
@@ -127,7 +130,7 @@ function LoginPage() {
           />
           {passwordError && <p className="text-red-500">{passwordError}</p>}
           <div className="flex flex-col gap-4 text-center  text-sm">
-            <button>
+            <button type="submit">
               <p className="text-[#00376b]">Forgot password?</p>
             </button>
           </div>
@@ -148,13 +151,8 @@ function LoginPage() {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          onClose={handleSnackbarClose}
-          severity="success"
-        >
-          Login successfull!
+        <MuiAlert elevation={6} variant="filled" severity="success">
+          Login successful!
         </MuiAlert>
       </Snackbar>
     </div>
