@@ -34,12 +34,21 @@ export default function Register() {
     email: string,
     fullName: string
   ) {
+    if (!userName || !password || !email || !fullName) {
+      if (!userName) setUserNameError("Username is required");
+      if (!password) setPasswordError("Password is required");
+      if (!email) setEmailError("Email is required");
+      if (!fullName) setFullNameError("Full Name is required");
+      return;
+    }
+
     const data = {
       username: userName,
       password: password,
       email: email,
       fullname: fullName,
     };
+
     try {
       const response = await fetch(
         "https://instagram-api-88fv.onrender.com/api/register",
@@ -70,7 +79,7 @@ export default function Register() {
 
   function handleUserNameChange(value: string) {
     setUserName(value);
-    if (value.length === 0) {
+    if (!value) {
       setUserNameError("Username is required");
     } else {
       setUserNameError("");
@@ -79,7 +88,7 @@ export default function Register() {
 
   function handlePasswordChange(value: string) {
     setPassword(value);
-    if (value.length === 0) {
+    if (!value) {
       setPasswordError("Password is required");
     } else {
       setPasswordError("");
@@ -88,7 +97,7 @@ export default function Register() {
 
   function handleFullNameChange(value: string) {
     setFullName(value);
-    if (value.length === 0) {
+    if (!value) {
       setFullNameError("Full Name is required");
     } else {
       setFullNameError("");
@@ -98,7 +107,7 @@ export default function Register() {
   function handleEmailChange(value: string) {
     setEmail(value);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (value.length === 0) {
+    if (!value) {
       setEmailError("Email is required");
     } else if (!emailRegex.test(value)) {
       setEmailError("Invalid email format");
@@ -118,7 +127,7 @@ export default function Register() {
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
-        <div className="w-[235px]  mx-auto pt-5 mt-2">
+        <div className="w-[235px] mx-auto pt-5 mt-2">
           <img src={logo as unknown as string} alt="instagram logo" />
         </div>
         <div className="w-[70%] mx-auto mt-3">
@@ -127,54 +136,58 @@ export default function Register() {
           </p>
         </div>
         <div className="mt-3 flex items-center justify-center">
-          <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[62.5%] rounded-lg text-white font-bold">
-            <p
-              className="text-xl
-            "
-            >
+          <button className="flex self-center items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[62.5%] rounded-lg text-white font-bold">
+            <p className="text-xl">
               <AiFillGoogleSquare />
             </p>
             Log in with Google
           </button>
         </div>
 
-        <form action="" className=" flex flex-col justify-between p-10 gap-5">
+        <form action="" className="flex flex-col justify-between p-10 gap-5">
           <input
             type="email"
+            id="emailInput"
             placeholder="Email"
             className="px-4 py-2 bg-[#fafafa]"
             onChange={(e) => handleEmailChange(e.target.value)}
+            autoComplete="email"
           />
           {emailError && <p className="text-red-500">{emailError}</p>}
 
           <input
             type="text"
+            id="fullNameInput"
             placeholder="Full Name"
             className="px-4 py-2 bg-[#fafafa]"
             onChange={(e) => handleFullNameChange(e.target.value)}
+            autoComplete="name"
           />
           {fullNameError && <p className="text-red-500">{fullNameError}</p>}
 
           <input
             type="text"
+            id="usernameInput"
             placeholder="Username"
             className="px-4 py-2 bg-[#fafafa]"
             onChange={(e) => handleUserNameChange(e.target.value)}
+            autoComplete="username"
           />
           {userNameError && <p className="text-red-500">{userNameError}</p>}
 
           <input
             type="password"
+            id="passwordInput"
             placeholder="Password"
             className="px-4 py-2 bg-[#fafafa]"
             onChange={(e) => handlePasswordChange(e.target.value)}
+            autoComplete="new-password"
           />
           {passwordError && <p className="text-red-500">{passwordError}</p>}
 
-          <div className="flex flex-col gap-4 text-center  text-sm">
-            <p className="text-[#737373] px-2  ">
-              {" "}
-              By signing up, you agree to our Terms , Privacy Policy and Cookies
+          <div className="flex flex-col gap-4 text-center text-sm">
+            <p className="text-[#737373] px-2 ">
+              By signing up, you agree to our Terms, Privacy Policy and Cookies
               Policy.
             </p>
           </div>

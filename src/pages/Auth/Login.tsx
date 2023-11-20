@@ -112,8 +112,9 @@ export default function Login() {
           <input
             type="text"
             name=""
-            id=""
+            id="passwordInput"
             placeholder="Username"
+            autoComplete="username"
             className="px-4 py-2 bg-[#fafafa]"
             onChange={(e) => handleUserNameChange(e.target.value)}
           />
@@ -122,8 +123,9 @@ export default function Login() {
           <input
             type="password"
             name=""
-            id=""
+            id="usernameInput"
             placeholder="Password"
+            autoComplete="current-password"
             className="px-4 py-2 bg-[#fafafa]"
             onChange={(e) => handlePasswordChange(e.target.value)}
           />
