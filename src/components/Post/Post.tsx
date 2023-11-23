@@ -16,7 +16,7 @@ function Post() {
     }
   }
 
-  function triggerDoubleClick(likes) {
+  function triggerDoubleClick(likes: number) {
     if (!isLiked) {
       setLikes(likes + 1);
       setIsLiked(true);
@@ -25,7 +25,7 @@ function Post() {
   }
 
   useEffect(() => {
-    let timer;
+    let timer: NodeJS.Timeout;
 
     if (isDoubleClick) {
       timer = setTimeout(() => {
