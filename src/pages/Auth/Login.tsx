@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillGoogleSquare } from "react-icons/ai";
 import Snackbar from "@mui/material/Snackbar";
@@ -12,6 +12,8 @@ export default function Login() {
   const [userNameError, setUserNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const formRef = useRef(null);
 
   const handleSnackbarClose = (
     _event: React.SyntheticEvent<unknown, Event> | Event,
@@ -58,9 +60,15 @@ export default function Login() {
         }, 1000);
       } else {
         console.error("Login failed with status:", response.status);
+        if (response.status === 401) {
+          setLoginError("Invalid username or password. Please try again.");
+        } else {
+          setLoginError("An error occurred. Please try again later.");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
+      setLoginError("An error occurred. Please try again later.");
     }
   }
 
@@ -81,14 +89,22 @@ export default function Login() {
       setPasswordError("");
     }
   }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!userName || !password) {
+      setUserNameError(userName ? "" : "Username is required");
+      setPasswordError(password ? "" : "Password is required");
+      return;
+    }
+    setLoginError(""); // Clear previous error message
+    loginUser(userName, password);
+  };
+
   return (
     <div className="w-[100vw] h-[100vh]  flex items-center justify-center">
       <div className="w-[450px]">
-        <img
-          src="../../src/images/authHero.png"
-          alt=""
-          className="select-none"
-        />
+        <img src="./images/authHero.png" alt="" className="select-none" />
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
@@ -98,17 +114,19 @@ export default function Login() {
 
         <div className="mt-3  flex items-center justify-center">
           <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold">
-            <p
-              className="text-xl
-            "
-            >
+            <p className="text-xl">
               <AiFillGoogleSquare />
             </p>{" "}
             Log in with Google
           </button>
         </div>
 
-        <form action="" className=" flex flex-col justify-between p-10 gap-5">
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          action=""
+          className=" flex flex-col justify-between p-10 gap-5"
+        >
           <input
             type="text"
             name=""
@@ -130,6 +148,11 @@ export default function Login() {
             onChange={(e) => handlePasswordChange(e.target.value)}
           />
           {passwordError && <p className="text-red-500">{passwordError}</p>}
+
+          {loginError && (
+            <p className="text-red-500 text-center mb-4">{loginError}</p>
+          )}
+
           <div className="flex flex-col gap-4 text-center  text-sm">
             <button type="submit">
               <p className="text-[#00376b]">Forgot password?</p>
@@ -140,10 +163,6 @@ export default function Login() {
             type="submit"
             value="Login"
             className="bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[80%] py-[6px] rounded-lg text-white font-bold self-center"
-            onClick={(e) => {
-              loginUser(userName, password);
-              e.preventDefault();
-            }}
           />
         </form>
       </div>
