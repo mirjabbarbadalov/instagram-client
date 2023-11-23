@@ -17,7 +17,7 @@ export default function Sidebar() {
   const isNavLinkActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="flex flex-col gap-5 justify-between w-min ml-5">
+    <div className="flex flex-col gap-5 justify-between w-min ml-5 max-h-[60vh] sticky top-0">
       <NavLink className="flex items-center gap-3 mt-10 mb-3 ml-3" to={"/feed"}>
         <img
           src={logo as unknown as string}

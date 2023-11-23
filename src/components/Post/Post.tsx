@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { CiHeart, CiChat1, CiLocationArrow1, CiBookmark } from "react-icons/ci";
+import { PostData } from "../../types/types";
+interface PostProps {
+  postData: PostData;
+}
 
-function Post() {
+function Post({ postData }: PostProps) {
   const [likes, setLikes] = useState(25);
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
@@ -40,7 +44,7 @@ function Post() {
 
   return (
     <div>
-      <div className="">
+      <div className="relative">
         <div className="bg-white border rounded-sm max-w-md">
           <div className="flex items-center px-4 py-3">
             <img
@@ -57,7 +61,7 @@ function Post() {
             </div>
           </div>
           <img
-            src="https://picsum.photos/id/244/900/900"
+            src={postData.postUrl}
             onDoubleClick={() => {
               triggerDoubleClick(likes);
             }}
@@ -67,7 +71,8 @@ function Post() {
               ❤️
             </div>
           )}
-          <div className="flex items-center justify-between mx-4 mt-3 mb-2">
+          <div className="mx-4 font-semibold">{postData.title}</div>
+          <div className="flex items-center justify-between mx-4 mb-2">
             <div className="flex gap-5">
               <p
                 className="text-[32px] cursor-pointer"
@@ -91,7 +96,9 @@ function Post() {
               </p>
             </div>
           </div>
-          <div className="font-semibold text-sm mx-4 mt-2 mb-4">{likes}</div>
+          <div className="font-semibold text-sm mx-4 mt-2 mb-4">
+            {likes} likes
+          </div>
         </div>
       </div>
     </div>

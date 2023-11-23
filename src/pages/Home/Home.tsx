@@ -1,9 +1,9 @@
-import Post from "../../components/Post/Post";
+import AllPosts from "../../components/Post/AllPosts";
 
 export default function Home() {
   return (
     <div>
-      <Post />
+      <AllPosts />
     </div>
   );
 }
