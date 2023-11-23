@@ -16,6 +16,7 @@ export default function Register() {
   const [fullNameError, setFullNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [registerError, setRegsiterError] = useState("");
 
   const handleSnackbarClose = (
     _event: React.SyntheticEvent<unknown, Event> | Event,
@@ -71,9 +72,15 @@ export default function Register() {
         }, 1000);
       } else {
         console.error("Registration failed with status:", response.status);
+        if (response.status === 401) {
+          setRegsiterError("Invalid username or password. Please try again.");
+        } else {
+          setRegsiterError("An error occurred. Please try again later.");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
+      setRegsiterError("An error occurred. Please try again later.");
     }
   }
 
@@ -140,7 +147,11 @@ export default function Register() {
           </button>
         </div>
 
-        <form action="" className="flex flex-col justify-between p-10 gap-5">
+        <form
+          action=""
+          method="post"
+          className="flex flex-col justify-between p-10 gap-5"
+        >
           <input
             type="email"
             id="emailInput"
@@ -180,6 +191,10 @@ export default function Register() {
             autoComplete="new-password"
           />
           {passwordError && <p className="text-red-500">{passwordError}</p>}
+
+          {registerError && (
+            <p className="text-red-500 text-center mb-4">{registerError}</p>
+          )}
 
           <div className="flex flex-col gap-4 text-center text-sm">
             <p className="text-[#737373] px-2 ">
