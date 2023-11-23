@@ -84,11 +84,7 @@ export default function Login() {
   return (
     <div className="w-[100vw] h-[100vh]  flex items-center justify-center">
       <div className="w-[450px]">
-        <img
-          src="../../src/images/authHero.png"
-          alt=""
-          className="select-none"
-        />
+        <img src="./images/authHero.png" alt="" className="select-none" />
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">

@@ -119,11 +119,7 @@ export default function Register() {
   return (
     <div className="w-[100%] flex items-center justify-center mt-10">
       <div className="w-[450px]">
-        <img
-          src="../../src/images/authImg.png"
-          alt=""
-          className="select-none"
-        />
+        <img src="./images/authImg.png" alt="" className="select-none" />
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
