@@ -51,7 +51,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/api/register",
+        "https://instagram-api-88fv.onrender.com/api/auth/register",
         {
           method: "POST",
           mode: "cors",

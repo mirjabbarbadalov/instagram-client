@@ -1,3 +1,8 @@
+import { NavLink } from "react-router-dom";
 export default function Suggestions() {
-  return <div>Suggestions</div>;
+  return (
+    <div>
+      <NavLink to="/profile"></NavLink>
+    </div>
+  );
 }
