@@ -27,7 +27,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
     .slice(0, 5);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-gray-800 z-50">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black z-50">
       <div className="bg-white p-4 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex items-center">
           <input
