@@ -1,38 +1,26 @@
+import { BsGrid3X3 } from "react-icons/bs";
+import { BsBookmarkHeart } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { BsBookmarkHeart, BsGrid3X3 } from "react-icons/bs";
 
 export default function Profile() {
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("");
+  const getUsername = async () => {
+    fetch("https://instagram-api-88fv.onrender.com/api/users/user", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUsername(data.username);
+        console.log(data);
+      });
+  };
 
   useEffect(() => {
-    async function takeToken() {
-      const token = Cookies.get("token");
-
-      if (token) {
-        const apiUrl = `https://instagram-api-88fv.onrender.com/api/users`;
-
-        try {
-          const response = await fetch(apiUrl, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (response.ok) {
-            const userData = await response.json();
-            setUser(userData);
-          } else {
-            console.error("Failed to fetch user information");
-          }
-        } catch (error) {
-          console.error("Error fetching user information:", error);
-        }
-      }
-    }
-
-    takeToken();
+    getUsername();
   }, []);
 
   return (
@@ -41,7 +29,7 @@ export default function Profile() {
         <div className="w-[160px] h-[160px] rounded-[50%] bg-slate-200"></div>
         <div className="flex flex-col items-start gap-5">
           <div className="flex ">
-            <p className="text-lg">{user}</p>
+            <p className="text-lg">{username}</p>
             <button
               type="submit"
               className="ml-[30px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg"
