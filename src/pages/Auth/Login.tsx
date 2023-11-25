@@ -48,7 +48,7 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/api/auth/login",
+        "https://instagram-api-88fv.onrender.com/auth/login",
         {
           method: "POST",
           mode: "cors",
