@@ -17,7 +17,7 @@ export default function Profile() {
       .then((response) => response.json())
       .then((data) => {
         setUsername(data.username);
-        setFullname(data.fullname);
+        setFullname(data.fullName);
         setEmail(data.email);
         console.log(data);
       });
