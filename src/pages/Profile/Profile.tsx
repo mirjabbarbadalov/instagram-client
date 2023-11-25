@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 export default function Profile() {
   const [username, setUsername] = useState("");
   const getUsername = async () => {
-    fetch("https://instagram-api-88fv.onrender.com/api/users/user", {
+    fetch("https://instagram-api-88fv.onrender.com/users/signedin", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
