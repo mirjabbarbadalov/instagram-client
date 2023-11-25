@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 
 export default function Profile() {
   const [username, setUsername] = useState("");
-  const getUsername = async () => {
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const getUserDetails = async () => {
     fetch("https://instagram-api-88fv.onrender.com/users/signedin", {
       method: "GET",
       headers: {
@@ -15,12 +17,14 @@ export default function Profile() {
       .then((response) => response.json())
       .then((data) => {
         setUsername(data.username);
+        setFullname(data.fullname);
+        setEmail(data.email);
         console.log(data);
       });
   };
 
   useEffect(() => {
-    getUsername();
+    getUserDetails();
   }, []);
 
   return (
@@ -55,7 +59,10 @@ export default function Profile() {
             </p>
           </div>
           <div>
-            <p className="text-sm font-semibold">Mirjabbar Badalov</p>
+            <p className="text-sm font-semibold">{fullname}</p>
+            {/* Delete Later */}
+            <p className="text-sm font-semibold">Test: {email}</p>
+            {/* Delete Later */}
           </div>
         </div>
       </div>
