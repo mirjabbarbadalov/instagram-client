@@ -6,7 +6,7 @@ interface PostProps {
 }
 
 function Post({ postData }: PostProps) {
-  const [likes, setLikes] = useState(25);
+  const [likes, setLikes] = useState(10);
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
 
@@ -48,6 +48,7 @@ function Post({ postData }: PostProps) {
         <div className="bg-white border rounded-sm max-w-md">
           <div className="flex items-center px-4 py-3">
             <img
+              alt="post"
               className="h-8 w-8 rounded-full"
               src="https://picsum.photos/id/1027/150/150"
             />
@@ -61,13 +62,14 @@ function Post({ postData }: PostProps) {
             </div>
           </div>
           <img
+            alt="post"
             src={postData.postUrl}
             onDoubleClick={() => {
               triggerDoubleClick(likes);
             }}
           />
           {isDoubleClick && (
-            <div className="select-none absolute top-[30%] left-[35%] flex items-center justify-center text-[100px] animate-fly-away">
+            <div className="select-none absolute top-[30%] left-[13%] flex items-center justify-center text-[100px] animate-fly-away">
               ❤️
             </div>
           )}

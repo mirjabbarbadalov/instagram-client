@@ -8,7 +8,7 @@ function UserMenu() {
   useEffect(() => {
     const token = getCookie("token");
     if (token) {
-      setIsMenuOpen(true);
+      setIsMenuOpen(false);
     }
   }, []);
 
