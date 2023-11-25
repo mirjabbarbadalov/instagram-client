@@ -49,7 +49,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
         <button
           type="button"
           onClick={() => onSearch("")}
-          className="mt-4 text-gray-500 hover:text-gray-700 focus:outline-none hover:text-red-600"
+          className="mt-4 text-gray-500 hover:text-gray-700 focus:outline-none"
         >
           Cancel
         </button>
