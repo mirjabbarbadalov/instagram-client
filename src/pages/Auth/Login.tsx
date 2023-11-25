@@ -5,6 +5,12 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import logo from "/logo.svg";
 
+function updateCookie(name: string, value: string, expirationDays: number) {
+  const expiryDate = new Date();
+  expiryDate.setDate(expiryDate.getDate() + expirationDays);
+  document.cookie = `${name}=${value}; expires=${expiryDate.toUTCString()}; path=/`;
+}
+
 export default function Login() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState("");
@@ -26,11 +32,20 @@ export default function Login() {
     setSnackbarOpen(false);
   };
 
+  const handleSuccessfulLogin = (token: string) => {
+    updateCookie("token", token, 7);
+
+    setTimeout(() => {
+      navigate("/feed");
+    }, 1000);
+  };
+
   async function loginUser(userName: string, password: string) {
     const data = {
       username: userName,
       password: password,
     };
+
     try {
       const response = await fetch(
         "https://instagram-api-88fv.onrender.com/api/auth/login",
@@ -47,17 +62,10 @@ export default function Login() {
       if (response.ok) {
         setSnackbarOpen(true);
         console.log("Success! Login completed.");
-        setSnackbarOpen(true);
-        const data = await response.json();
-        const token = await data.token;
+        const responseData = await response.json();
+        const token = responseData.token;
 
-        const expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + 7);
-        document.cookie = `token=${token}; expires=${expiryDate.toUTCString()}; path=/`;
-
-        setTimeout(() => {
-          navigate("/feed");
-        }, 1000);
+        handleSuccessfulLogin(token);
       } else {
         console.error("Login failed with status:", response.status);
         if (response.status === 401) {
@@ -97,7 +105,7 @@ export default function Login() {
       setPasswordError(password ? "" : "Password is required");
       return;
     }
-    setLoginError(""); // Clear previous error message
+    setLoginError("");
     loginUser(userName, password);
   };
 
