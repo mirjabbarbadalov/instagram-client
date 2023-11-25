@@ -2,6 +2,7 @@ import { BsGrid3X3 } from "react-icons/bs";
 import { BsBookmarkHeart } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export default function Profile() {
   const [username, setUsername] = useState("");
@@ -34,12 +35,12 @@ export default function Profile() {
         <div className="flex flex-col items-start gap-5">
           <div className="flex ">
             <p className="text-lg">{username}</p>
-            <button
-              type="submit"
+            <NavLink
               className="ml-[30px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg"
+              to={"/profile/edit"}
             >
               Edit profile
-            </button>
+            </NavLink>
             <button
               type="button"
               className="ml-[10px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg "

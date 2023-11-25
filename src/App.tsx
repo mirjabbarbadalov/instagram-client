@@ -8,6 +8,7 @@ import Favourites from "./pages/Favourites/Favourites";
 import Messages from "./pages/Messages/Messages";
 import Notifications from "./pages/Notifications/Notifications";
 import More from "./pages/More/More";
+import EditProfile from "./pages/Profile/EditProfile";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function AppContent() {
         <Route path="/messages" element={<Messages />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/more" element={<More />} />
       </Routes>
     </div>
