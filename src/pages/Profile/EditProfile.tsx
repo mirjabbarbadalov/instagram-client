@@ -1,51 +1,130 @@
-import { FormEvent, useState } from "react";
+import Cookies from "js-cookie";
+import { SetStateAction, useEffect, useState } from "react";
 
-export default function EditProfile() {
-  const [formData, setFormData] = useState({
-    username: "",
-    fullName: "",
-    email: "",
-  });
+export default function EditProfileNew() {
+  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
 
-  const [formChanged, setFormChanged] = useState(false);
+  const [usernameLoading, setUsernameLoading] = useState(false);
+  const [fullnameLoading, setFullnameLoading] = useState(false);
+  const [emailLoading, setEmailLoading] = useState(false);
 
-  const handleInputChange = (e: {
-    target: { name: string; value: string };
-  }) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-    setFormChanged(true);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formInteracted, setFormInteracted] = useState(false);
+
+  const getUserDetails = async () => {
+    fetch("https://instagram-api-88fv.onrender.com/users/signedin", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUsername(data.username);
+        setFullname(data.fullName);
+        setEmail(data.email);
+      });
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
+  const updateUsername = async (newUsername: SetStateAction<string>) => {
+    setFormSubmitting(true);
+    setUsernameLoading(true);
 
     try {
+      const token = Cookies.get("token");
       const response = await fetch(
-        "https://your-backend-domain.com/users/modify/username",
+        "https://instagram-api-88fv.onrender.com/users/modify/username",
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ newUsername, username }),
         }
       );
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Update successful");
+        setUsername(newUsername);
+        console.log("Username updated successfully");
       } else {
-        console.error(`Update failed: ${data.message}`);
+        console.error("Failed to update username:", data.message);
       }
-    } catch (error) {
-      console.error("An error occurred:", error);
     } finally {
-      setFormChanged(false);
+      setFormSubmitting(false);
+      setUsernameLoading(false);
+    }
+  };
+
+  const updateFullName = async (newFullname: SetStateAction<string>) => {
+    setFormSubmitting(true);
+    setFullnameLoading(true);
+
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/modify/fullname",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ newFullName: newFullname, username }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFullname(newFullname);
+        console.log("Full name updated successfully");
+      } else {
+        console.error("Failed to update full name:", data.message);
+      }
+    } finally {
+      setFormSubmitting(false);
+      setFullnameLoading(false);
+    }
+  };
+
+  const updateEmail = async (newEmail: SetStateAction<string>) => {
+    setFormSubmitting(true);
+    setEmailLoading(true);
+
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/modify/email",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ newEmail, username }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setEmail(newEmail);
+        console.log("Email updated successfully");
+      } else {
+        console.error("Failed to update email:", data.message);
+      }
+    } finally {
+      setFormSubmitting(false);
+      setEmailLoading(false);
     }
   };
 
@@ -61,13 +140,11 @@ export default function EditProfile() {
           <div className="informations-left-side flex items-center">
             <div className="profile-photo-container">
               <img src="" alt="" />
-              {/* Delete Later */}
               <div className="w-[60px] h-[60px] rounded-[50%] bg-sky-200"></div>
-              {/* Delete Later */}
             </div>
             <div className="user-details-text flex flex-col ml-4">
-              <p className="font-bold">username</p>
-              <p>Full Name</p>
+              <p className="font-bold">{username}</p>
+              <p>{fullname}</p>
             </div>
           </div>
           <button
@@ -78,9 +155,20 @@ export default function EditProfile() {
           </button>
         </div>
       </section>
-      <div className="form-container mt-10 ">
-        <form className="flex flex-col" onSubmit={handleSubmit}>
-          <label htmlFor="username" className="font-bold">
+      <div className="forms-container mt-10">
+        <form
+          onFocus={() => setFormInteracted(true)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const newUsernameInput = (
+              e.target as HTMLFormElement
+            ).elements.namedItem("username") as HTMLInputElement | null;
+            const newUsername = newUsernameInput ? newUsernameInput.value : "";
+            updateUsername(newUsername);
+          }}
+          className="flex flex-col"
+        >
+          <label htmlFor="username" className="font-bold mb-3">
             Username
           </label>
           <p className="text-gray-500 text-xs mb-3">
@@ -90,13 +178,35 @@ export default function EditProfile() {
             type="text"
             id="username"
             name="username"
-            value={formData.username}
-            onChange={handleInputChange}
             placeholder="Your username"
             className="outline-none mb-4 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
           />
 
-          <label htmlFor="fullName" className="font-bold">
+          <button
+            type="submit"
+            disabled={!formInteracted || formSubmitting || usernameLoading}
+            className={`${
+              !formInteracted || formSubmitting || usernameLoading
+                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
+                : "bg-[#008dec] text-white"
+            } rounded-lg py-3 w-[35%] self-end`}
+          >
+            {usernameLoading ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+        <form
+          onFocus={() => setFormInteracted(true)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const newFullNameInput = (
+              e.target as HTMLFormElement
+            ).elements.namedItem("fullName") as HTMLInputElement | null;
+            const newFullName = newFullNameInput ? newFullNameInput.value : "";
+            updateFullName(newFullName);
+          }}
+          className="flex flex-col"
+        >
+          <label htmlFor="fullName" className="font-bold mb-3">
             Full Name
           </label>
           <p className="text-gray-500 text-xs mb-3">Change your full name</p>
@@ -104,36 +214,59 @@ export default function EditProfile() {
             type="text"
             id="fullName"
             name="fullName"
-            value={formData.fullName}
-            onChange={handleInputChange}
             placeholder="Your Full Name"
             className="outline-none mb-4 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
           />
 
-          <label htmlFor="email" className="font-bold">
+          <button
+            type="submit"
+            disabled={!formInteracted || formSubmitting || fullnameLoading}
+            className={`${
+              !formInteracted || formSubmitting || fullnameLoading
+                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
+                : "bg-[#008dec] text-white"
+            } rounded-lg py-3 w-[35%] self-end`}
+          >
+            {fullnameLoading ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+        <form
+          onFocus={() => setFormInteracted(true)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const newEmailInput = (
+              e.target as HTMLFormElement
+            ).elements.namedItem("email") as HTMLInputElement | null;
+            const newEmail = newEmailInput ? newEmailInput.value : "";
+            updateEmail(newEmail);
+          }}
+          className="flex flex-col"
+        >
+          <label htmlFor="email" className="font-bold mb-3">
             Email
           </label>
           <p className="text-gray-500 text-xs mb-3">
             Update your email address
           </p>
+          <p className="text-gray-500 text-xs mb-3">Old email: {email}</p>
           <input
             type="email"
             id="email"
             name="email"
-            value={formData.email}
-            onChange={handleInputChange}
             placeholder="Your email address"
             className="outline-none mb-8 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
           />
 
           <button
             type="submit"
-            className={`bg-[#008dec] text-white rounded-lg py-3 w-[35%] self-end ${
-              formChanged ? "" : "cursor-not-allowed opacity-50"
-            }`}
-            disabled={!formChanged}
+            disabled={!formInteracted || formSubmitting || emailLoading}
+            className={`${
+              !formInteracted || formSubmitting || emailLoading
+                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
+                : "bg-[#008dec] text-white"
+            } rounded-lg py-3 w-[35%] self-end`}
           >
-            Submit
+            {emailLoading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
