@@ -18,12 +18,35 @@ export default function EditProfile() {
       [name]: value,
     }));
     setFormChanged(true);
-    // Add more properites
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormChanged(false);
+
+    try {
+      const response = await fetch(
+        "https://your-backend-domain.com/users/modify/username",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Update successful");
+      } else {
+        console.error(`Update failed: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    } finally {
+      setFormChanged(false);
+    }
   };
 
   return (
