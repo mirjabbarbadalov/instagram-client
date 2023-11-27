@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { CiHeart, CiChat1, CiLocationArrow1, CiBookmark } from "react-icons/ci";
+import { RiHeartFill } from "react-icons/ri";
+
 import { PostData } from "../../types/types";
 interface PostProps {
   postData: PostData;
@@ -82,7 +84,13 @@ function Post({ postData }: PostProps) {
                   triggerLike(likes);
                 }}
               >
-                <CiHeart />
+                {isLiked ? (
+                  <p className="text-red-500">
+                    <RiHeartFill />
+                  </p>
+                ) : (
+                  <CiHeart />
+                )}
               </p>
               <p className="text-[32px] cursor-pointer">
                 <CiChat1 />
