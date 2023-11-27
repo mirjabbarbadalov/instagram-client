@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiFillGoogleSquare } from "react-icons/ai";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -116,15 +116,18 @@ export default function Login() {
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
-        <div className="w-[235px]  mx-auto pt-10 mt-2">
+        <div className="w-[200px] mx-auto pt-7 mt-2 mb-5">
           <img src={logo as unknown as string} alt="instagram logo" />
         </div>
 
         <div className="mt-3  flex items-center justify-center">
-          <button className="flex self-center items-center justify-center gap-2  py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold">
+          <button
+            type="button"
+            className="flex self-center items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold"
+          >
             <p className="text-xl">
               <AiFillGoogleSquare />
-            </p>{" "}
+            </p>
             Log in with Google
           </button>
         </div>
@@ -133,7 +136,7 @@ export default function Login() {
           ref={formRef}
           onSubmit={handleSubmit}
           action=""
-          className=" flex flex-col justify-between p-10 gap-5"
+          className=" flex flex-col justify-between px-10 py-7 gap-5"
         >
           <input
             type="text"
@@ -163,7 +166,7 @@ export default function Login() {
 
           <div className="flex flex-col gap-4 text-center  text-sm">
             <button type="submit">
-              <p className="text-[#00376b]">Forgot password?</p>
+              <p className="text-[#00376b] text-xs">Forgot password?</p>
             </button>
           </div>
 
@@ -186,6 +189,12 @@ export default function Login() {
             </p>
           </div>
         </form>
+        <div className="text-center border-t border-[#dbdbdb] flex items-center justify-center">
+          <p className="py-3 block mr-2">Don't have an account?</p>
+          <NavLink to="/register" className="text-[#00376b]  py-3 block">
+            Sign up
+          </NavLink>
+        </div>
       </div>
       <Snackbar
         open={snackbarOpen}

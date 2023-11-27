@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AiFillGoogleSquare } from "react-icons/ai";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
@@ -125,12 +125,12 @@ export default function Register() {
 
   return (
     <div className="w-[100%] flex items-center justify-center mt-10">
-      <div className="w-[450px]">
+      <div className="w-[450px] mr-5">
         <img src="./images/authImg.png" alt="" className="select-none" />
       </div>
 
       <div className="w-[350px] border-[1px] border-[#dbdbdb] rounded-sm">
-        <div className="w-[235px] mx-auto pt-5 mt-2">
+        <div className="w-[200px] mx-auto pt-5 mt-2">
           <img src={logo as unknown as string} alt="instagram logo" />
         </div>
         <div className="w-[70%] mx-auto mt-3">
@@ -139,7 +139,10 @@ export default function Register() {
           </p>
         </div>
         <div className="mt-3 flex items-center justify-center">
-          <button className="flex self-center items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[62.5%] rounded-lg text-white font-bold">
+          <button
+            type="button"
+            className="flex self-center items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[62.5%] rounded-lg text-white font-bold"
+          >
             <p className="text-xl">
               <AiFillGoogleSquare />
             </p>
@@ -150,7 +153,7 @@ export default function Register() {
         <form
           action=""
           method="post"
-          className="flex flex-col justify-between p-10 gap-5"
+          className="flex flex-col justify-between py-5 px-10 gap-5"
         >
           <input
             type="email"
@@ -224,6 +227,12 @@ export default function Register() {
             }}
           />
         </form>
+        <div className="text-center border-t border-[#dbdbdb] flex items-center justify-center">
+          <p className="py-3 block mr-2">Have an account?</p>
+          <NavLink to="/login" className="text-[#00376b]  py-3 block">
+            Log in
+          </NavLink>
+        </div>
       </div>
       <Snackbar
         open={snackbarOpen}
