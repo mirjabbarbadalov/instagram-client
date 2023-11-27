@@ -8,17 +8,22 @@ interface PostProps {
 }
 
 function Post({ postData }: PostProps) {
-  const [likes, setLikes] = useState(10);
+  const initialLikes = postData.likes.length;
+  const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   function triggerLike(likes: number) {
     if (!isLiked) {
       setLikes(likes + 1);
       setIsLiked(true);
+      likePostWithApi(userId);
     } else {
       setLikes(likes - 1);
       setIsLiked(false);
+      likePostWithApi(userId);
     }
   }
 
@@ -27,6 +32,7 @@ function Post({ postData }: PostProps) {
       setLikes(likes + 1);
       setIsLiked(true);
       setIsDoubleClick(true);
+      likePostWithApi(userId);
     }
   }
 
@@ -43,6 +49,78 @@ function Post({ postData }: PostProps) {
       clearTimeout(timer);
     };
   }, [isDoubleClick]);
+
+  function getTokenFromCookie() {
+    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split("=");
+
+      if (cookieName === "token") {
+        return cookieValue;
+      }
+    }
+
+    return null;
+  }
+
+  async function getUserId(token) {
+    try {
+      const data = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/signedin",
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const response = await data.json();
+      const id = await response.id;
+      return id;
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
+
+  async function fetchData() {
+    try {
+      const retrievedToken = getTokenFromCookie();
+      const retrievedUserId = await getUserId(retrievedToken);
+      setToken(retrievedToken);
+      setUserId(retrievedUserId);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
+  async function likePostWithApi(userId) {
+    try {
+      console.log(postData._id);
+      const data = await fetch(
+        `https://instagram-api-88fv.onrender.com/api/posts/${postData._id}/like`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ userId }),
+        }
+      );
+      const response = await data.json();
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div>
