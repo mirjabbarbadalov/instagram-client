@@ -13,6 +13,8 @@ export default function EditProfileNew() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formInteracted, setFormInteracted] = useState(false);
 
+  const [deleteMessage, setDeleteMessage] = useState("");
+
   const getUserDetails = async () => {
     fetch("https://instagram-api-88fv.onrender.com/users/signedin", {
       method: "GET",
@@ -125,6 +127,43 @@ export default function EditProfileNew() {
     } finally {
       setFormSubmitting(false);
       setEmailLoading(false);
+    }
+  };
+
+  const deleteUserHandler = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete your account?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const token = Cookies.get("token");
+      console.log(token);
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/delete",
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        setDeleteMessage("User has been deleted");
+        window.location.href = "/login";
+      } else {
+        const data = await response.json();
+        console.error("Failed to delete user:", data.message);
+        setDeleteMessage(`Failed to delete user: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("An error occurred while deleting the user:", error);
+      setDeleteMessage("An error occurred while deleting the user.");
     }
   };
 
@@ -269,6 +308,21 @@ export default function EditProfileNew() {
             {emailLoading ? "Submitting..." : "Submit"}
           </button>
         </form>
+      </div>
+      <div className="mt-10">
+        <button
+          type="button"
+          onClick={deleteUserHandler}
+          className="bg-red-500 text-white rounded-lg py-3 w-full"
+        >
+          Delete Account
+        </button>
+
+        {deleteMessage && (
+          <p className="text-red-500 text-xs py-3 mt-2 ml-4 w-full text-center">
+            Message: {deleteMessage}
+          </p>
+        )}
       </div>
     </div>
   );
