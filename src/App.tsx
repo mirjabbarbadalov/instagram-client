@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Profile from "./pages/Profile/Profile";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -9,6 +15,8 @@ import Messages from "./pages/Messages/Messages";
 import Notifications from "./pages/Notifications/Notifications";
 import More from "./pages/More/More";
 import EditProfile from "./pages/Profile/EditProfile";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 function App() {
   return (
@@ -20,6 +28,24 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
+
+  useEffect(() => {
+    const isLoggedIn = !!Cookies.get("token");
+    console.log("Is Logged In:", isLoggedIn);
+    console.log("Current Path:", location.pathname);
+  }, [location.pathname]);
+
+  const isLoggedIn = !!Cookies.get("token");
+
+  if (!isLoggedIn) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    );
+  }
 
   const shouldShowSidebar = () => {
     return !["/login", "/register"].includes(location.pathname);
