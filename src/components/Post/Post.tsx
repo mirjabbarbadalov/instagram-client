@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CiHeart, CiChat1, CiLocationArrow1, CiBookmark } from "react-icons/ci";
 import { RiHeartFill } from "react-icons/ri";
+import Cookies from "js-cookie";
 
 import { PostData } from "../../types/types";
 interface PostProps {
@@ -12,7 +13,7 @@ function Post({ postData }: PostProps) {
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
+
   const [userId, setUserId] = useState<string | null>(null);
 
   function triggerLike(likes: number) {
@@ -50,21 +51,7 @@ function Post({ postData }: PostProps) {
     };
   }, [isDoubleClick]);
 
-  function getTokenFromCookie() {
-    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
-
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.split("=");
-
-      if (cookieName === "token") {
-        return cookieValue;
-      }
-    }
-
-    return null;
-  }
-
-  async function getUserId(token) {
+  async function getUserId() {
     try {
       const data = await fetch(
         "https://instagram-api-88fv.onrender.com/users/signedin",
@@ -73,7 +60,7 @@ function Post({ postData }: PostProps) {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${Cookies.get("token")}`,
           },
         }
       );
@@ -87,16 +74,14 @@ function Post({ postData }: PostProps) {
 
   async function fetchData() {
     try {
-      const retrievedToken = getTokenFromCookie();
-      const retrievedUserId = await getUserId(retrievedToken);
-      setToken(retrievedToken);
+      const retrievedUserId = await getUserId();
       setUserId(retrievedUserId);
     } catch (error) {
       console.error("Error:", error);
     }
   }
 
-  async function likePostWithApi(userId) {
+  async function likePostWithApi(userId: string | null) {
     try {
       console.log(postData._id);
       const data = await fetch(
@@ -106,7 +91,7 @@ function Post({ postData }: PostProps) {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${Cookies.get("token")}`,
           },
           body: JSON.stringify({ userId }),
         }

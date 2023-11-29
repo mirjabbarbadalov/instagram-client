@@ -1,56 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
+import Cookies from "js-cookie";
 
 export default function Search() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [allUserNames, setAllUsernames] = useState<string[]>([]);
 
-  const dummyUsernames = [
-    "john123",
-    "alice456",
-    "bob789",
-    "sara234",
-    "mark567",
-    "emily890",
-    "chris123",
-    "lisa456",
-    "david789",
-    "kate234",
-    "mike567",
-    "olivia890",
-    "ryan123",
-    "ava456",
-    "megan789",
-    "luke234",
-    "sophie567",
-    "peter890",
-    "amy123",
-    "daniel456",
-    "emma789",
-    "jacob234",
-    "grace567",
-    "leo890",
-    "ella123",
-    "nathan456",
-    "mia789",
-    "logan234",
-    "zoe567",
-    "owen890",
-    "lily123",
-    "tyler456",
-    "oliver789",
-    "lucas234",
-    "ella567",
-    "liam890",
-    "ava123",
-    "noah456",
-  ];
+  async function getOtherUsers() {
+    try {
+      const data = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/all",
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      const response = await data.json();
+      const users = response.users.map((e: { username: string }) => e.username);
+      setAllUsernames(users);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
+
+  useEffect(() => {
+    getOtherUsers();
+  }, []);
 
   const handleSearch = () => {
     console.log("Search Query:", searchQuery);
     setIsSearchOpen(false);
   };
-
   return (
     <div>
       <input
@@ -65,7 +50,7 @@ export default function Search() {
       />
 
       {isSearchOpen && (
-        <SearchModal usernames={dummyUsernames} onSearch={handleSearch} />
+        <SearchModal usernames={allUserNames} onSearch={handleSearch} />
       )}
     </div>
   );
