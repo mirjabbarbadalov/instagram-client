@@ -13,6 +13,8 @@ export default function EditProfileNew() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formInteracted, setFormInteracted] = useState(false);
 
+  const [newPassword, setNewPassword] = useState("");
+
   const [deleteMessage, setDeleteMessage] = useState("");
 
   const getUserDetails = async () => {
@@ -127,6 +129,35 @@ export default function EditProfileNew() {
     } finally {
       setFormSubmitting(false);
       setEmailLoading(false);
+    }
+  };
+
+  const updatePasswordHandler = async () => {
+    setFormSubmitting(true);
+
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/modify/password",
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ username, newPassword }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Password updated successfully");
+      } else {
+        console.error("Failed to update password:", data.message);
+      }
+    } finally {
+      setFormSubmitting(false);
     }
   };
 
@@ -306,6 +337,40 @@ export default function EditProfileNew() {
             } rounded-lg py-3 w-[35%] self-end`}
           >
             {emailLoading ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+        <form
+          onFocus={() => setFormInteracted(true)}
+          onSubmit={(e) => {
+            e.preventDefault();
+            updatePasswordHandler();
+          }}
+          className="flex flex-col"
+        >
+          <label htmlFor="newPassword" className="font-bold mb-3">
+            New Password
+          </label>
+          <p className="text-gray-500 text-xs mb-3">Enter your new password</p>
+          <input
+            type="password"
+            id="newPassword"
+            name="newPassword"
+            placeholder="Your new password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="outline-none mb-4 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
+          />
+
+          <button
+            type="submit"
+            disabled={!formInteracted || formSubmitting}
+            className={`${
+              !formInteracted || formSubmitting
+                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
+                : "bg-[#008dec] text-white"
+            } rounded-lg py-3 w-[35%] self-end`}
+          >
+            {formSubmitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
