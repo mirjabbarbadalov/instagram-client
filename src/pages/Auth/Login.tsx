@@ -175,19 +175,6 @@ export default function Login() {
             value="Login"
             className="bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[80%] py-[6px] rounded-lg text-white font-bold self-center"
           />
-          <div className="mx-auto">
-            <p className="font-semibold">
-              Don't have an account?{" "}
-              <span
-                className="text-[#0095f6] font-semibold cursor-pointer"
-                onClick={() => {
-                  navigate("/register");
-                }}
-              >
-                Sign up
-              </span>
-            </p>
-          </div>
         </form>
         <div className="text-center border-t border-[#dbdbdb] flex items-center justify-center">
           <p className="py-3 block mr-2">Don't have an account?</p>

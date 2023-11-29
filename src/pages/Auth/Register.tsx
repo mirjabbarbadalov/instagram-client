@@ -199,24 +199,6 @@ export default function Register() {
             <p className="text-red-500 text-center mb-4">{registerError}</p>
           )}
 
-          <div className="flex flex-col gap-4 text-center text-sm">
-            <p className="text-[#737373] px-2 ">
-              By signing up, you agree to our Terms.{" "}
-              <div className="mt-2">
-                <span className="text-black font-semibold ">
-                  Have an account?
-                </span>{" "}
-                <span
-                  className="text-[#0095f6] cursor-pointer font-semibold"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  Log in
-                </span>
-              </div>
-            </p>
-          </div>
           <input
             type="submit"
             value="Sign up"
