@@ -1,18 +1,18 @@
-import { BsGrid3X3 } from "react-icons/bs";
-import { BsBookmarkHeart } from "react-icons/bs";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { BsGrid3X3 } from "react-icons/bs";
+import { BsBookmarkHeart } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
+import { Grid } from "../../components/Grid/Grid";
+import { PostData } from "../../types/types";
 
 export default function Profile() {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [yourProfile, setYourProfile] = useState(true);
-  const [otherUserData, setOtherUserData] = useState(null);
   const [usernameFromURL, setUsernameFromURL] = useState("");
-
-  console.log(otherUserData);
+  const [allPosts, setAllPosts] = useState<PostData[]>([]);
 
   const getUserDetails = async () => {
     fetch("https://instagram-api-88fv.onrender.com/users/signedin", {
@@ -30,38 +30,6 @@ export default function Profile() {
       });
   };
 
-  async function getOtherUserProfile(username: string) {
-    try {
-      const data = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/all",
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        }
-      );
-      const response = await data.json();
-
-      if (Array.isArray(response)) {
-        const user = response.find((user) => user.username === username);
-        if (user) {
-          setOtherUserData(user);
-        } else {
-          console.log("User not found");
-        }
-      } else if (response && response.username === username) {
-        setOtherUserData(response);
-      } else {
-        console.log("User not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  }
-
   useEffect(() => {
     const currentURL = window.location.href;
 
@@ -74,12 +42,29 @@ export default function Profile() {
   useEffect(() => {
     if (usernameFromURL !== "profile") {
       setYourProfile(false);
-      getOtherUserProfile(usernameFromURL);
     } else {
       setYourProfile(true);
       getUserDetails();
     }
   }, [usernameFromURL]);
+
+  const fetchImages = async () => {
+    try {
+      const data = await fetch(
+        "https://instagram-api-88fv.onrender.com/api/posts"
+      );
+      const response = await data.json();
+      setAllPosts(response);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const images = allPosts.map((post) => post.postUrl);
 
   return (
     <div className="flex flex-col">
@@ -137,6 +122,7 @@ export default function Profile() {
           <p>FAVORITES</p>
         </div>
       </div>
+      {images && images.length > 0 && <Grid images={images} />}
     </div>
   );
 }
