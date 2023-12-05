@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { SetStateAction, useEffect, useState } from "react";
-import { AddPhoto } from "./addPhoto";
+import { AddPhoto } from "./AddPhoto";
 
 const EditProfile = () => {
   const [username, setUsername] = useState("");
