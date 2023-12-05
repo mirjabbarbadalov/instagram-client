@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { SetStateAction, useEffect, useState } from "react";
+import { AddPhoto } from "./addPhoto";
 
 const EditProfile = () => {
   const [username, setUsername] = useState("");
@@ -226,12 +227,7 @@ const EditProfile = () => {
               <p>{fullname}</p>
             </div>
           </div>
-          <button
-            type="button"
-            className="bg-black text-white rounded-[10px] px-5 py-2 text-sm font-[600]"
-          >
-            Change photo
-          </button>
+          <AddPhoto username={username} />
         </div>
       </section>
       <div className="forms-container mt-10">
@@ -324,7 +320,6 @@ const EditProfile = () => {
         >
           Delete Account
         </button>
-
         {deleteMessage && (
           <p className="text-red-500 text-xs py-3 mt-2 ml-4 w-full text-center">
             Message: {deleteMessage}
