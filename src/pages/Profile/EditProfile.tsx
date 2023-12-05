@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { SetStateAction, useEffect, useState } from "react";
 
-export default function EditProfileNew() {
+const EditProfile = () => {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -14,121 +14,95 @@ export default function EditProfileNew() {
   const [formInteracted, setFormInteracted] = useState(false);
 
   const [newPassword, setNewPassword] = useState("");
-
   const [deleteMessage, setDeleteMessage] = useState("");
 
   const getUserDetails = async () => {
-    fetch("https://instagram-api-88fv.onrender.com/users/signedin", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${Cookies.get("token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/signedin",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+
+      if (response.ok) {
         setUsername(data.username);
         setFullname(data.fullName);
         setEmail(data.email);
-      });
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching user details:", error);
+    }
   };
 
   useEffect(() => {
     getUserDetails();
   }, []);
 
-  const updateUsername = async (newUsername: SetStateAction<string>) => {
+  const updateField = async (
+    field: string,
+    newValue: SetStateAction<string>
+  ) => {
     setFormSubmitting(true);
-    setUsernameLoading(true);
 
     try {
       const token = Cookies.get("token");
+      const requestBody = { [field]: newValue, username };
+      console.log("Request Body:", requestBody);
       const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/modify/username",
+        `https://instagram-api-88fv.onrender.com/users/modify/${field}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ newUsername, username }),
+          body: JSON.stringify(requestBody),
         }
       );
 
       const data = await response.json();
 
       if (response.ok) {
-        setUsername(newUsername);
-        console.log("Username updated successfully");
-      } else {
-        console.error("Failed to update username:", data.message);
-      }
-    } finally {
-      setFormSubmitting(false);
-      setUsernameLoading(false);
-    }
-  };
-
-  const updateFullName = async (newFullname: SetStateAction<string>) => {
-    setFormSubmitting(true);
-    setFullnameLoading(true);
-
-    try {
-      const token = Cookies.get("token");
-      const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/modify/fullname",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ newFullName: newFullname, username }),
+        switch (field) {
+          case "username":
+            setUsername(newValue);
+            console.log("Username updated successfully");
+            break;
+          case "fullname":
+            setFullname(newValue);
+            console.log("Full name updated successfully");
+            break;
+          case "email":
+            setEmail(newValue);
+            console.log("Email updated successfully");
+            break;
+          default:
+            break;
         }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setFullname(newFullname);
-        console.log("Full name updated successfully");
       } else {
-        console.error("Failed to update full name:", data.message);
+        console.error(`Failed to update ${field}:`, data.message);
       }
     } finally {
       setFormSubmitting(false);
-      setFullnameLoading(false);
-    }
-  };
-
-  const updateEmail = async (newEmail: SetStateAction<string>) => {
-    setFormSubmitting(true);
-    setEmailLoading(true);
-
-    try {
-      const token = Cookies.get("token");
-      const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/modify/email",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ newEmail, username }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setEmail(newEmail);
-        console.log("Email updated successfully");
-      } else {
-        console.error("Failed to update email:", data.message);
+      switch (field) {
+        case "username":
+          setUsernameLoading(false);
+          break;
+        case "fullname":
+          setFullnameLoading(false);
+          break;
+        case "email":
+          setEmailLoading(false);
+          break;
+        default:
+          break;
       }
-    } finally {
-      setFormSubmitting(false);
-      setEmailLoading(false);
     }
   };
 
@@ -198,6 +172,33 @@ export default function EditProfileNew() {
     }
   };
 
+  const formDetails = [
+    {
+      label: "Username",
+      field: "username",
+      placeholder: "Your username",
+      value: username,
+      loading: usernameLoading,
+      updateFunction: updateField,
+    },
+    {
+      label: "Full Name",
+      field: "fullname",
+      placeholder: "Your Full Name",
+      value: fullname,
+      loading: fullnameLoading,
+      updateFunction: updateField,
+    },
+    {
+      label: "Email",
+      field: "email",
+      placeholder: "Your email address",
+      value: email,
+      loading: emailLoading,
+      updateFunction: updateField,
+    },
+  ];
+
   return (
     <div className="p-4 flex justify-center flex-col ml-10">
       <section>
@@ -226,119 +227,52 @@ export default function EditProfileNew() {
         </div>
       </section>
       <div className="forms-container mt-10">
-        <form
-          onFocus={() => setFormInteracted(true)}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const newUsernameInput = (
-              e.target as HTMLFormElement
-            ).elements.namedItem("username") as HTMLInputElement | null;
-            const newUsername = newUsernameInput ? newUsernameInput.value : "";
-            updateUsername(newUsername);
-          }}
-          className="flex flex-col"
-        >
-          <label htmlFor="username" className="font-bold mb-3">
-            Username
-          </label>
-          <p className="text-gray-500 text-xs mb-3">
-            Enter your desired username
-          </p>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Your username"
-            className="outline-none mb-4 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
-          />
-
-          <button
-            type="submit"
-            disabled={!formInteracted || formSubmitting || usernameLoading}
-            className={`${
-              !formInteracted || formSubmitting || usernameLoading
-                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
-                : "bg-[#008dec] text-white"
-            } rounded-lg py-3 w-[35%] self-end`}
+        {formDetails.map((form, index) => (
+          <form
+            key={index}
+            onFocus={() => setFormInteracted(true)}
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formElement = e.target as HTMLFormElement;
+              const newValueInput = formElement.elements.namedItem(
+                form.field
+              ) as HTMLInputElement | null;
+              const newValue = newValueInput ? newValueInput.value : "";
+              form.updateFunction(form.field, newValue);
+            }}
+            className="flex flex-col"
           >
-            {usernameLoading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-        <form
-          onFocus={() => setFormInteracted(true)}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const newFullNameInput = (
-              e.target as HTMLFormElement
-            ).elements.namedItem("fullName") as HTMLInputElement | null;
-            const newFullName = newFullNameInput ? newFullNameInput.value : "";
-            updateFullName(newFullName);
-          }}
-          className="flex flex-col"
-        >
-          <label htmlFor="fullName" className="font-bold mb-3">
-            Full Name
-          </label>
-          <p className="text-gray-500 text-xs mb-3">Change your full name</p>
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            placeholder="Your Full Name"
-            className="outline-none mb-4 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
-          />
+            <label htmlFor={form.field} className="font-bold mb-3">
+              {form.label}
+            </label>
+            <p className="text-gray-500 text-xs mb-3">
+              {`Enter your ${form.label.toLowerCase()}`}
+            </p>
+            {form.field === "email" && (
+              <p className="text-gray-500 text-xs mb-3">{`Old email: ${form.value}`}</p>
+            )}
+            <input
+              type={form.field === "email" ? "email" : "text"}
+              id={form.field}
+              name={form.field}
+              placeholder={form.placeholder}
+              className="outline-none mb-4 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
+            />
 
-          <button
-            type="submit"
-            disabled={!formInteracted || formSubmitting || fullnameLoading}
-            className={`${
-              !formInteracted || formSubmitting || fullnameLoading
-                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
-                : "bg-[#008dec] text-white"
-            } rounded-lg py-3 w-[35%] self-end`}
-          >
-            {fullnameLoading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
-        <form
-          onFocus={() => setFormInteracted(true)}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const newEmailInput = (
-              e.target as HTMLFormElement
-            ).elements.namedItem("email") as HTMLInputElement | null;
-            const newEmail = newEmailInput ? newEmailInput.value : "";
-            updateEmail(newEmail);
-          }}
-          className="flex flex-col"
-        >
-          <label htmlFor="email" className="font-bold mb-3">
-            Email
-          </label>
-          <p className="text-gray-500 text-xs mb-3">
-            Update your email address
-          </p>
-          <p className="text-gray-500 text-xs mb-3">Old email: {email}</p>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Your email address"
-            className="outline-none mb-8 p-4 border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
-          />
+            <button
+              type="submit"
+              disabled={!formInteracted || formSubmitting || form.loading}
+              className={`${
+                !formInteracted || formSubmitting || form.loading
+                  ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
+                  : "bg-[#008dec] text-white"
+              } rounded-lg py-3 w-[35%] self-end`}
+            >
+              {form.loading ? "Submitting..." : "Submit"}
+            </button>
+          </form>
+        ))}
 
-          <button
-            type="submit"
-            disabled={!formInteracted || formSubmitting || emailLoading}
-            className={`${
-              !formInteracted || formSubmitting || emailLoading
-                ? "bg-[#fafafa] text-[#008dec] cursor-not-allowed"
-                : "bg-[#008dec] text-white"
-            } rounded-lg py-3 w-[35%] self-end`}
-          >
-            {emailLoading ? "Submitting..." : "Submit"}
-          </button>
-        </form>
         <form
           onFocus={() => setFormInteracted(true)}
           onSubmit={(e) => {
@@ -391,4 +325,6 @@ export default function EditProfileNew() {
       </div>
     </div>
   );
-}
+};
+
+export default EditProfile;
