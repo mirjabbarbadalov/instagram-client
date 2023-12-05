@@ -123,6 +123,14 @@ export default function Profile() {
         </div>
       </div>
       {images && images.length > 0 && <Grid images={images} />}
+      <div className="mt-[30px] mb-[30px] self-center">
+        <p className="text-center text-sm text-[#aeaeae]">
+          © 2023 Instagram Clone from The Company
+        </p>
+        <p className="text-center text-sm text-[#aeaeae]">
+          Created by: Ali Ramazanov, Mirjabbar Badalov, Azar Imranov
+        </p>
+      </div>
     </div>
   );
 }
