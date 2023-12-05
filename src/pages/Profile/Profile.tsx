@@ -73,19 +73,13 @@ export default function Profile() {
         <div className="flex flex-col items-start gap-5">
           {yourProfile && (
             <div className="flex ">
-              <p className="text-lg">{username}</p>
+              <p className="text-lg w-[80px]">{username}</p>
               <NavLink
-                className="ml-[30px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg"
+                className="ml-[50px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-20 rounded-lg"
                 to={"/profile/edit"}
               >
                 Edit profile
               </NavLink>
-              <button
-                type="button"
-                className="ml-[10px] bg-[#ebebeb] hover:bg-[#dbdbdb] font-medium py-1 px-4 rounded-lg "
-              >
-                View profile
-              </button>
             </div>
           )}
           <div className="flex gap-[56px]">
