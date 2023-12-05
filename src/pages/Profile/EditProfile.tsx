@@ -5,10 +5,7 @@ const EditProfile = () => {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
-
-  const [usernameLoading, setUsernameLoading] = useState(false);
-  const [fullnameLoading, setFullnameLoading] = useState(false);
-  const [emailLoading, setEmailLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formInteracted, setFormInteracted] = useState(false);
@@ -19,6 +16,7 @@ const EditProfile = () => {
   const getUserDetails = async () => {
     try {
       const token = Cookies.get("token");
+      console.log(1, token);
       const response = await fetch(
         "https://instagram-api-88fv.onrender.com/users/signedin",
         {
@@ -29,11 +27,14 @@ const EditProfile = () => {
         }
       );
       const data = await response.json();
-
+      console.log(2, data);
       if (response.ok) {
         setUsername(data.username);
+        console.log(3, data.username);
         setFullname(data.fullName);
+        console.log(4, data.fullName);
         setEmail(data.email);
+        console.log(5, data.email);
       }
     } catch (error) {
       console.error("An error occurred while fetching user details:", error);
@@ -52,8 +53,11 @@ const EditProfile = () => {
 
     try {
       const token = Cookies.get("token");
-      const requestBody = { [field]: newValue, username };
-      console.log("Request Body:", requestBody);
+      const requestBody = {
+        username: username,
+        [`new${field.charAt(0).toUpperCase() + field.slice(1)}`]: newValue,
+      };
+      console.log(6, requestBody, requestBody.username);
       const response = await fetch(
         `https://instagram-api-88fv.onrender.com/users/modify/${field}`,
         {
@@ -67,19 +71,23 @@ const EditProfile = () => {
       );
 
       const data = await response.json();
+      console.log(7, data);
 
       if (response.ok) {
         switch (field) {
           case "username":
             setUsername(newValue);
+            console.log(newValue);
             console.log("Username updated successfully");
             break;
           case "fullname":
             setFullname(newValue);
+            console.log(newValue);
             console.log("Full name updated successfully");
             break;
           case "email":
             setEmail(newValue);
+            console.log(newValue);
             console.log("Email updated successfully");
             break;
           default:
@@ -92,13 +100,13 @@ const EditProfile = () => {
       setFormSubmitting(false);
       switch (field) {
         case "username":
-          setUsernameLoading(false);
+          setLoading(false);
           break;
         case "fullname":
-          setFullnameLoading(false);
+          setLoading(false);
           break;
         case "email":
-          setEmailLoading(false);
+          setLoading(false);
           break;
         default:
           break;
@@ -178,7 +186,7 @@ const EditProfile = () => {
       field: "username",
       placeholder: "Your username",
       value: username,
-      loading: usernameLoading,
+      loading: loading,
       updateFunction: updateField,
     },
     {
@@ -186,7 +194,7 @@ const EditProfile = () => {
       field: "fullname",
       placeholder: "Your Full Name",
       value: fullname,
-      loading: fullnameLoading,
+      loading: loading,
       updateFunction: updateField,
     },
     {
@@ -194,7 +202,7 @@ const EditProfile = () => {
       field: "email",
       placeholder: "Your email address",
       value: email,
-      loading: emailLoading,
+      loading: loading,
       updateFunction: updateField,
     },
   ];
