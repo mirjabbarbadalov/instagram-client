@@ -1,10 +1,18 @@
-import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (profilePhoto !== null) {
+      setLoading(false);
+    }
+  }, [profilePhoto]);
 
   const navigate = useNavigate();
 
@@ -69,25 +77,29 @@ function UserMenu() {
       <div className="user-menu flex justify-start">
         <button
           type="button"
-          className={`relative bg-sky-500 rounded-full w-12 h-12 transition-transform ${
+          className={`relative bg-slate-100 rounded-full w-12 h-12 transition-transform ${
             isMenuOpen ? "scale-125" : ""
           }`}
           onClick={toggleMenu}
         >
           <span className="sr-only">User:</span>
-          <img
-            className="absolute inset-0 w-full h-full object-cover rounded-full"
-            src="/images/profile.jpg"
-            alt=""
-          />
-          {profilePhoto !== null ? (
+
+          {loading ? (
+            <CircularProgress
+              size={50}
+              style={{
+                position: "absolute",
+                top: "0%",
+                left: "0%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+          ) : (
             <img
               src={`data:image/jpeg;base64,${profilePhoto}`}
               alt="Profile Photo"
               className="absolute inset-0 w-full h-full object-cover rounded-full"
             />
-          ) : (
-            <div className="w-[60px] h-[60px] rounded-[50%] bg-sky-200"></div>
           )}
 
           {isMenuOpen && (
