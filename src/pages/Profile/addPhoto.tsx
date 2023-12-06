@@ -50,8 +50,8 @@ export const AddPhoto: React.FC<AddPhotoProps> = ({ username }) => {
     dataURL: string,
     callback: (resizedDataUrl: string) => void
   ) => {
-    const maxWidth = 1080;
-    const maxHeight = 1080;
+    const maxWidth = 540;
+    const maxHeight = 540;
 
     const img = new Image();
     img.src = dataURL;
@@ -79,7 +79,7 @@ export const AddPhoto: React.FC<AddPhotoProps> = ({ username }) => {
       const ctx = canvas.getContext("2d");
       if (ctx) {
         ctx.drawImage(img, 0, 0, width, height);
-        const resizedDataUrl = canvas.toDataURL("image/jpeg", 0.5);
+        const resizedDataUrl = canvas.toDataURL("image/jpeg", 0.6);
         callback(resizedDataUrl);
       }
     };
@@ -107,9 +107,10 @@ export const AddPhoto: React.FC<AddPhotoProps> = ({ username }) => {
           }),
         }
       );
-
+      console.log(1, response);
       if (response.ok) {
         const data = await response.json();
+        console.log(2, data);
         console.log("Image uploaded successfully:", data);
       } else {
         console.error("Image upload failed:", response.statusText);
