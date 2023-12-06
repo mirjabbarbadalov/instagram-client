@@ -1,6 +1,5 @@
 import Cookies from "js-cookie";
 import { SetStateAction, useEffect, useState } from "react";
-import { AddPhoto } from "./AddPhoto";
 
 const EditProfile = () => {
   const [username, setUsername] = useState("");
@@ -231,7 +230,7 @@ const EditProfile = () => {
               <p>{fullname}</p>
             </div>
           </div>
-          <AddPhoto username={username} />
+          {/* AddPhoto */}
         </div>
       </section>
       <div className="forms-container mt-10">
