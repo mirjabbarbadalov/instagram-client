@@ -10,6 +10,7 @@ export default function Profile() {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [yourProfile, setYourProfile] = useState(true);
   const [usernameFromURL, setUsernameFromURL] = useState("");
   const [allPosts, setAllPosts] = useState<PostData[]>([]);
@@ -26,7 +27,9 @@ export default function Profile() {
         setUsername(data.username);
         setFullname(data.fullName);
         setEmail(data.email);
-        console.log(data);
+        if (data.profilePhoto) {
+          setProfilePhoto(data.profilePhoto);
+        }
       });
   };
 
@@ -69,7 +72,17 @@ export default function Profile() {
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-center mt-10 gap-10">
-        <div className="w-[160px] h-[160px] rounded-[50%] bg-slate-200"></div>
+        <div className="profile-photo-container">
+          {profilePhoto !== null ? (
+            <img
+              src={`data:image/jpeg;base64,${profilePhoto}`}
+              alt="Profile Photo"
+              className="rounded-full w-[140px] h-[140px] object-cover"
+            />
+          ) : (
+            <div className="w-[140px] h-[140px] rounded-[50%] bg-slate-200"></div>
+          )}
+        </div>
         <div className="flex flex-col items-start gap-5">
           {yourProfile && (
             <div className="flex ">

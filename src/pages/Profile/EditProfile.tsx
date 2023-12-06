@@ -6,6 +6,8 @@ const EditProfile = () => {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(false);
 
   const [formSubmitting, setFormSubmitting] = useState(false);
@@ -27,10 +29,14 @@ const EditProfile = () => {
         }
       );
       const data = await response.json();
+      console.log(data);
       if (response.ok) {
         setUsername(data.username);
         setFullname(data.fullName);
         setEmail(data.email);
+        if (data.profilePhoto) {
+          setProfilePhoto(data.profilePhoto);
+        }
       }
     } catch (error) {
       console.error("An error occurred while fetching user details:", error);
@@ -209,9 +215,17 @@ const EditProfile = () => {
         <div className="informations flex gap-96 items-center justify-between bg-[#efefef] p-4 rounded-[20px]">
           <div className="informations-left-side flex items-center">
             <div className="profile-photo-container">
-              <img src="" alt="" />
-              <div className="w-[60px] h-[60px] rounded-[50%] bg-sky-200"></div>
+              {profilePhoto !== null ? (
+                <img
+                  src={`data:image/jpeg;base64,${profilePhoto}`}
+                  alt="Profile Photo"
+                  className="rounded-full w-[80px] h-[80px] object-cover"
+                />
+              ) : (
+                <div className="w-[60px] h-[60px] rounded-[50%] bg-sky-200"></div>
+              )}
             </div>
+
             <div className="user-details-text flex flex-col ml-4">
               <p className="font-bold">{username}</p>
               <p>{fullname}</p>

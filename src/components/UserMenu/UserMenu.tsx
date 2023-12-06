@@ -1,9 +1,40 @@
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+
   const navigate = useNavigate();
+
+  const getUserDetails = async () => {
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/signedin",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        if (data.profilePhoto) {
+          setProfilePhoto(data.profilePhoto);
+        }
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching user details:", error);
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
 
   useEffect(() => {
     const token = getCookie("token");
@@ -49,6 +80,16 @@ function UserMenu() {
             src="/images/profile.jpg"
             alt=""
           />
+          {profilePhoto !== null ? (
+            <img
+              src={`data:image/jpeg;base64,${profilePhoto}`}
+              alt="Profile Photo"
+              className="absolute inset-0 w-full h-full object-cover rounded-full"
+            />
+          ) : (
+            <div className="w-[60px] h-[60px] rounded-[50%] bg-sky-200"></div>
+          )}
+
           {isMenuOpen && (
             <span
               onClick={toggleMenu}

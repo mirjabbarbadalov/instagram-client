@@ -107,11 +107,17 @@ export const AddPhoto: React.FC<AddPhotoProps> = ({ username }) => {
           }),
         }
       );
-      console.log(1, response);
+
       if (response.ok) {
-        const data = await response.json();
-        console.log(2, data);
-        console.log("Image uploaded successfully:", data);
+        setBase64String(null);
+        setConvertedSize(null);
+        setImageSelected(false);
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+
+        console.log("Image uploaded successfully");
       } else {
         console.error("Image upload failed:", response.statusText);
       }
