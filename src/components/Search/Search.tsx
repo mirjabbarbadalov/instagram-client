@@ -1,9 +1,8 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
-import Cookies from "js-cookie";
 
 export default function Search() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [allUserNames, setAllUsernames] = useState<string[]>([]);
 
@@ -32,22 +31,20 @@ export default function Search() {
     getOtherUsers();
   }, []);
 
-  const handleSearch = () => {
-    console.log("Search Query:", searchQuery);
+  const handleSearch = (query: string) => {
+    console.log("Search Query:", query);
     setIsSearchOpen(false);
   };
+
   return (
     <div>
-      <input
-        type="text"
-        id="search"
-        name="search"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Search"
+      <button
+        type="button"
         onClick={() => setIsSearchOpen(true)}
-        className="cursor-pointer outline-none mt-3 mb-7 py-2 w-[400px] text-center border border-gray-300 rounded-2xl focus:placeholder-gray-200 focus:border-black"
-      />
+        className="cursor-pointer focus:outline-1 mt-3 mb-7 py-2 w-[400px] text-center border border-gray-300 rounded-md focus:placeholder-gray-200 focus:border-black"
+      >
+        Open Search
+      </button>
 
       {isSearchOpen && (
         <SearchModal usernames={allUserNames} onSearch={handleSearch} />

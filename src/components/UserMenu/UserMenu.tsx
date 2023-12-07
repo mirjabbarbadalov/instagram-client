@@ -29,7 +29,6 @@ function UserMenu() {
         }
       );
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         if (data.profilePhoto) {
           setProfilePhoto(data.profilePhoto);

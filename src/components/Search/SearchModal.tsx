@@ -21,9 +21,11 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
   };
 
   const filteredUsernames = usernames
-    .filter((username) =>
-      username.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    .filter((username) => {
+      return (
+        username && username.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    })
     .slice(0, 5);
 
   return (
@@ -36,10 +38,10 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search..."
-            className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none"
+            className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-1 "
           />
           <button
-            type="button"
+            type="submit"
             onClick={handleSearch}
             className="ml-2 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none"
           >
