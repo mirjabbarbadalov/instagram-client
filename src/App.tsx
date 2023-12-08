@@ -1,3 +1,6 @@
+import Cookies from "js-cookie";
+import { Provider } from "react-redux";
+import { useEffect } from "react";
 import {
   BrowserRouter,
   Navigate,
@@ -5,24 +8,25 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import Profile from "./pages/Profile/Profile";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Favourites from "./pages/Favourites/Favourites";
+import Home from "./pages/Home/Home";
 import Messages from "./pages/Messages/Messages";
-import Notifications from "./pages/Notifications/Notifications";
 import More from "./pages/More/More";
+import Notifications from "./pages/Notifications/Notifications";
 import EditProfile from "./pages/Profile/EditProfile";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+import Profile from "./pages/Profile/Profile";
+import store from "./store/store";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </Provider>
   );
 }
 
@@ -31,8 +35,7 @@ function AppContent() {
 
   useEffect(() => {
     const isLoggedIn = !!Cookies.get("token");
-    console.log("Is Logged In:", isLoggedIn);
-    console.log("Current Path:", location.pathname);
+    console.log("Logged In:", isLoggedIn);
   }, [location.pathname]);
 
   const isLoggedIn = !!Cookies.get("token");

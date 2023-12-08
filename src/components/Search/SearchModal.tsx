@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import Cookies from "js-cookie";
 
 interface SearchModalProps {
   usernames: string[];
@@ -8,6 +9,8 @@ interface SearchModalProps {
 
 const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [userDetails, setUserDetails] = useState(null);
+
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -16,8 +19,10 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
     }
   }, []);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     onSearch(searchQuery);
+    const data = await fetchUserDetails(searchQuery);
+    setUserDetails(data);
   };
 
   const filteredUsernames = usernames
@@ -27,6 +32,27 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
       );
     })
     .slice(0, 5);
+
+  const fetchUserDetails = async (username: string) => {
+    try {
+      const data = await fetch(
+        `https://instagram-api-88fv.onrender.com/users/${username}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      const userDetails = await data.json();
+      console.log("User Details:", userDetails.username);
+      return userDetails;
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-50 bg-black z-50">
@@ -63,7 +89,9 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
                 {filteredUsernames.map((username) => (
                   <li key={username} className="mb-2">
                     <NavLink
-                      to={`/profile/${username}`}
+                      to={"/friend"}
+                      onMouseEnter={() => fetchUserDetails(username)}
+                      state={{ userDetails }}
                       className="block p-2 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none"
                     >
                       {username}

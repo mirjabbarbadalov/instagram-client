@@ -6,7 +6,7 @@ const EditProfile = () => {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
+  const [profilePhoto, setProfilePhoto] = useState<string>("");
 
   const [loading, setLoading] = useState(false);
 
@@ -29,14 +29,11 @@ const EditProfile = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         setUsername(data.username);
         setFullname(data.fullName);
         setEmail(data.email);
-        if (data.profilePhoto) {
-          setProfilePhoto(data.profilePhoto);
-        }
+        setProfilePhoto(data.profilePhoto);
       }
     } catch (error) {
       console.error("An error occurred while fetching user details:", error);
@@ -59,6 +56,11 @@ const EditProfile = () => {
         username: username,
         [`new${field.charAt(0).toUpperCase() + field.slice(1)}`]: newValue,
       };
+
+      if (field === "profilePhoto") {
+        requestBody.profilePhoto = newValue;
+      }
+
       const response = await fetch(
         `https://instagram-api-88fv.onrender.com/users/modify/${field}`,
         {
@@ -87,6 +89,10 @@ const EditProfile = () => {
             setEmail(newValue);
             console.log("Email updated successfully");
             break;
+          case "profilePhoto":
+            setProfilePhoto(newValue);
+            console.log("Profile photo updated successfully");
+            break;
           default:
             break;
         }
@@ -95,19 +101,7 @@ const EditProfile = () => {
       }
     } finally {
       setFormSubmitting(false);
-      switch (field) {
-        case "username":
-          setLoading(false);
-          break;
-        case "fullname":
-          setLoading(false);
-          break;
-        case "email":
-          setLoading(false);
-          break;
-        default:
-          break;
-      }
+      setLoading(false);
     }
   };
 
@@ -215,7 +209,7 @@ const EditProfile = () => {
         <div className="informations flex gap-96 items-center justify-between bg-[#efefef] p-4 rounded-[20px]">
           <div className="informations-left-side flex items-center">
             <div className="profile-photo-container">
-              {profilePhoto !== null ? (
+              {profilePhoto !== null && profilePhoto !== undefined ? (
                 <img
                   src={`data:image/jpeg;base64,${profilePhoto}`}
                   alt="Profile Photo"
