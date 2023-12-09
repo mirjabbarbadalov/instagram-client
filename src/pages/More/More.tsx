@@ -1,6 +1,7 @@
 import { IoMdPersonAdd } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import Test from "../../components/Test/Test";
+import TestProfile from "../../components/Test/TestProfile";
 export default function More() {
   return (
     <div className="flex flex-col justify-center items-center gap-10">
@@ -9,6 +10,7 @@ export default function More() {
         Register
       </NavLink>
       <Test />
+      <TestProfile />
     </div>
   );
 }

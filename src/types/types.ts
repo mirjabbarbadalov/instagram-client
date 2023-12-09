@@ -8,18 +8,18 @@ export interface PostData {
 }
 
 export interface Post {
+  imageUrl: string | undefined;
   _id: string;
 }
 
 export interface User {
   _id: string;
   username?: string;
-  password?: string;
   email?: string;
   fullname?: string;
-  googleId?: string;
-  posts: Post[];
   profilePhoto?: string;
+  password?: string;
+  posts: Post[];
   followers: User[];
   following: User[];
 }
