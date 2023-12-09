@@ -13,6 +13,7 @@ function Post({ postData }: PostProps) {
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
+  const [comment, setComment] = useState("");
 
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -84,6 +85,30 @@ function Post({ postData }: PostProps) {
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
           body: JSON.stringify({ userId }),
+        }
+      );
+      const response = await data.json();
+      console.log(response);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
+
+  async function addCommentToPost(
+    userId: string | null,
+    comment: string | null
+  ) {
+    try {
+      const data = await fetch(
+        `https://instagram-api-88fv.onrender.com/api/posts/${postData._id}/comment`,
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+          body: JSON.stringify({ userId, comment }),
         }
       );
       const response = await data.json();
@@ -170,6 +195,30 @@ function Post({ postData }: PostProps) {
                 <CiBookmark />
               </p>
             </div>
+          </div>
+          <div className="w-[95%] h-[30px] mx-auto">
+            <input
+              className="w-[90%]  text-sm outline-none text-black"
+              type="text"
+              name="comment"
+              id="comment"
+              placeholder="Add a comment..."
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
+              value={comment}
+            />
+            {comment && (
+              <button
+                className="text-sm font-bold text-[#0095f6]"
+                onClick={() => {
+                  addCommentToPost(userId, comment);
+                  setComment("");
+                }}
+              >
+                Post
+              </button>
+            )}
           </div>
           <div className="font-semibold text-sm mx-4 mt-2 mb-4">
             {likes} likes

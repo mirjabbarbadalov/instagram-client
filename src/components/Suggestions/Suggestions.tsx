@@ -34,8 +34,6 @@ export default function Suggestions() {
     getAllUsers();
   }, []);
 
-  console.log(allUsers);
-
   return (
     <div>
       <div className="w-[300px] max-h-[200px] overflow-auto border border-gray-300 rounded-sm p-1 flex flex-col gap-1">
