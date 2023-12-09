@@ -1,6 +1,7 @@
 import AllPosts from "../../components/Post/AllPosts";
 import PostModal from "../../components/PostModal/PostModal";
 import Search from "../../components/Search/Search";
+import Suggestions from "../../components/Suggestions/Suggestions";
 import UserMenu from "../../components/UserMenu/UserMenu";
 
 export default function Home() {
@@ -18,7 +19,12 @@ export default function Home() {
       </div>
 
       {/* Main Feed - All Posts */}
-      <AllPosts />
+      <div className="flex">
+        <AllPosts />
+        <div className="mt-[25px] ml-[100px]">
+          <Suggestions />
+        </div>
+      </div>
     </div>
   );
 }
