@@ -72,18 +72,8 @@ function Post({ postData }: PostProps) {
     }
   }
 
-  async function fetchData() {
-    try {
-      const retrievedUserId = await getUserId();
-      setUserId(retrievedUserId);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
   async function likePostWithApi(userId: string | null) {
     try {
-      console.log(postData._id);
       const data = await fetch(
         `https://instagram-api-88fv.onrender.com/api/posts/${postData._id}/like`,
         {
@@ -104,8 +94,20 @@ function Post({ postData }: PostProps) {
   }
 
   useEffect(() => {
+    async function fetchData() {
+      try {
+        const retrievedUserId = await getUserId();
+        setUserId(retrievedUserId);
+        if (postData.likes.includes(retrievedUserId)) {
+          setIsLiked(true);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
     fetchData();
-  }, []);
+  }, [postData]);
 
   return (
     <div>
