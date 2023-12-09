@@ -16,7 +16,7 @@ export interface User {
   _id: string;
   username?: string;
   email?: string;
-  fullname?: string;
+  fullName: string;
   profilePhoto?: string;
   password?: string;
   posts: Post[];

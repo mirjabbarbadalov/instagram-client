@@ -19,6 +19,7 @@ const fetchProfileDetails: AsyncThunk<User, void, object> = createAsyncThunk(
         },
       }
     );
+    console.log(response.data);
     return response.data;
   }
 );
@@ -32,7 +33,7 @@ type ProfileState = {
 const initialState: ProfileState = {
   user: {
     username: "username",
-    fullname: "Full Name",
+    fullName: "Full Name",
     email: "email@gmail.com",
     profilePhoto: "base64 string",
     _id: "",
@@ -60,7 +61,7 @@ export const profileSlice = createSlice({
           state.user = {
             _id: action.payload?._id || initialState.user._id,
             username: action.payload?.username || initialState.user.username,
-            fullname: action.payload?.fullname || initialState.user.fullname,
+            fullName: action.payload?.fullName || initialState.user.fullName,
             email: action.payload?.email || initialState.user.email,
             profilePhoto:
               action.payload?.profilePhoto || initialState.user.profilePhoto,

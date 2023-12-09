@@ -12,7 +12,7 @@ import Alert from "@mui/material/Alert";
 
 interface Profile {
   username: string;
-  fullname: string;
+  fullName: string;
   email: string;
   profilePhoto: string;
   posts: string;
@@ -82,7 +82,7 @@ const Profile: React.FC = () => {
               </p>
             </div>
             <div>
-              <p className="text-sm font-semibold">{user.fullname}</p>
+              <p className="text-sm font-semibold">{user.fullName}</p>
               <p className="text-sm font-semibold">{user.email}</p>
             </div>
           </div>
