@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import io, { Socket } from "socket.io-client";
 
-const App: React.FC = () => {
+const Message: React.FC = () => {
   const storedUserId = localStorage.getItem("userId");
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
@@ -13,42 +13,40 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!socket) {
-      const socketInstance = io("http://localhost:9595", {
-        query: { userId: storedUserId },
-      });
+    const socketInstance = io("https://instagram-api-88fv.onrender.com/", {
+      query: { userId: storedUserId },
+    });
 
-      socketInstance.on("connect", () => {
-        const currentUserId = socketInstance.id;
-        console.log(`Connected to the server with socket ID: ${currentUserId}`);
-        localStorage.setItem("userId", currentUserId);
-        setSocket(socketInstance);
-        setConnectedUserId(currentUserId);
-      });
+    socketInstance.on("connect", () => {
+      const currentUserId = socketInstance.id;
+      console.log(`Connected to the server with socket ID: ${currentUserId}`);
+      localStorage.setItem("userId", currentUserId);
+      setSocket(socketInstance);
+      setConnectedUserId(currentUserId);
+    });
 
-      socketInstance.on(
-        "private_message",
-        (data: { from: string; message: string }) => {
-          setReceivedMessages((prevMessages) => [
-            ...prevMessages,
-            `${data.from}: ${data.message}`,
-          ]);
-        }
-      );
+    socketInstance.on(
+      "private_message",
+      (data: { from: string; message: string }) => {
+        setReceivedMessages((prevMessages) => [
+          ...prevMessages,
+          `${data.from}: ${data.message}`,
+        ]);
+      }
+    );
 
-      socketInstance.on("disconnect", () => {
-        console.log(`User disconnected`);
-        setSocket(null);
-        setConnectedUserId(null);
-      });
+    socketInstance.on("disconnect", () => {
+      console.log(`User disconnected`);
+      setSocket(null);
+      setConnectedUserId(null);
+    });
 
-      return () => {
-        if (socketInstance.connected) {
-          socketInstance.disconnect();
-        }
-      };
-    }
-  }, [socket, storedUserId]);
+    return () => {
+      if (socketInstance.connected) {
+        socketInstance.disconnect();
+      }
+    };
+  }, [storedUserId]);
 
   const handleSendMessage = () => {
     if (socket && recipient && message) {
@@ -120,13 +118,7 @@ const App: React.FC = () => {
             Connected User ID: {connectedUserId}
           </p>
         ) : (
-          <button
-            type="button"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            onClick={() => setSocket(io("http://localhost:9595"))}
-          >
-            Connect to Server
-          </button>
+          <p className="text-xl font-bold mb-2">Connecting to the server...</p>
         )}
         <button
           type="button"
@@ -141,4 +133,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Message;

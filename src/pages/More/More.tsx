@@ -1,6 +1,6 @@
 import { IoMdPersonAdd } from "react-icons/io";
 import { NavLink } from "react-router-dom";
-import Socket from "../../components/Test/Messaging/Messaging";
+import Message from "../../components/Test/Messaging/Messaging";
 import Test from "../../components/Test/Test";
 
 export default function More() {
@@ -11,7 +11,7 @@ export default function More() {
         Register
       </NavLink>
       <Test />
-      <Socket />
+      <Message />
     </div>
   );
 }
