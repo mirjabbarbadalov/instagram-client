@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import io, { Socket } from "socket.io-client";
 
 const Message: React.FC = () => {
-  const storedUserId = localStorage.getItem("userId");
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
   const [recipient, setRecipient] = useState("");
   const [receivedMessages, setReceivedMessages] = useState<string[]>([]);
   const [sentMessages, setSentMessages] = useState<string[]>([]);
-  const [connectedUserId, setConnectedUserId] = useState<string | null>(
-    storedUserId
-  );
+  const [connectedUserId, setConnectedUserId] = useState<string | null>(() => {
+    const storedUserId = localStorage.getItem("userId");
+    return storedUserId || null;
+  });
 
   useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+
     const socketInstance = io("https://instagram-api-88fv.onrender.com/", {
       query: { userId: storedUserId },
     });
@@ -46,7 +48,7 @@ const Message: React.FC = () => {
         socketInstance.disconnect();
       }
     };
-  }, [storedUserId]);
+  }, []);
 
   const handleSendMessage = () => {
     if (socket && recipient && message) {
