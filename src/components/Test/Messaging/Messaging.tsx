@@ -1,54 +1,77 @@
-import React, { useState, useEffect } from "react";
+import { Action } from "@reduxjs/toolkit";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 import io, { Socket } from "socket.io-client";
+import { fetchProfileDetails } from "../../../store/slices/profileSlice";
+import { RootState } from "../../../store/store";
+import { State } from "../../../types/types";
+import { Alert, CircularProgress } from "@mui/material";
 
 const Message: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
   const [recipient, setRecipient] = useState("");
-  const [receivedMessages, setReceivedMessages] = useState<string[]>([]);
-  const [sentMessages, setSentMessages] = useState<string[]>([]);
   const [connectedUserId, setConnectedUserId] = useState<string | null>(() => {
     const storedUserId = localStorage.getItem("userId");
     return storedUserId || null;
   });
+  const [chatMessages, setChatMessages] = useState<
+    Array<{ sender: string; message: string }>
+  >([]);
+
+  const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
+  const { user, status, error } = useSelector(
+    (state: RootState) => state.profile
+  );
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
+    dispatch(fetchProfileDetails());
+  }, [dispatch]);
 
-    const socketInstance = io("https://instagram-api-88fv.onrender.com/", {
-      query: { userId: storedUserId },
-    });
+  useEffect(() => {
+    let socketInstance: Socket | null = null;
 
-    socketInstance.on("connect", () => {
-      const currentUserId = socketInstance.id;
-      console.log(`Connected to the server with socket ID: ${currentUserId}`);
-      localStorage.setItem("userId", currentUserId);
-      setSocket(socketInstance);
-      setConnectedUserId(currentUserId);
-    });
+    const setupSocket = () => {
+      socketInstance = io("http://localhost:9595", {
+        query: { userId: user.username },
+      });
 
-    socketInstance.on(
-      "private_message",
-      (data: { from: string; message: string }) => {
-        setReceivedMessages((prevMessages) => [
-          ...prevMessages,
-          `${data.from}: ${data.message}`,
-        ]);
-      }
-    );
+      socketInstance.on("connect", () => {
+        const currentUserName = user.username;
+        console.log(
+          `Connected to the server with socket ID: ${currentUserName}`
+        );
+        setSocket(socketInstance);
+        setConnectedUserId(currentUserName as string);
+      });
 
-    socketInstance.on("disconnect", () => {
-      console.log(`User disconnected`);
-      setSocket(null);
-      setConnectedUserId(null);
-    });
+      socketInstance.on(
+        "private_message",
+        (data: { from: string; message: string }) => {
+          setChatMessages((prevMessages) => [
+            ...prevMessages,
+            { sender: data.from, message: data.message },
+          ]);
+        }
+      );
+
+      socketInstance.on("disconnect", () => {
+        console.log(user._id, " user.id");
+        console.log(`User disconnected`);
+        setSocket(null);
+        setConnectedUserId(null);
+      });
+    };
+
+    setupSocket();
 
     return () => {
-      if (socketInstance.connected) {
+      if (socketInstance) {
         socketInstance.disconnect();
       }
     };
-  }, []);
+  }, [status, user]);
 
   const handleSendMessage = () => {
     if (socket && recipient && message) {
@@ -58,9 +81,9 @@ const Message: React.FC = () => {
           message,
         });
 
-        setSentMessages((prevMessages) => [
+        setChatMessages((prevMessages) => [
           ...prevMessages,
-          `You to ${recipient}: ${message}`,
+          { sender: "You", message: `to ${recipient}: ${message}` },
         ]);
 
         setMessage("");
@@ -69,6 +92,22 @@ const Message: React.FC = () => {
       }
     }
   };
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center ml-[50px] mb-[100px]">
+        <CircularProgress size={70} />
+      </div>
+    );
+  }
+
+  if (status === "failed") {
+    return (
+      <div className="flex items-center justify-center">
+        <Alert severity="error">Error: {error}</Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -79,18 +118,40 @@ const Message: React.FC = () => {
             Your chat history:
           </p>
           <div className="bg-white p-4 rounded-lg shadow-md">
-            <ul className="list-disc pl-4">
-              {receivedMessages.map((msg, index) => (
-                <li key={index} className="mb-2">
-                  {msg}
-                </li>
-              ))}
-              {sentMessages.map((msg, index) => (
-                <li key={index} className="mb-2">
-                  {msg}
-                </li>
-              ))}
-            </ul>
+            <div className="space-y-2">
+              {chatMessages.map((chatMessage, index) => {
+                const isSentMessage = chatMessage.sender === "You";
+                const content = isSentMessage
+                  ? chatMessage.message.replace(/^to \w+: /, "")
+                  : chatMessage.message;
+
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center ${
+                      isSentMessage ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    {!isSentMessage && (
+                      <div
+                        className={`rounded-full bg-${
+                          isSentMessage ? "blue-500" : "gray-300"
+                        } w-[20px] h-[20px] ml-2 mr-2`}
+                      ></div>
+                    )}
+                    <div
+                      className={`p-3 rounded-lg ${
+                        isSentMessage
+                          ? "bg-blue-500 text-white ml-2"
+                          : "bg-gray-300 text-black mr-2"
+                      }`}
+                    >
+                      <div>{`Message ${content}`}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         <div className="mb-4">
@@ -117,7 +178,7 @@ const Message: React.FC = () => {
         </div>
         {connectedUserId ? (
           <p className="text-xl font-bold mb-2">
-            Connected User ID: {connectedUserId}
+            Your User ID: {connectedUserId}
           </p>
         ) : (
           <p className="text-xl font-bold mb-2">Connecting to the server...</p>
