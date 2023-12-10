@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import io, { Socket } from "socket.io-client";
-import { fetchProfileDetails } from "../../../store/slices/profileSlice";
-import { RootState } from "../../../store/store";
-import { State } from "../../../types/types";
+import { fetchProfileDetails } from "../../store/slices/profileSlice";
+import { RootState } from "../../store/store";
+import { State } from "../../types/types";
 import { Alert, CircularProgress } from "@mui/material";
 
 const Message: React.FC = () => {
@@ -33,7 +33,7 @@ const Message: React.FC = () => {
     let socketInstance: Socket | null = null;
 
     const setupSocket = () => {
-      socketInstance = io("http://localhost:9595", {
+      socketInstance = io("https://instagram-api-88fv.onrender.com/", {
         query: { userId: user.username },
       });
 

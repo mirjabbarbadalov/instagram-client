@@ -1,7 +1,7 @@
 import { IoMdPersonAdd } from "react-icons/io";
 import { NavLink } from "react-router-dom";
-import Message from "../../components/Test/Messaging/Messaging";
-import Test from "../../components/Test/Test";
+import Message from "../../test/Messaging/Messaging";
+import Test from "../../test/Test";
 
 export default function More() {
   return (

@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { Action } from "redux";
-import { fetchAllUsers } from "../../store/slices/allUserSlice";
-import { State } from "../../types/types";
+import { fetchAllUsers } from "../store/slices/allUserSlice";
+import { State } from "../types/types";
 
 const UserList = () => {
   const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
