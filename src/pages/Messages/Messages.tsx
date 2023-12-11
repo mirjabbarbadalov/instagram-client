@@ -8,7 +8,7 @@ import { RootState } from "../../store/store";
 import { State } from "../../types/types";
 import { Alert, CircularProgress } from "@mui/material";
 
-const Message: React.FC = () => {
+const Messages: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [message, setMessage] = useState("");
   const [recipient, setRecipient] = useState("");
@@ -196,4 +196,4 @@ const Message: React.FC = () => {
   );
 };
 
-export default Message;
+export default Messages;

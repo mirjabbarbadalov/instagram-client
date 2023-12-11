@@ -109,7 +109,7 @@ const Profile: React.FC = () => {
             © 2023 Instagram Clone from The Company
           </p>
           <p className="text-center text-sm text-[#aeaeae]">
-            Created by: Ali Ramazanov, Mirjabbar Badalov, Azar Imranov
+            Created by: Ali Ramazanov & Mirjabbar Badalov
           </p>
         </div>
       </div>
