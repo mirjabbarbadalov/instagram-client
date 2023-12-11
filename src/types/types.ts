@@ -5,6 +5,7 @@ export interface PostData {
   title: string;
   postUrl: string;
   likes: string[];
+  comments: string[];
 }
 
 export interface Post {

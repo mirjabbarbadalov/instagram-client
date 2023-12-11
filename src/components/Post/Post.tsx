@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CiHeart, CiChat1, CiLocationArrow1, CiBookmark } from "react-icons/ci";
 import { RiHeartFill } from "react-icons/ri";
 import Cookies from "js-cookie";
-
+import ModalComponent from "./ModalComponent";
 import { PostData } from "../../types/types";
+
 interface PostProps {
   postData: PostData;
 }
@@ -14,19 +15,30 @@ function Post({ postData }: PostProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
   const [comment, setComment] = useState("");
-
   const [userId, setUserId] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const retrievedUserId = await getUserId();
+        setUserId(retrievedUserId);
+        if (postData.likes.includes(retrievedUserId)) {
+          setIsLiked(true);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    fetchData();
+  }, [postData]);
 
   function triggerLike(likes: number) {
-    if (!isLiked) {
-      setLikes(likes + 1);
-      setIsLiked(true);
-      likePostWithApi(userId);
-    } else {
-      setLikes(likes - 1);
-      setIsLiked(false);
-      likePostWithApi(userId);
-    }
+    const updatedLikes = isLiked ? likes - 1 : likes + 1;
+    setLikes(updatedLikes);
+    setIsLiked(!isLiked);
+    likePostWithApi(userId);
   }
 
   function triggerDoubleClick(likes: number) {
@@ -37,20 +49,6 @@ function Post({ postData }: PostProps) {
       likePostWithApi(userId);
     }
   }
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-
-    if (isDoubleClick) {
-      timer = setTimeout(() => {
-        setIsDoubleClick(false);
-      }, 1000);
-    }
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isDoubleClick]);
 
   async function getUserId() {
     try {
@@ -66,7 +64,7 @@ function Post({ postData }: PostProps) {
         }
       );
       const response = await data.json();
-      const id = await response.id;
+      const id = response.id;
       return id;
     } catch (error) {
       console.error("Error fetching user info:", error);
@@ -118,21 +116,13 @@ function Post({ postData }: PostProps) {
     }
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const retrievedUserId = await getUserId();
-        setUserId(retrievedUserId);
-        if (postData.likes.includes(retrievedUserId)) {
-          setIsLiked(true);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-    fetchData();
-  }, [postData]);
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <div>
@@ -196,6 +186,19 @@ function Post({ postData }: PostProps) {
               </p>
             </div>
           </div>
+          {postData.comments.length > 0 && (
+            <div
+              className="ml-[10px] text-slate-700 cursor-pointer"
+              onClick={() => {
+                openModal();
+              }}
+            >
+              <p className="text-sm">
+                View all {postData.comments.length} comments
+              </p>
+            </div>
+          )}
+
           <div className="w-[95%] h-[30px] mx-auto">
             <input
               className="w-[90%]  text-sm outline-none text-black"
@@ -225,6 +228,15 @@ function Post({ postData }: PostProps) {
           </div>
         </div>
       </div>
+
+      <ModalComponent
+        showModal={showModal}
+        onClose={closeModal}
+        postData={postData}
+        isLiked={isLiked}
+        userId={userId}
+        triggerLike={triggerLike}
+      />
     </div>
   );
 }
