@@ -96,11 +96,11 @@ export default function Sidebar() {
         <p>Messages</p>
       </NavLink>
       <NavLink
-        className={`flex items-center gap-3 p-3 mr-4${
+        className={`flex items-center gap-3 p-3 mr-4 ${
           isNavLinkActive("/notifications")
             ? "text-black-500 font-bold !important"
             : ""
-        }hover:bg-[#f2f2f2] hover:rounded-md `}
+        } hover:bg-[#f2f2f2] hover:rounded-md `}
         to={"/notifications"}
       >
         <div className="text-[28px]">
