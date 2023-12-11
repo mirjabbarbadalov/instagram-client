@@ -24,7 +24,7 @@ const ModalComponent = ({
   const [comment, setComment] = useState("");
   const initialLikes = postData.likes.length;
   const [likes, setLikes] = useState(initialLikes);
-
+  console.log(setLikes);
   async function addCommentToPost(
     userId: string | null,
     comment: string | null
@@ -48,7 +48,6 @@ const ModalComponent = ({
       console.error("Error fetching user info:", error);
     }
   }
-
   return (
     <div
       className={`fixed inset-0 flex justify-center items-center z-10 ${

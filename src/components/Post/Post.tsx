@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { CiHeart, CiChat1, CiLocationArrow1, CiBookmark } from "react-icons/ci";
-import { RiHeartFill } from "react-icons/ri";
 import Cookies from "js-cookie";
-import ModalComponent from "./ModalComponent";
+import { useEffect, useState } from "react";
+import { CiBookmark, CiChat1, CiHeart, CiLocationArrow1 } from "react-icons/ci";
+import { RiHeartFill } from "react-icons/ri";
 import { PostData } from "../../types/types";
+import ModalComponent from "./ModalComponent";
 
 interface PostProps {
   postData: PostData;
