@@ -127,8 +127,8 @@ function Post({ postData }: PostProps) {
   return (
     <div>
       <div className="relative">
-        <div className="bg-white border rounded-sm max-w-md">
-          <div className="flex items-center px-4 py-3">
+        <div className="bg-white border-b rounded-sm max-w-md">
+          <div className="flex items-center px-1 py-3">
             <img
               alt="post"
               className="h-8 w-8 rounded-full"
@@ -151,12 +151,11 @@ function Post({ postData }: PostProps) {
             }}
           />
           {isDoubleClick && (
-            <div className="select-none absolute top-[30%] left-[13%] flex items-center justify-center text-[100px] animate-fly-away">
+            <div className="select-none absolute top-[25%] left-[35%] flex items-center justify-center text-[100px] animate-fly-away">
               ❤️
             </div>
           )}
-          <div className="mx-4 font-semibold">{postData.title}</div>
-          <div className="flex items-center justify-between mx-4 mb-2">
+          <div className="flex items-center justify-between my-2">
             <div className="flex gap-5">
               <p
                 className="text-[32px] cursor-pointer"
@@ -186,22 +185,23 @@ function Post({ postData }: PostProps) {
               </p>
             </div>
           </div>
+          <div className="font-semibold px-1">{postData.title}</div>
           {postData.comments.length > 0 && (
             <div
-              className="ml-[10px] text-slate-700 cursor-pointer"
+              className=" text-slate-700 cursor-pointer"
               onClick={() => {
                 openModal();
               }}
             >
-              <p className="text-sm">
+              <p className="text-sm px-1">
                 View all {postData.comments.length} comments
               </p>
             </div>
           )}
 
-          <div className="w-[95%] h-[30px] mx-auto">
+          <div className="w-[95%] h-[30px] mx-1">
             <input
-              className="w-[90%]  text-sm outline-none text-black"
+              className="w-[100%] text-sm outline-none text-black"
               type="text"
               name="comment"
               id="comment"
@@ -213,6 +213,7 @@ function Post({ postData }: PostProps) {
             />
             {comment && (
               <button
+                type="button"
                 className="text-sm font-bold text-[#0095f6]"
                 onClick={() => {
                   addCommentToPost(userId, comment);
@@ -223,7 +224,7 @@ function Post({ postData }: PostProps) {
               </button>
             )}
           </div>
-          <div className="font-semibold text-sm mx-4 mt-2 mb-4">
+          <div className="font-semibold text-sm mx-1 mt-0 mb-4">
             {likes} likes
           </div>
         </div>

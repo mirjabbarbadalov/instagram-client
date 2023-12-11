@@ -36,7 +36,8 @@ export default function Suggestions() {
 
   return (
     <div>
-      <div className="w-[300px] max-h-[200px] overflow-auto border border-gray-300 rounded-sm p-1 flex flex-col gap-1">
+      <p className="ml-[6px] mb-3 text-sm sticky">Suggested for you:</p>
+      <div className="w-[300px] max-h-[200px] overflow-auto  p-3 border-l flex flex-col gap-1">
         {allUsers && allUsers.length > 0 ? (
           allUsers.map((user, index) => (
             <div

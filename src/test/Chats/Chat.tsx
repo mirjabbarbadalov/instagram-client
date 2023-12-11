@@ -1,5 +1,5 @@
 import { Directs } from "./Directs";
-import { Message } from "./Message";
+import { ChatButton } from "./ChatButton";
 
 export const Chat = () => {
   return (
@@ -8,7 +8,7 @@ export const Chat = () => {
         <Directs />
       </div>
       <div>
-        <Message />
+        <ChatButton />
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ function UserMenu() {
   };
 
   return (
-    <div className="user-menu-container relative mt-3 mb-7 m-8 cursor-pointer">
+    <div className="relative mt-3 mb-7 mr-10 cursor-pointer">
       <div className="user-menu flex justify-start">
         <button
           type="button"

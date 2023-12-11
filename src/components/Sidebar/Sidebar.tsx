@@ -26,7 +26,7 @@ export default function Sidebar() {
 
   return (
     <div className="flex flex-col justify-evenly min-w-[200px] ml-5 max-h-[60vh] sticky top-0 border-r min-h-screen">
-      <NavLink className="flex items-center gap-3 mt-10 mb-3 ml-3" to={"/feed"}>
+      <NavLink className="flex items-center gap-3 mt-10 mb-4 ml-3" to={"/feed"}>
         <img
           src={logo as unknown as string}
           alt="Instagram Logo"

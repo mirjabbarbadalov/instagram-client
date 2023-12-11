@@ -47,8 +47,8 @@ const Profile: React.FC = () => {
     }
     console.log(user.posts);
     return (
-      <div className="flex flex-col">
-        <div className="flex items-center justify-center mt-10 gap-10">
+      <div className="flex flex-col items-center ">
+        <div className="flex mt-10 gap-10">
           <div className="profile-photo-container">
             {user.profilePhoto !== null ? (
               <img
@@ -116,9 +116,7 @@ const Profile: React.FC = () => {
     );
   };
 
-  return (
-    <div className="flex items-center justify-center">{renderContent()}</div>
-  );
+  return <div className="flex justify-center">{renderContent()}</div>;
 };
 
 export default Profile;

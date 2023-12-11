@@ -55,7 +55,7 @@ function AppContent() {
   };
 
   return (
-    <div className="flex gap-[200px]">
+    <div className="flex gap-[150px]">
       {shouldShowSidebar() && <Sidebar />}
       <Routes>
         <Route path="/login" element={<Login />} />

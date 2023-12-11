@@ -1,4 +1,4 @@
-export const Message = () => {
+export const ChatButton = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-3 select-none">
       <div className="w-[150px]">

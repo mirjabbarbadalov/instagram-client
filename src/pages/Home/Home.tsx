@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="w-[100vw]">
       {/* Top Part - Interactions */}
-      <div className="flex items-center justify-between w-[100%] border-b">
+      <div className="flex items-center justify-between min-w-screen">
         <div className="flex items-center justify-center">
           <Search />
           <PostModal />
