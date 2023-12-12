@@ -37,6 +37,7 @@ const initialState: FriendSlice = {
     email: "email@gmail.com",
     profilePhoto: "base64 string",
     id: "",
+    _id: "",
     posts: [],
     followers: [],
     following: [],
@@ -70,6 +71,7 @@ export const friendSlice = createSlice({
               action.payload?.followers || initialState.friend.followers,
             following:
               action.payload?.following || initialState.friend.following,
+            _id: action.payload?._id || initialState.friend._id,
           };
         }
       )

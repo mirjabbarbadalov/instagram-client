@@ -39,6 +39,7 @@ const initialState: ProfileState = {
     posts: [],
     followers: [],
     following: [],
+    _id: "",
   },
   status: "idle",
   error: "error",
@@ -67,6 +68,7 @@ export const profileSlice = createSlice({
             posts: action.payload?.posts || initialState.user.posts,
             followers: action.payload?.followers || initialState.user.followers,
             following: action.payload?.following || initialState.user.following,
+            _id: action.payload?._id || initialState.user._id,
           };
         }
       )
