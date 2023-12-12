@@ -87,7 +87,7 @@ const Friend: React.FC = () => {
         body: JSON.stringify({ username, usernameToFollow }),
       });
     }
-    async function unFollowUser(username: string, usernameToFollow: string) {
+    async function unFollowUser(username: string, usernameToUnfollow: string) {
       await fetch("https://instagram-api-88fv.onrender.com/users/unfollow", {
         method: "POST",
         mode: "cors",
@@ -95,14 +95,16 @@ const Friend: React.FC = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
-        body: JSON.stringify({ username, usernameToFollow }),
+        body: JSON.stringify({ username, usernameToUnfollow }),
       });
     }
-    function triggerFollow() {
+    async function triggerFollow() {
       if (username && friend.username && followed) {
-        unFollowUser(username, friend.username);
+        await unFollowUser(username, friend.username);
+        setFollowed(false);
       } else if (username && friend.username) {
-        followUser(username, friend.username);
+        await followUser(username, friend.username);
+        setFollowed(true);
       }
     }
 
