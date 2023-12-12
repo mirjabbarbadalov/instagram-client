@@ -6,12 +6,15 @@ import io, { Socket } from "socket.io-client";
 import { fetchProfileDetails } from "../../store/slices/profileSlice";
 import { RootState } from "../../store/store";
 import { State } from "../../types/types";
-import { Alert, CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Directs } from "./Directs";
 
 const Messages: React.FC = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
+
   const [message, setMessage] = useState("");
-  const [recipient, setRecipient] = useState("");
+
   const [connectedUserId, setConnectedUserId] = useState<string | null>(() => {
     const storedUserId = localStorage.getItem("userId");
     return storedUserId || null;
@@ -21,6 +24,8 @@ const Messages: React.FC = () => {
   >([]);
 
   const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
+  const { chatter } = useParams();
+
   const { user, status, error } = useSelector(
     (state: RootState) => state.profile
   );
@@ -57,7 +62,7 @@ const Messages: React.FC = () => {
       );
 
       socketInstance.on("disconnect", () => {
-        console.log(user._id, " user.id");
+        console.log(user.id, " user.id");
         console.log(`User disconnected`);
         setSocket(null);
         setConnectedUserId(null);
@@ -74,16 +79,16 @@ const Messages: React.FC = () => {
   }, [status, user]);
 
   const handleSendMessage = () => {
-    if (socket && recipient && message) {
+    if (socket && chatter && message) {
       if (socket.connected) {
         socket.emit("private_message", {
-          to: recipient,
+          to: chatter,
           message,
         });
 
         setChatMessages((prevMessages) => [
           ...prevMessages,
-          { sender: "You", message: `to ${recipient}: ${message}` },
+          { sender: "You", message: `to ${chatter}: ${message}` },
         ]);
 
         setMessage("");
@@ -93,13 +98,7 @@ const Messages: React.FC = () => {
     }
   };
 
-  if (status === "loading") {
-    return (
-      <div className="flex items-center justify-center ml-[50px] mb-[100px]">
-        <CircularProgress size={70} />
-      </div>
-    );
-  }
+  console.log(connectedUserId);
 
   if (status === "failed") {
     return (
@@ -110,87 +109,65 @@ const Messages: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
-        <h1 className="text-2xl font-bold mb-4">Direct Messages</h1>
-        <div>
-          <p className="flex items-center justify-center mb-5">
-            Your chat history:
-          </p>
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <div className="space-y-2">
-              {chatMessages.map((chatMessage, index) => {
-                const isSentMessage = chatMessage.sender === "You";
-                const content = isSentMessage
-                  ? chatMessage.message.replace(/^to \w+: /, "")
-                  : chatMessage.message;
-
-                return (
+    <div className="flex">
+      <div className="border-r p-8 mt-8">
+        <Directs />
+      </div>
+      <div className="flex flex-col h-screen w-[800px] ml-10">
+        <h1 className="text-3xl font-bold mb-4 mt-8">Chat with {chatter}</h1>
+        <div className="flex-1 overflow-y-auto bg-slate-100 p-4 rounded-lg rounded-b-none ">
+          <div className="space-y-2">
+            {chatMessages.map((chatMessage, index) => {
+              const isSentMessage = chatMessage.sender === "You";
+              const content = isSentMessage
+                ? chatMessage.message.replace(/^to \w+: /, "")
+                : chatMessage.message;
+              return (
+                <div
+                  key={index}
+                  className={`flex items-center ${
+                    isSentMessage ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  {!isSentMessage && (
+                    <div
+                      className={`rounded-full bg-${
+                        isSentMessage ? "blue-500" : "gray-300"
+                      } w-[20px] h-[20px] ml-2 mr-2`}
+                    ></div>
+                  )}
                   <div
-                    key={index}
-                    className={`flex items-center ${
-                      isSentMessage ? "justify-end" : "justify-start"
+                    className={`py-3 px-6 rounded-3xl ${
+                      isSentMessage
+                        ? "bg-blue-500 text-white ml-2"
+                        : "bg-gray-300 text-black mr-2"
                     }`}
                   >
-                    {!isSentMessage && (
-                      <div
-                        className={`rounded-full bg-${
-                          isSentMessage ? "blue-500" : "gray-300"
-                        } w-[20px] h-[20px] ml-2 mr-2`}
-                      ></div>
-                    )}
-                    <div
-                      className={`p-3 rounded-lg ${
-                        isSentMessage
-                          ? "bg-blue-500 text-white ml-2"
-                          : "bg-gray-300 text-black mr-2"
-                      }`}
-                    >
-                      <div>{`Message ${content}`}</div>
-                    </div>
+                    <div>{`${content}`}</div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-1">Message:</label>
+        <form className="flex items-center mb-4">
           <textarea
             aria-label="Socket"
-            className="w-full px-3 py-2 border rounded resize-none"
-            rows={3}
+            className="w-full p-4 bg-slate-100 border-t-4 border-blue-200 rounded-lg rounded-t-none rounded-r-none resize-none"
+            rows={1}
+            placeholder="Send message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-1">
-            Recipient Socket ID:
-          </label>
-          <input
-            aria-label="Socket"
-            className="w-full px-3 py-2 border rounded"
-            type="text"
-            value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
-          />
-        </div>
-        {connectedUserId ? (
-          <p className="text-xl font-bold mb-2">
-            Your User ID: {connectedUserId}
-          </p>
-        ) : (
-          <p className="text-xl font-bold mb-2">Connecting to the server...</p>
-        )}
-        <button
-          type="button"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ml-2"
-          onClick={handleSendMessage}
-          disabled={!socket}
-        >
-          Send Message
-        </button>
+          <button
+            type="button"
+            className="bg-blue-500 text-white p-4 border-blue-200 border-t-4  rounded-lg rounded-t-none rounded-l-none hover:bg-blue-600"
+            onClick={handleSendMessage}
+            disabled={!socket}
+          >
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );

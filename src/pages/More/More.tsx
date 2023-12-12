@@ -1,7 +1,6 @@
 import { IoMdPersonAdd } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import Test from "../../test/Test";
-import { Chat } from "../../test/Chats/Chat";
 
 export default function More() {
   return (
@@ -11,7 +10,6 @@ export default function More() {
         Register
       </NavLink>
       <Test />
-      <Chat />
     </div>
   );
 }

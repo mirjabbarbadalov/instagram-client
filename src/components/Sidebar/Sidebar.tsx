@@ -22,7 +22,20 @@ export default function Sidebar() {
   }, [dispatch]);
   const location = useLocation();
 
-  const isNavLinkActive = (path: string) => location.pathname === path;
+  const isNavLinkActive = (paths: string[]) => {
+    return paths.some((path) => {
+      const pathSegments = path.split("/").filter(Boolean);
+      const locationSegments = location.pathname.split("/").filter(Boolean);
+
+      if (pathSegments.length !== locationSegments.length) {
+        return false;
+      }
+
+      return pathSegments.every((segment, index) => {
+        return segment === "*" || segment === locationSegments[index];
+      });
+    });
+  };
 
   return (
     <div className="flex flex-col justify-evenly min-w-[200px] ml-5 max-h-[60vh] sticky top-0 border-r min-h-screen">
@@ -36,12 +49,12 @@ export default function Sidebar() {
 
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive("/feed") ? "text-black-500 font-bold" : ""
+          isNavLinkActive(["/feed"]) ? "text-black-500 font-bold" : ""
         } hover:bg-[#f2f2f2] hover:rounded-md `}
         to="/feed"
       >
         <div className="text-[28px] ">
-          {isNavLinkActive("/feed") ? (
+          {isNavLinkActive(["/feed"]) ? (
             <GoHomeFill
               className={"transform hover:scale-110 transition-transform"}
             />
@@ -55,14 +68,14 @@ export default function Sidebar() {
       </NavLink>
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive("/favourites")
+          isNavLinkActive(["/favourites"])
             ? "text-black-500 font-bold !important"
             : ""
         }hover:bg-[#f2f2f2] hover:rounded-md `}
         to={"/favourites"}
       >
         <div className="text-[28px]">
-          {isNavLinkActive("/favourites") ? (
+          {isNavLinkActive(["/favourites"]) ? (
             <BsBookmarkHeartFill
               className={"transform hover:scale-110 transition-transform"}
             />
@@ -76,14 +89,14 @@ export default function Sidebar() {
       </NavLink>
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive("/messages")
+          isNavLinkActive(["/messages", "/chats", "/chats/*"])
             ? "text-black-500 font-bold !important"
             : ""
         } hover:bg-[#f2f2f2] hover:rounded-md `}
         to={"/messages"}
       >
         <div className="text-[28px]">
-          {isNavLinkActive("/messages") ? (
+          {isNavLinkActive(["/messages", "/chats", "/chats/:*"]) ? (
             <HiPaperAirplane
               className={"transform hover:scale-110 transition-transform"}
             />
@@ -97,14 +110,14 @@ export default function Sidebar() {
       </NavLink>
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive("/notifications")
+          isNavLinkActive(["/notifications"])
             ? "text-black-500 font-bold !important"
             : ""
         } hover:bg-[#f2f2f2] hover:rounded-md `}
         to={"/notifications"}
       >
         <div className="text-[28px]">
-          {isNavLinkActive("/notifications") ? (
+          {isNavLinkActive(["/notifications"]) ? (
             <IoMdNotifications
               className={"transform hover:scale-110 transition-transform"}
             />
@@ -118,7 +131,7 @@ export default function Sidebar() {
       </NavLink>
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive("/profile")
+          isNavLinkActive(["/profile"])
             ? "text-black-500 font-bold !important"
             : ""
         }hover:bg-[#f2f2f2] hover:rounded-md `}
@@ -135,12 +148,14 @@ export default function Sidebar() {
       </NavLink>
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive("/more") ? "text-black-500 font-bold !important" : ""
+          isNavLinkActive(["/more"])
+            ? "text-black-500 font-bold !important"
+            : ""
         }hover:bg-[#f2f2f2] hover:rounded-md `}
         to={"/more"}
       >
         <div className="text-[28px]">
-          {isNavLinkActive("/more") ? (
+          {isNavLinkActive(["/more"]) ? (
             <RiStackFill
               className={"transform hover:scale-110 transition-transform"}
             />

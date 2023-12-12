@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
-import { Provider } from "react-redux";
 import { useEffect } from "react";
+import { Provider } from "react-redux";
 import {
   BrowserRouter,
   Navigate,
@@ -19,6 +19,7 @@ import Notifications from "./pages/Notifications/Notifications";
 import EditProfile from "./pages/Profile/EditProfile";
 import Profile from "./pages/Profile/Profile";
 import store from "./store/store";
+import { Chat } from "./pages/Messages/Chat";
 
 function App() {
   return (
@@ -55,7 +56,7 @@ function AppContent() {
   };
 
   return (
-    <div className="flex gap-[150px]">
+    <div className="flex gap-[30px]">
       {shouldShowSidebar() && <Sidebar />}
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -63,12 +64,13 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/feed" element={<Home />} />
         <Route path="/favourites" element={<Favourites />} />
-        <Route path="/messages" element={<Messages />} />
+        <Route path="/messages" element={<Chat />} />
+        <Route path="/chats/:chatter" element={<Messages />} />
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/profile/:username" element={<Profile />} />
-        <Route path="/more" element={<More />} />
+        <Route path="/more/*" element={<More />} />
       </Routes>
     </div>
   );
