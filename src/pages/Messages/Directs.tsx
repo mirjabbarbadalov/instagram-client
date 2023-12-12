@@ -8,8 +8,10 @@ import { fetchAllUsers } from "../../store/slices/allUserSlice";
 import { RootState } from "../../store/store";
 
 interface User {
+  profilePhoto: string;
   id: string;
   username: string;
+  following?: string[];
 }
 
 export const Directs = () => {
@@ -17,10 +19,8 @@ export const Directs = () => {
   const { user } = useSelector((state: RootState) => state.profile);
 
   const follow: User[] = user.following;
-  console.log(follow);
-
   const chatters: (string | undefined)[] = follow.map((user) => user?.username);
-  console.log(chatters);
+  const profilePhoto = follow.map((user) => user.profilePhoto);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +42,14 @@ export const Directs = () => {
           to={`/chats/${chatter}`}
           className="block py-2 text-blue-500 hover:underline"
         >
-          {chatter}
+          <div>
+            <img
+              src={`data:image/jpeg;base64,${profilePhoto[index]}`}
+              alt="Profile Photo"
+              className="rounded-full w-[30px] h-[30px] object-cover"
+            />
+            {chatter}
+          </div>
         </NavLink>
       ))}
     </div>

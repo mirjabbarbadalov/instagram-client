@@ -5,7 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import io, { Socket } from "socket.io-client";
 import { fetchProfileDetails } from "../../store/slices/profileSlice";
 import { RootState } from "../../store/store";
-import { State } from "../../types/types";
+import { State, User } from "../../types/types";
 import { Alert } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { Directs } from "./Directs";
@@ -29,6 +29,15 @@ const Messages: React.FC = () => {
   const { user, status, error } = useSelector(
     (state: RootState) => state.profile
   );
+
+  const follow: User[] = user.following;
+  const chatterProfile = follow.find(
+    (follower) => follower.username === chatter
+  );
+
+  console.log(follow);
+
+  const profilePhoto = chatterProfile?.profilePhoto || "";
 
   useEffect(() => {
     dispatch(fetchProfileDetails());
@@ -114,7 +123,16 @@ const Messages: React.FC = () => {
         <Directs />
       </div>
       <div className="flex flex-col h-screen w-[800px] ml-10">
-        <h1 className="text-3xl font-bold mb-4 mt-8">Chat with {chatter}</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-bold mb-4 mt-8">Chat with {chatter}</h1>
+          <div>
+            <img
+              src={`data:image/jpeg;base64,${profilePhoto}`}
+              alt="Profile Photo"
+              className="rounded-full w-[30px] h-[30px] object-cover mt-5"
+            />
+          </div>
+        </div>
         <div className="flex-1 overflow-y-auto bg-slate-100 p-4 rounded-lg rounded-b-none ">
           <div className="space-y-2">
             {chatMessages.map((chatMessage, index) => {
@@ -130,11 +148,13 @@ const Messages: React.FC = () => {
                   }`}
                 >
                   {!isSentMessage && (
-                    <div
-                      className={`rounded-full bg-${
-                        isSentMessage ? "blue-500" : "gray-300"
-                      } w-[20px] h-[20px] ml-2 mr-2`}
-                    ></div>
+                    <div>
+                      <img
+                        src={`data:image/jpeg;base64,${profilePhoto}`}
+                        alt="Profile Photo"
+                        className="rounded-full w-[30px] h-[30px] object-cover mr-3"
+                      />
+                    </div>
                   )}
                   <div
                     className={`py-3 px-6 rounded-3xl ${
