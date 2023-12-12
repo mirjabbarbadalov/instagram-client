@@ -2,7 +2,7 @@ export const ChatButton = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-3 select-none">
       <div className="w-[150px]">
-        <img src="../../../public/images/messages.png" alt="" />
+        <img src="/images/messages.png" alt="" />
       </div>
       <p>Your messages</p>
       <p className="text-zinc-400">
