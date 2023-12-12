@@ -22,9 +22,11 @@ interface Friend {
 
 const Friend: React.FC = () => {
   const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
+
   const currentId = useSelector((state: RootState) => {
     return state.profile.user.id;
   });
+
   const username = useSelector((state: RootState) => {
     return state.profile.user.username;
   });
@@ -48,8 +50,8 @@ const Friend: React.FC = () => {
   console.log(currentId);
 
   useEffect(() => {
-    console.log("Friend:", friend); // Check the structure of friend object
-    console.log("Current ID:", currentId); // Verify the value of currentId
+    console.log("Friend:", friend);
+    console.log("Current ID:", currentId);
 
     if (friend && friend.followers && currentId) {
       if (friend.followers.includes(currentId)) {
