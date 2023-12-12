@@ -35,5 +35,7 @@ export interface State {
 
 export interface Comment {
   comment: string;
-  user: string;
+  user: {
+    username: string;
+  };
 }
