@@ -37,7 +37,7 @@ export default function Search() {
   };
 
   return (
-    <div>
+    <div className="z-50">
       <button
         type="button"
         onClick={() => setIsSearchOpen(true)}

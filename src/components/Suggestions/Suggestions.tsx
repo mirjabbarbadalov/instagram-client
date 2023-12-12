@@ -66,8 +66,8 @@ export default function Suggestions() {
   console.log("ALLL USERS", allUsers);
 
   return (
-    <div>
-      <p className="ml-[6px] mb-3 text-sm sticky">Suggested for you:</p>
+    <div className="z-0">
+      <p className="ml-[6px] mb-3 text-sm">Suggested for you:</p>
       <div className="w-[300px] max-h-[200px] overflow-auto p-3 border-l flex flex-col gap-1">
         {allUsers && allUsers.length > 0 ? (
           allUsers.map((user, index) => (

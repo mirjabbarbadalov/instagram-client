@@ -143,7 +143,7 @@ function Post({ postData }: PostProps) {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="relative">
         <div className="bg-white border-b rounded-sm max-w-md">
           <div className="flex items-center px-1 py-3">
@@ -189,7 +189,12 @@ function Post({ postData }: PostProps) {
                   <CiHeart />
                 )}
               </p>
-              <p className="text-[32px] cursor-pointer">
+              <p
+                className="text-[32px] cursor-pointer"
+                onClick={() => {
+                  openModal();
+                }}
+              >
                 <CiChat1 />
               </p>
 

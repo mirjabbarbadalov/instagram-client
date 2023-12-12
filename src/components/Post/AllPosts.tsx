@@ -56,7 +56,7 @@ function AllPosts() {
   }, [userId]);
 
   return (
-    <div className="flex flex-col gap-5 py-6">
+    <div className="flex flex-col gap-5 py-6 z-0">
       {allPosts.map((post) => (
         <Post key={post.title} postData={post} />
       ))}

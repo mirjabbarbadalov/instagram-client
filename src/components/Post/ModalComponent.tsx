@@ -60,7 +60,7 @@ const ModalComponent = ({
       }}
     >
       <div
-        className="bg-white w-full max-w-3xl mx-4 md:mx-auto rounded-lg overflow-hidden shadow-lg flex h-[500px] relative"
+        className="bg-white w-full max-w-3xl mx-4 md:mx-auto rounded-lg overflow-hidden shadow-lg flex h-[500px] relative z-10"
         onClick={(event) => {
           event.stopPropagation();
         }}

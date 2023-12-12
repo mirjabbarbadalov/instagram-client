@@ -66,6 +66,7 @@ export default function Sidebar() {
         </div>
         <p>Home</p>
       </NavLink>
+
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
           isNavLinkActive(["/favourites"])
