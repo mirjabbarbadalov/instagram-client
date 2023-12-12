@@ -19,7 +19,6 @@ const fetchProfileDetails: AsyncThunk<User, void, object> = createAsyncThunk(
         },
       }
     );
-    console.log(response.data);
     return response.data;
   }
 );
@@ -36,7 +35,7 @@ const initialState: ProfileState = {
     fullName: "Full Name",
     email: "email@gmail.com",
     profilePhoto: "base64 string",
-    _id: "",
+    id: "",
     posts: [],
     followers: [],
     following: [],
@@ -59,7 +58,7 @@ export const profileSlice = createSlice({
         (state, action: PayloadAction<User>) => {
           state.status = "succeeded";
           state.user = {
-            _id: action.payload?._id || initialState.user._id,
+            id: action.payload?.id || initialState.user.id,
             username: action.payload?.username || initialState.user.username,
             fullName: action.payload?.fullName || initialState.user.fullName,
             email: action.payload?.email || initialState.user.email,

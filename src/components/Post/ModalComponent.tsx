@@ -24,7 +24,7 @@ const ModalComponent = ({
   const [comment, setComment] = useState("");
   const initialLikes = postData.likes.length;
   const [likes, setLikes] = useState(initialLikes);
-  console.log(setLikes);
+
   async function addCommentToPost(
     userId: string | null,
     comment: string | null
@@ -51,10 +51,20 @@ const ModalComponent = ({
   return (
     <div
       className={`fixed inset-0 flex justify-center items-center z-10 ${
-        showModal ? "opacity-100 " : "opacity-0 pointer-events-none"
+        showModal
+          ? "bg-black bg-opacity-60 opacity-100 "
+          : "opacity-0 pointer-events-none"
       }`}
+      onClick={() => {
+        showModal && onClose();
+      }}
     >
-      <div className="bg-white w-full max-w-3xl mx-4 md:mx-auto rounded-lg overflow-hidden shadow-lg flex h-[500px]">
+      <div
+        className="bg-white w-full max-w-3xl mx-4 md:mx-auto rounded-lg overflow-hidden shadow-lg flex h-[500px] relative"
+        onClick={(event) => {
+          event.stopPropagation();
+        }}
+      >
         <div className="w-[700px]">
           <img
             src={postData.postUrl}
@@ -75,7 +85,7 @@ const ModalComponent = ({
             )
           )}
 
-          <div className="absolute bottom-20">
+          <div className="absolute bottom-2">
             <div className=" w-[300px] justify-end  ">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex gap-3">
@@ -107,7 +117,7 @@ const ModalComponent = ({
                 </div>
               </div>
             </div>
-            <div className="w-[300px] h-[30px] mx-auto ">
+            <div className="w-[300px] h-[30px] mx-auto  ">
               <input
                 className="w-[90%]  text-sm outline-none text-black"
                 type="text"

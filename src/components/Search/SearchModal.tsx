@@ -89,7 +89,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ usernames, onSearch }) => {
                 {filteredUsernames.map((username) => (
                   <li key={username} className="mb-2">
                     <NavLink
-                      to={"/friend"}
+                      to={`/friend/${username}`}
                       onMouseEnter={() => fetchUserDetails(username)}
                       state={{ userDetails }}
                       className="block p-2 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none"
