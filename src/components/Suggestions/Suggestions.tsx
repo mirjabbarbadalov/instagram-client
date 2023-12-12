@@ -63,8 +63,6 @@ export default function Suggestions() {
     getAllUsers();
   }, []);
 
-  console.log("ALLL USERS", allUsers);
-
   return (
     <div className="z-0">
       <p className="ml-[6px] mb-3 text-sm">Suggested for you:</p>

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import Post from "./Post";
-import { PostData } from "../../types/types";
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { PostData } from "../../types/types";
+import Post from "./Post";
 
 function AllPosts() {
   const [userId, setUserId] = useState<string | null>(null);
@@ -21,6 +21,7 @@ function AllPosts() {
         }
       );
       const response = await data.json();
+
       const id = await response.id;
       setUserId(id);
     } catch (error) {
@@ -30,16 +31,20 @@ function AllPosts() {
 
   async function getAllPosts() {
     try {
-      if (userId) {
-        const data = await fetch(
-          "https://instagram-api-88fv.onrender.com/api/posts"
-        );
-        const response = await data.json();
-        const filteredPosts = response.filter(
-          (post: { user: string }) => post.user !== userId
-        );
-        setAllPosts(filteredPosts);
-      }
+      const data = await fetch(
+        "https://instagram-api-88fv.onrender.com/api/posts"
+      );
+      console.log(1);
+      const response = await data.json();
+      console.log(response);
+      console.log(response[0]?.user?._id);
+      const filteredPosts = response.filter(
+        (post: { user: { _id: string | null } }) => {
+          return post.user._id !== userId;
+        }
+      );
+      setAllPosts(filteredPosts);
+      console.log(filteredPosts);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -56,7 +61,7 @@ function AllPosts() {
   }, [userId]);
 
   return (
-    <div className="flex flex-col gap-5 py-6 z-0">
+    <div className="flex flex-col gap-5 py-6">
       {allPosts.map((post) => (
         <Post key={post.title} postData={post} />
       ))}

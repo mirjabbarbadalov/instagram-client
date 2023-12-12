@@ -24,6 +24,11 @@ function Post({ postData }: PostProps) {
   const firstCommentBy = postData?.comments[0]?.user?.username;
   console.log("user", firstCommentBy);
 
+  console.log(postData);
+
+  const userName = postData?.user?.username;
+  const profilePhoto = postData?.user?.profilePhoto;
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -143,18 +148,18 @@ function Post({ postData }: PostProps) {
   };
 
   return (
-    <div className="">
+    <div className="z-10">
       <div className="relative">
         <div className="bg-white border-b rounded-sm max-w-md">
           <div className="flex items-center px-1 py-3">
             <img
-              alt="post"
-              className="h-8 w-8 rounded-full"
-              src="https://picsum.photos/id/1027/150/150"
+              src={`data:image/jpeg;base64,${profilePhoto}`}
+              alt="Profile Photo"
+              className="rounded-full w-[40px] h-[40px] object-cover"
             />
             <div className="ml-3 ">
               <span className="text-sm font-semibold antialiased block leading-tight">
-                8fact
+                {userName}
               </span>
               <span className="text-gray-600 text-xs block">
                 Asheville, North Carolina

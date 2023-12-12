@@ -6,6 +6,11 @@ export interface PostData {
   postUrl: string;
   likes: string[];
   comments: Comment[];
+  user: {
+    username: string;
+    _id: string;
+    profilePhoto: string;
+  };
 }
 
 export interface Post {
