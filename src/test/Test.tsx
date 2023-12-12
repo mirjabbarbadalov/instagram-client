@@ -35,7 +35,7 @@ const UserList = () => {
     <div className="w-[500px] bg-zinc-300 flex items-center justify-center">
       <ul>
         {users.map((user) => (
-          <li key={user._id}>{user.username}</li>
+          <li key={user.id}>{user.username}</li>
         ))}
       </ul>
     </div>
