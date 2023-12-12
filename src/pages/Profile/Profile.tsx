@@ -30,6 +30,8 @@ const Profile: React.FC = () => {
     dispatch(fetchProfileDetails());
   }, [dispatch]);
 
+  console.log(user.id);
+
   const renderContent = () => {
     if (status === "loading") {
       return (
@@ -45,7 +47,7 @@ const Profile: React.FC = () => {
         </div>
       );
     }
-    console.log(user.posts);
+
     return (
       <div className="flex flex-col items-center ">
         <div className="flex mt-10 gap-10">

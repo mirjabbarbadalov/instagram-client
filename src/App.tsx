@@ -19,6 +19,7 @@ import Notifications from "./pages/Notifications/Notifications";
 import EditProfile from "./pages/Profile/EditProfile";
 import Profile from "./pages/Profile/Profile";
 import store from "./store/store";
+import Friend from "./pages/Friend/Friend";
 import { Chat } from "./pages/Messages/Chat";
 
 function App() {
@@ -69,7 +70,7 @@ function AppContent() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/friend/:username" element={<Friend />} />
         <Route path="/more/*" element={<More />} />
       </Routes>
     </div>

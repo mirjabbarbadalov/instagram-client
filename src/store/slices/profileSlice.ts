@@ -19,7 +19,6 @@ const fetchProfileDetails: AsyncThunk<User, void, object> = createAsyncThunk(
         },
       }
     );
-    console.log(response.data);
     return response.data;
   }
 );

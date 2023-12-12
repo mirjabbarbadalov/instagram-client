@@ -1,11 +1,36 @@
 import { useEffect, useState } from "react";
 import { User } from "../../types/types";
+import { NavLink } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Suggestions() {
   const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  async function getUserId() {
+    try {
+      const data = await fetch(
+        "https://instagram-api-88fv.onrender.com/users/signedin",
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      const response = await data.json();
+      const id = await response.id;
+      setUserId(id);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
 
   async function getAllUsers() {
     try {
+      await getUserId();
       const response = await fetch(
         "https://instagram-api-88fv.onrender.com/users/all",
         {
@@ -24,7 +49,11 @@ export default function Suggestions() {
       }
 
       const data = await response.json();
-      setAllUsers(data.users);
+
+      const filteredUsers = data.users.filter(
+        (user: User) => user.id !== userId
+      );
+      setAllUsers(filteredUsers);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -37,16 +66,15 @@ export default function Suggestions() {
   return (
     <div>
       <p className="ml-[6px] mb-3 text-sm sticky">Suggested for you:</p>
-      <div className="w-[300px] max-h-[200px] overflow-auto  p-3 border-l flex flex-col gap-1">
+      <div className="w-[300px] max-h-[200px] overflow-auto p-3 border-l flex flex-col gap-1">
         {allUsers && allUsers.length > 0 ? (
           allUsers.map((user, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-2 cursor-pointer w-[100%]"
-            >
-              <div className="w-[40px] h-[40px] rounded-full bg-red-300 ml-3"></div>
-              <p>{user.username}</p>
-            </div>
+            <NavLink key={index} to={`/friend/${user.username}`}>
+              <div className="flex items-center gap-2 cursor-pointer w-[100%]">
+                <div className="w-[40px] h-[40px] rounded-full bg-red-300 ml-3"></div>
+                <p>{user.username}</p>
+              </div>
+            </NavLink>
           ))
         ) : (
           <p>Loading...</p>
