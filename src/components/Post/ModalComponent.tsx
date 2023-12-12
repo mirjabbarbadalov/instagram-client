@@ -24,6 +24,7 @@ const ModalComponent = ({
   const [comment, setComment] = useState("");
   const initialLikes = postData.likes.length;
   const [likes, setLikes] = useState(initialLikes);
+  console.log(setLikes);
 
   async function addCommentToPost(
     userId: string | null,

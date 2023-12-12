@@ -51,7 +51,7 @@ export default function Suggestions() {
       const data = await response.json();
 
       const filteredUsers = data.users.filter(
-        (user: User) => user._id !== userId
+        (user: User) => user.id !== userId
       );
       setAllUsers(filteredUsers);
     } catch (error) {
