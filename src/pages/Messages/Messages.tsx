@@ -33,7 +33,7 @@ const Messages: React.FC = () => {
     let socketInstance: Socket | null = null;
 
     const setupSocket = () => {
-      socketInstance = io("http://localhost:9595", {
+      socketInstance = io("https://instagram-api-88fv.onrender.com/", {
         query: { userId: user.username },
       });
 
