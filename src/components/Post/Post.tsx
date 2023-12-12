@@ -18,13 +18,8 @@ function Post({ postData }: PostProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  console.log(postData);
-
   const firstComment = postData?.comments[0]?.comment;
   const firstCommentBy = postData?.comments[0]?.user?.username;
-  console.log("user", firstCommentBy);
-
-  console.log(postData);
 
   const userName = postData?.user?.username;
   const profilePhoto = postData?.user?.profilePhoto;

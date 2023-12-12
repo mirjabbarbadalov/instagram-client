@@ -34,17 +34,14 @@ function AllPosts() {
       const data = await fetch(
         "https://instagram-api-88fv.onrender.com/api/posts"
       );
-      console.log(1);
       const response = await data.json();
-      console.log(response);
-      console.log(response[0]?.user?._id);
+
       const filteredPosts = response.filter(
         (post: { user: { _id: string | null } }) => {
           return post.user._id !== userId;
         }
       );
       setAllPosts(filteredPosts);
-      console.log(filteredPosts);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
