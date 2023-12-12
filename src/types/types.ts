@@ -21,8 +21,8 @@ export interface User {
   profilePhoto?: string;
   password?: string;
   posts: Post[];
-  followers: User[];
-  following: User[];
+  followers: string[];
+  following: string[];
 }
 
 export interface State {

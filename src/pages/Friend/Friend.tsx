@@ -43,14 +43,22 @@ const Friend: React.FC = () => {
     dispatch(FetchFriendDetails(desiredValue));
   }, [dispatch, desiredValue]);
 
+  console.log(friend);
+  console.log(friend.followers);
+  console.log(currentId);
+
   useEffect(() => {
+    console.log("Friend:", friend); // Check the structure of friend object
+    console.log("Current ID:", currentId); // Verify the value of currentId
+
     if (friend && friend.followers && currentId) {
-      const isFollowed = friend.followers.some(
-        (follower) => follower.id === currentId
-      );
-      setFollowed(isFollowed);
+      if (friend.followers.includes(currentId)) {
+        setFollowed(true);
+      }
     }
   }, [friend, currentId]);
+
+  console.log(followed);
 
   const renderContent = () => {
     if (status === "loading") {
