@@ -63,6 +63,8 @@ export default function Suggestions() {
     getAllUsers();
   }, []);
 
+  console.log("ALLL USERS", allUsers);
+
   return (
     <div>
       <p className="ml-[6px] mb-3 text-sm sticky">Suggested for you:</p>
@@ -71,7 +73,17 @@ export default function Suggestions() {
           allUsers.map((user, index) => (
             <NavLink key={index} to={`/friend/${user.username}`}>
               <div className="flex items-center gap-2 cursor-pointer w-[100%]">
-                <div className="w-[40px] h-[40px] rounded-full bg-red-300 ml-3"></div>
+                <div className="">
+                  {user.profilePhoto ? (
+                    <img
+                      className="rounded-full w-[40px] h-[40px] object-cover"
+                      src={`data:image/jpeg;base64,${user.profilePhoto}`}
+                      alt="profile photo"
+                    />
+                  ) : (
+                    <div className="rounded-full w-[40px] h-[40px] object-cover bg-slate-200"></div>
+                  )}
+                </div>
                 <p>{user.username}</p>
               </div>
             </NavLink>

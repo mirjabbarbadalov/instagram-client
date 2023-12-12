@@ -5,7 +5,7 @@ export interface PostData {
   title: string;
   postUrl: string;
   likes: string[];
-  comments: string[];
+  comments: Comment[];
 }
 
 export interface Post {
@@ -31,4 +31,9 @@ export interface State {
     loading: string;
     error: string;
   };
+}
+
+export interface Comment {
+  comment: string;
+  user: string;
 }

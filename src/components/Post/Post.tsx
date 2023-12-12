@@ -18,6 +18,12 @@ function Post({ postData }: PostProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
+  console.log(postData);
+
+  const firstComment = postData?.comments[0]?.comment;
+  const firstCommentBy = postData?.comments[0]?.user?.username;
+  console.log("user", firstCommentBy);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -49,6 +55,18 @@ function Post({ postData }: PostProps) {
       likePostWithApi(userId);
     }
   }
+
+  useEffect(() => {
+    if (isDoubleClick) {
+      const delay = 2000;
+
+      const timeout = setTimeout(() => {
+        setIsDoubleClick(false);
+      }, delay);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isDoubleClick]);
 
   async function getUserId() {
     try {
@@ -185,6 +203,7 @@ function Post({ postData }: PostProps) {
               </p>
             </div>
           </div>
+          <div className="font-semibold text-sm mx-1 mt-0">{likes} likes</div>
           <div className="font-semibold px-1">{postData.title}</div>
           {postData.comments.length > 0 && (
             <div
@@ -193,15 +212,19 @@ function Post({ postData }: PostProps) {
                 openModal();
               }}
             >
+              <div className="flex gap-2">
+                {<p className="text-sm ml-1">{firstCommentBy}:</p>}
+                {<p className=" text-sm">{firstComment}</p>}
+              </div>
               <p className="text-sm px-1">
                 View all {postData.comments.length} comments
               </p>
             </div>
           )}
 
-          <div className="w-[95%] h-[30px] mx-1">
+          <div className="w-[100%] h-[30px] mx-1 flex items-center justify-between">
             <input
-              className="w-[100%] text-sm outline-none text-black"
+              className="w-[90%] text-sm outline-none text-black"
               type="text"
               name="comment"
               id="comment"
@@ -214,7 +237,7 @@ function Post({ postData }: PostProps) {
             {comment && (
               <button
                 type="button"
-                className="text-sm font-bold text-[#0095f6]"
+                className="text-sm font-bold text-[#0095f6] mr-2"
                 onClick={() => {
                   addCommentToPost(userId, comment);
                   setComment("");
@@ -223,9 +246,6 @@ function Post({ postData }: PostProps) {
                 Post
               </button>
             )}
-          </div>
-          <div className="font-semibold text-sm mx-1 mt-0 mb-4">
-            {likes} likes
           </div>
         </div>
       </div>

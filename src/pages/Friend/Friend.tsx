@@ -18,6 +18,12 @@ interface Friend {
   posts: string;
   followers: [];
   following: [];
+  id: string;
+}
+
+interface Follower {
+  id: string;
+  username: string;
 }
 
 const Friend: React.FC = () => {
@@ -53,8 +59,12 @@ const Friend: React.FC = () => {
     console.log("Friend:", friend);
     console.log("Current ID:", currentId);
 
+    const friendsId: string[] = friend.followers.map(
+      (follower: Follower) => follower.id
+    );
+
     if (friend && friend.followers && currentId) {
-      if (friend.followers.includes(currentId)) {
+      if (friendsId.includes(currentId)) {
         setFollowed(true);
       }
     }
