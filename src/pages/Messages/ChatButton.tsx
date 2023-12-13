@@ -1,6 +1,6 @@
 export const ChatButton = () => {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 select-none">
+    <div className="flex flex-col items-center justify-center gap-3 select-none ml-36">
       <div className="w-[150px]">
         <img src="/images/messages.png" alt="" />
       </div>
