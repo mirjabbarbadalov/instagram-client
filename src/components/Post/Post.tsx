@@ -166,7 +166,7 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
       {isProfile || isFriend || isFavorite ? (
         <div
           key={postData.title}
-          className=" flex flex-row gap-8 text-white text-2xl opacity-100 w-[300px] h-[300px] relative cursor-pointer z-0"
+          className=" flex flex-row gap-8 text-white text-2xl opacity-100 w-[300px] h-[300px] relative cursor-pointer"
           onMouseOver={() => {
             handleMouseOver(postData._id);
           }}
