@@ -65,7 +65,7 @@ const AddPost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             const ctx = canvas.getContext("2d");
             if (ctx) {
               ctx.drawImage(img, 0, 0, width, height);
-              const resizedDataUrl = canvas.toDataURL("image/jpeg", 0.6);
+              const resizedDataUrl = canvas.toDataURL("image/jpeg", 0.8);
               resolve(resizedDataUrl);
             } else {
               reject(new Error("Canvas context is null."));
