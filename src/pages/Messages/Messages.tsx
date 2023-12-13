@@ -47,7 +47,7 @@ const Messages: React.FC = () => {
     let socketInstance: Socket | null = null;
 
     const setupSocket = () => {
-      socketInstance = io("https://instagram-api-88fv.onrender.com/", {
+      socketInstance = io("http://localhost:9595", {
         query: { userId: user.username },
       });
 
@@ -122,9 +122,11 @@ const Messages: React.FC = () => {
       <div className="border-r p-8 mt-8">
         <Directs />
       </div>
-      <div className="flex flex-col h-screen w-[800px] ml-10">
+      <div className="flex flex-col h-screen w-[600px] ml-28">
         <div className="flex items-center gap-3">
-          <h1 className="text-3xl font-bold mb-4 mt-8">Chat with {chatter}</h1>
+          <h1 className="text-3xl font-bold mb-4 mt-8 ml-2">
+            Chat with {chatter}
+          </h1>
           <div>
             <img
               src={`data:image/jpeg;base64,${profilePhoto}`}
@@ -133,7 +135,7 @@ const Messages: React.FC = () => {
             />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto bg-slate-100 p-4 rounded-lg rounded-b-none ">
+        <div className="flex-1 overflow-y-auto bg-slate-100 p-5 rounded-2xl rounded-b-none ">
           <div className="space-y-2">
             {chatMessages.map((chatMessage, index) => {
               const isSentMessage = chatMessage.sender === "You";
@@ -157,7 +159,7 @@ const Messages: React.FC = () => {
                     </div>
                   )}
                   <div
-                    className={`py-3 px-6 rounded-3xl ${
+                    className={`py-2 px-5 rounded-3xl ${
                       isSentMessage
                         ? "bg-blue-500 text-white ml-2"
                         : "bg-gray-300 text-black mr-2"
@@ -170,10 +172,10 @@ const Messages: React.FC = () => {
             })}
           </div>
         </div>
-        <form className="flex items-center mb-4">
+        <form className="flex items-center mb-4 mt-3">
           <textarea
             aria-label="Socket"
-            className="w-full p-4 bg-slate-100 border-t-4 border-blue-200 rounded-lg rounded-t-none rounded-r-none resize-none"
+            className="w-full p-4 bg-slate-100  border-blue-200 rounded-2xl rounded-t-none rounded-r-none resize-none outline-none"
             rows={1}
             placeholder="Send message"
             value={message}
@@ -181,7 +183,7 @@ const Messages: React.FC = () => {
           />
           <button
             type="button"
-            className="bg-blue-500 text-white p-4 border-blue-200 border-t-4  rounded-lg rounded-t-none rounded-l-none hover:bg-blue-600"
+            className="bg-gradient-to-r from-blue-300 to-blue-500 text-white p-4  rounded-2xl rounded-t-none rounded-l-none focus:outline-none hover:from-blue-300 hover:to-green-500"
             onClick={handleSendMessage}
             disabled={!socket}
           >
