@@ -186,7 +186,7 @@ const Friend: React.FC = () => {
           className="flex items-center justify-start gap-5 mt-5
         "
         >
-          <AllPosts isProfile={false} isFriend={true} />
+          <AllPosts isProfile={false} isFriend={true} isFavorite={false} />
         </div>
         <div className="mt-[30px] mb-[30px] self-center">
           <div className="posts"></div>

@@ -81,8 +81,10 @@ const ModalComponent = ({
               index: number
             ) => (
               <div className="mb-2 flex" key={index}>
-                <p className="font-medium">{data.user.username} </p>
-                <p className="text-gray-700 ml-2">{data.comment}</p>
+                <p className="font-medium text-black text-sm">
+                  {data.user.username}{" "}
+                </p>
+                <p className="text-gray-700 ml-2 text-sm">{data.comment}</p>
               </div>
             )
           )}

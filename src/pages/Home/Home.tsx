@@ -22,7 +22,7 @@ export default function Home() {
 
       {/* Main Feed - All Posts */}
       <div className="flex ">
-        <AllPosts isFriend={false} isProfile={false} />
+        <AllPosts isFriend={false} isProfile={false} isFavorite={false} />
         <div className="mt-[35px] ml-[250px]">
           <Suggestions />
         </div>
