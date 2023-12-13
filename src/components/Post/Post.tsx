@@ -11,9 +11,10 @@ interface PostProps {
   postData: PostData;
   isProfile: boolean;
   isFriend: boolean;
+  isFavorite: boolean;
 }
 
-function Post({ postData, isProfile, isFriend }: PostProps) {
+function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
   const initialLikes = postData.likes.length;
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
@@ -160,11 +161,9 @@ function Post({ postData, isProfile, isFriend }: PostProps) {
     setIsHover(false);
   };
 
-  console.log(postData);
-
   return (
     <>
-      {isProfile || isFriend ? (
+      {isProfile || isFriend || isFavorite ? (
         <div
           key={postData.title}
           className=" flex flex-row gap-8 text-white text-2xl opacity-100 w-[300px] h-[300px] relative cursor-pointer"
@@ -227,7 +226,7 @@ function Post({ postData, isProfile, isFriend }: PostProps) {
               </NavLink>
               <img
                 alt="post"
-                src={`data:image/jpeg;base64,${postData.postPhoto}`}
+                src={postData.postPhoto}
                 onDoubleClick={() => {
                   triggerDoubleClick(likes);
                 }}

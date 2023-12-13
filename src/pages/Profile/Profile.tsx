@@ -24,6 +24,7 @@ interface Profile {
 export interface AllPostsProps {
   isProfile: boolean;
   isFriend: boolean;
+  isFavorite: boolean;
 }
 
 const Profile: React.FC = () => {
@@ -115,7 +116,7 @@ const Profile: React.FC = () => {
           className="flex items-center justify-start gap-5 mt-5
         "
         >
-          <AllPosts isProfile={true} isFriend={false} />
+          <AllPosts isProfile={true} isFriend={false} isFavorite={false} />
         </div>
         <div className="mt-[30px] mb-[30px] self-center">
           <div className="posts"></div>

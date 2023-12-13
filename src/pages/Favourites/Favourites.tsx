@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Post from "../../components/Post/Post";
+import { RootState } from "../../store/store";
 import { PostData } from "../../types/types";
-import Cookies from "js-cookie";
 
 function Favourites() {
   const [favoritePosts, setFavoritePosts] = useState<PostData[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
+
+  const { user } = useSelector((state: RootState) => state.profile);
 
   async function getFavoritePosts() {
     try {
@@ -15,7 +17,7 @@ function Favourites() {
       const response = await data.json();
 
       const userLikedPosts = response.filter(
-        (post: { likes: (string | null)[] }) => post.likes.includes(userId)
+        (post: { likes: (string | null)[] }) => post.likes.includes(user.id)
       );
 
       setFavoritePosts(userLikedPosts);
@@ -24,36 +26,17 @@ function Favourites() {
     }
   }
 
-  async function getUserId() {
-    try {
-      const data = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/signedin",
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        }
-      );
-      const response = await data.json();
-      const id = await response.id;
-      setUserId(id);
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  }
-
   useEffect(() => {
-    getUserId();
     getFavoritePosts();
   }, [favoritePosts]);
 
+  console.log(user.id);
+  console.log(favoritePosts);
+
   return (
-    <div className="flex flex-col gap-5 py-6 ml-[150px]">
+    <div className="flex flex-row gap-5 py-6 ml-[150px] w-[90%] flex-wrap">
       {!favoritePosts.length && (
-        <p className="ml-[150px] text-lg">You don't have favorite posts.</p>
+        <p className="ml-[150px] text-lg">Your favorites are loading...</p>
       )}
       {favoritePosts.map((post) => (
         <Post
@@ -61,6 +44,7 @@ function Favourites() {
           postData={post}
           isFriend={false}
           isProfile={false}
+          isFavorite={true}
         />
       ))}
     </div>

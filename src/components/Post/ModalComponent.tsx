@@ -76,11 +76,13 @@ const ModalComponent = ({
           <h2 className="text-2xl font-semibold mb-4 ">{postData.title}</h2>
           {postData.comments.map(
             (
-              data: { user: string; comment: string; _id: string },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              data: { user: any; comment: string; _id: string },
               index: number
             ) => (
-              <div className="mb-2" key={index}>
-                <p className="text-gray-700">{data.comment}</p>
+              <div className="mb-2 flex" key={index}>
+                <p className="font-medium">{data.user.username} </p>
+                <p className="text-gray-700 ml-2">{data.comment}</p>
               </div>
             )
           )}

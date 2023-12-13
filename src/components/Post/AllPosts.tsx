@@ -5,12 +5,15 @@ import { RootState } from "../../store/store";
 import { PostData } from "../../types/types";
 import Post from "./Post";
 
-const AllPosts: React.FC<AllPostsProps> = ({ isProfile, isFriend }) => {
+const AllPosts: React.FC<AllPostsProps> = ({
+  isProfile,
+  isFriend,
+  isFavorite,
+}) => {
   const [allPosts, setAllPosts] = useState<PostData[]>([]);
 
   const { user } = useSelector((state: RootState) => state.profile);
   const { friend } = useSelector((state: RootState) => state.friend);
-  console.log(friend);
 
   async function getAllPosts() {
     try {
@@ -56,7 +59,7 @@ const AllPosts: React.FC<AllPostsProps> = ({ isProfile, isFriend }) => {
     <div
       className={
         isProfile || isFriend
-          ? " flex flex-row items-center justify-start gap-5 mt-5"
+          ? " flex flex-row items-center justify-start gap-5 mt-5 w-[80%] flex-wrap"
           : "flex flex-col gap-5 py-6"
       }
     >
@@ -66,6 +69,7 @@ const AllPosts: React.FC<AllPostsProps> = ({ isProfile, isFriend }) => {
           postData={post}
           isProfile={isProfile}
           isFriend={isFriend}
+          isFavorite={isFavorite}
         />
       ))}
     </div>
