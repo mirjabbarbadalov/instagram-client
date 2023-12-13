@@ -1,8 +1,7 @@
-import { useState, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { AiFillGoogleSquare } from "react-icons/ai";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import { useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "/logo.svg";
 
 function updateCookie(name: string, value: string, expirationDays: number) {
@@ -121,15 +120,7 @@ export default function Login() {
         </div>
 
         <div className="mt-3  flex items-center justify-center">
-          <button
-            type="button"
-            className="flex self-center items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer  w-[62.5%]   rounded-lg text-white font-bold"
-          >
-            <p className="text-xl">
-              <AiFillGoogleSquare />
-            </p>
-            Log in with Google
-          </button>
+         
         </div>
 
         <form
