@@ -1,5 +1,5 @@
 import AllPosts from "../../components/Post/AllPosts";
-import PostModal from "../../components/PostModal/PostModal";
+import { AddPostButton } from "../../components/PostModal/AddPostButton";
 import Search from "../../components/Search/Search";
 import Suggestions from "../../components/Suggestions/Suggestions";
 import UserMenu from "../../components/UserMenu/UserMenu";
@@ -11,7 +11,9 @@ export default function Home() {
       <div className="flex items-center justify-between min-w-screen">
         <div className="flex items-center justify-center z-0">
           <Search />
-          <PostModal />
+          <div className="ml-4">
+            <AddPostButton />
+          </div>
         </div>
         <div className="flex items-center justify-center">
           <UserMenu />

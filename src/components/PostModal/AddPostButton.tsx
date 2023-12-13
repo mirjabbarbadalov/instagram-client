@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddPost from "./AddPost"; // Import the AddPost component
+import AddPost from "./AddPost";
 
 export const AddPostButton = () => {
   const [showAddPost, setShowAddPost] = useState(false);
