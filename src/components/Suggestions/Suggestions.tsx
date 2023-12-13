@@ -20,7 +20,6 @@ export default function Suggestions() {
 
   useEffect(() => {
     if (user && user.id) {
-      console.log(user.id);
       setUserId(user.id);
       getAllUsers();
     }

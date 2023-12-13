@@ -1,33 +1,16 @@
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { AllPostsProps } from "../../pages/Profile/Profile";
+import { RootState } from "../../store/store";
 import { PostData } from "../../types/types";
 import Post from "./Post";
 
-function AllPosts() {
-  const [userId, setUserId] = useState<string | null>(null);
+const AllPosts: React.FC<AllPostsProps> = ({ isProfile, isFriend }) => {
   const [allPosts, setAllPosts] = useState<PostData[]>([]);
 
-  async function getUserId() {
-    try {
-      const data = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/signedin",
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        }
-      );
-      const response = await data.json();
-
-      const id = await response.id;
-      setUserId(id);
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  }
+  const { user } = useSelector((state: RootState) => state.profile);
+  const { friend } = useSelector((state: RootState) => state.friend);
+  console.log(friend);
 
   async function getAllPosts() {
     try {
@@ -36,34 +19,57 @@ function AllPosts() {
       );
       const response = await data.json();
 
-      const filteredPosts = response.filter(
-        (post: { user: { _id: string | null } }) => {
-          return post.user._id !== userId;
-        }
-      );
-      setAllPosts(filteredPosts);
+      if (isProfile) {
+        const filteredPosts = response.filter(
+          (post: { user: { _id: string | null } }) => {
+            return post.user._id == user.id;
+          }
+        );
+        setAllPosts(filteredPosts);
+      } else if (isFriend) {
+        const filteredPosts = response.filter(
+          (post: { user: { _id: string | null } }) => {
+            return post.user._id === friend.id;
+          }
+        );
+        setAllPosts(filteredPosts);
+      } else {
+        const filteredPosts = response.filter(
+          (post: { user: { _id: string | null } }) => {
+            return post.user._id !== user.id;
+          }
+        );
+        setAllPosts(filteredPosts);
+      }
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
   }
 
   useEffect(() => {
-    getUserId();
-  }, []);
-
-  useEffect(() => {
-    if (userId !== null) {
+    if (user.id !== null) {
       getAllPosts();
     }
-  }, [userId]);
+  }, [user.id]);
 
   return (
-    <div className="flex flex-col gap-5 py-6">
-      {allPosts.map((post) => (
-        <Post key={post.title} postData={post} />
+    <div
+      className={
+        isProfile || isFriend
+          ? " flex flex-row items-center justify-start gap-5 mt-5"
+          : "flex flex-col gap-5 py-6"
+      }
+    >
+      {allPosts.map((post, index) => (
+        <Post
+          key={index}
+          postData={post}
+          isProfile={isProfile}
+          isFriend={isFriend}
+        />
       ))}
     </div>
   );
-}
+};
 
 export default AllPosts;

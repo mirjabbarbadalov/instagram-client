@@ -9,13 +9,14 @@ import { BsBookmarkHeart, BsGrid3X3 } from "react-icons/bs";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import Cookies from "js-cookie";
+import AllPosts from "../../components/Post/AllPosts";
 
 interface Friend {
   username: string;
   fullName: string;
   email: string;
   profilePhoto: string;
-  posts: string;
+  posts: [];
   followers: [];
   following: [];
   id: string;
@@ -121,7 +122,7 @@ const Friend: React.FC = () => {
     }
 
     return (
-      <div className="flex flex-col items-center ">
+      <div className="flex flex-col items-center ml-[100px] ">
         <div className="flex mt-10 gap-10">
           <div className="profile-photo-container">
             {friend.profilePhoto !== null ? (
@@ -148,13 +149,16 @@ const Friend: React.FC = () => {
             </div>
             <div className="flex gap-[56px]">
               <p>
-                <span className="font-semibold">20</span> posts
+                <span className="font-semibold">{friend.posts.length}</span>{" "}
+                posts
               </p>
               <p>
-                <span className="font-semibold">200</span> followers
+                <span className="font-semibold">{friend.followers.length}</span>{" "}
+                followers
               </p>
               <p>
-                <span className="font-semibold">200</span> following
+                <span className="font-semibold">{friend.following.length}</span>{" "}
+                following
               </p>
             </div>
             <div>
@@ -178,7 +182,12 @@ const Friend: React.FC = () => {
             <p>FAVORITES</p>
           </div>
         </div>
-        {/* Grid component needs to be added */}
+        <div
+          className="flex items-center justify-start gap-5 mt-5
+        "
+        >
+          <AllPosts isProfile={false} isFriend={true} />
+        </div>
         <div className="mt-[30px] mb-[30px] self-center">
           <div className="posts"></div>
           <p className="text-center text-sm text-[#aeaeae]">

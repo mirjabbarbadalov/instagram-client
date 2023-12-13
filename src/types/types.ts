@@ -1,9 +1,9 @@
 export interface PostData {
   imageUrl: string;
   _id(_id: string): unknown;
-  id: number;
+  id: string;
   title: string;
-  postUrl: string;
+  postPhoto: string;
   likes: string[];
   comments: Comment[];
   user: {
@@ -16,6 +16,11 @@ export interface PostData {
 export interface Post {
   imageUrl: string | undefined;
   _id: string;
+  postUrl: string;
+  title: string;
+  likes: [];
+  comments: [];
+  id: string;
 }
 
 export interface User {

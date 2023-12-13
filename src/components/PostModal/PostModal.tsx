@@ -21,12 +21,6 @@ function PostModal() {
 
   const token = getCookieValue("token");
 
-  if (token) {
-    console.log("Token  found");
-  } else {
-    console.log("Token not found or cookie does not exist.");
-  }
-
   async function createPost() {
     const data = {
       title: title,

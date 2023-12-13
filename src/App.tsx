@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import { useEffect } from "react";
 import { Provider } from "react-redux";
 import {
   BrowserRouter,
@@ -12,15 +11,15 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Favourites from "./pages/Favourites/Favourites";
+import Friend from "./pages/Friend/Friend";
 import Home from "./pages/Home/Home";
+import { Chat } from "./pages/Messages/Chat";
 import Messages from "./pages/Messages/Messages";
 import More from "./pages/More/More";
 import Notifications from "./pages/Notifications/Notifications";
 import EditProfile from "./pages/Profile/EditProfile";
 import Profile from "./pages/Profile/Profile";
 import store from "./store/store";
-import Friend from "./pages/Friend/Friend";
-import { Chat } from "./pages/Messages/Chat";
 
 function App() {
   return (
@@ -34,11 +33,6 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-
-  useEffect(() => {
-    const isLoggedIn = !!Cookies.get("token");
-    console.log("Logged In:", isLoggedIn);
-  }, [location.pathname]);
 
   const isLoggedIn = !!Cookies.get("token");
 
