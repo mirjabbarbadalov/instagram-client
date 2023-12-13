@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -9,6 +9,8 @@ const AddPost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const token = Cookies.get("token");
+
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -92,7 +94,7 @@ const AddPost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
       const response = await axios.post(
         "https://instagram-api-88fv.onrender.com/posts/upload",
-        requestData,
+        JSON.stringify(requestData),
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,21 +114,29 @@ const AddPost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       setSuccessMessage("");
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
     <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-60 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-md w-[400px] max-h-[550px] flex flex-col items-center justify-center">
-        <button
-          type="button"
-          aria-label="Close"
-          onClick={() => {
-            handleCreatePost();
-            onClose();
-          }}
-          className=" bg-red-500 mb-4 text-white font-semibold px-3 py-1 rounded-md hover:bg-red-700 transition duration-300"
-        >
-          Close
-        </button>
+      <div
+        ref={modalRef}
+        className="bg-white p-6 rounded-md w-[400px] max-h-[550px] flex flex-col items-center justify-center"
+      >
         <h2 className="text-2xl font-bold mb-4 text-black">
           Create a new Post
         </h2>

@@ -95,6 +95,7 @@ const AddPhoto: React.FC<AddPhotoProps> = ({ username }) => {
     try {
       const response = await fetch(
         "https://instagram-api-88fv.onrender.com/users/upload/photo",
+        
         {
           method: "POST",
           headers: {
