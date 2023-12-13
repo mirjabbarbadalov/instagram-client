@@ -6,7 +6,7 @@ import UserMenu from "../../components/UserMenu/UserMenu";
 
 export default function Home() {
   return (
-    <div className="w-[100vw]">
+    <div className="w-[100vw] ml-[100px]">
       {/* Top Part - Interactions */}
       <div className="flex items-center justify-between min-w-screen">
         <div className="flex items-center justify-center">
@@ -19,9 +19,9 @@ export default function Home() {
       </div>
 
       {/* Main Feed - All Posts */}
-      <div className="flex">
+      <div className="flex ">
         <AllPosts />
-        <div className="mt-[25px] ml-[100px]">
+        <div className="mt-[35px] ml-[250px]">
           <Suggestions />
         </div>
       </div>

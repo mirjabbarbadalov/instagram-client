@@ -1,17 +1,16 @@
+import { Action } from "@reduxjs/toolkit";
+import { useEffect } from "react";
 import { BsBookmarkHeart, BsBookmarkHeartFill } from "react-icons/bs";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { HiOutlinePaperAirplane, HiPaperAirplane } from "react-icons/hi";
-import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 import { RiStackFill, RiStackLine } from "react-icons/ri";
-import { NavLink, useLocation } from "react-router-dom";
-import logo from "/logo.svg";
-import { useEffect } from "react";
-import { fetchProfileDetails } from "../../store/slices/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useLocation } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
-import { State } from "../../types/types";
-import { Action } from "@reduxjs/toolkit";
+import { fetchProfileDetails } from "../../store/slices/profileSlice";
 import { RootState } from "../../store/store";
+import { State } from "../../types/types";
+import logo from "/logo.svg";
 
 export default function Sidebar() {
   const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
@@ -43,7 +42,7 @@ export default function Sidebar() {
         <img
           src={logo as unknown as string}
           alt="Instagram Logo"
-          className="w-[150px]"
+          className="w-[120px]"
         />
       </NavLink>
 
@@ -109,27 +108,7 @@ export default function Sidebar() {
         </div>
         <p>Messages</p>
       </NavLink>
-      <NavLink
-        className={`flex items-center gap-3 p-3 mr-4 ${
-          isNavLinkActive(["/notifications"])
-            ? "text-black-500 font-bold !important"
-            : ""
-        } hover:bg-[#f2f2f2] hover:rounded-md `}
-        to={"/notifications"}
-      >
-        <div className="text-[28px]">
-          {isNavLinkActive(["/notifications"]) ? (
-            <IoMdNotifications
-              className={"transform hover:scale-110 transition-transform"}
-            />
-          ) : (
-            <IoMdNotificationsOutline
-              className={"transform hover:scale-110 transition-transform"}
-            />
-          )}
-        </div>
-        <p>Notifications</p>
-      </NavLink>
+
       <NavLink
         className={`flex items-center gap-3 p-3 mr-4 ${
           isNavLinkActive(["/profile"])
