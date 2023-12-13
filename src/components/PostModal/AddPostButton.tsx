@@ -13,7 +13,7 @@ export const AddPostButton = () => {
       <button
         type="button"
         onClick={handleButtonClick}
-        className="text-white  inline-flex items-center bg-blue-500 hover:bg-blue-600  focus:outline-none  font-medium rounded-lg text-sm px-6 py-2.5 text-center mt-0 mb-4 "
+        className="text-white  inline-flex items-center bg-blue-500 hover:bg-blue-600  focus:outline-none  font-medium rounded-lg text-sm px-6 py-2.5 text-center mt-0 mb-4 z-30"
       >
         <svg
           className="me-1 ms-2 w-5 h-5"

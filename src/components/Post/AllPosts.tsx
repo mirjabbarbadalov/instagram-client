@@ -60,8 +60,8 @@ const AllPosts: React.FC<AllPostsProps> = ({
     <div
       className={
         isProfile || isFriend
-          ? " flex flex-row items-center justify-start gap-5 mt-5  flex-wrap ml-10"
-          : "flex flex-col gap-5 py-6"
+          ? " flex flex-row items-center justify-start gap-5 mt-5  flex-wrap ml-10 z-0"
+          : "flex flex-col gap-5 py-6 z-0"
       }
     >
       {reversedPosts.map((post, index) => (

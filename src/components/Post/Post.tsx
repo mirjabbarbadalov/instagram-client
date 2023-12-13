@@ -166,7 +166,7 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
       {isProfile || isFriend || isFavorite ? (
         <div
           key={postData.title}
-          className=" flex flex-row gap-8 text-white text-2xl opacity-100 w-[300px] h-[300px] relative cursor-pointer"
+          className=" flex flex-row gap-8 text-white text-2xl opacity-100 w-[300px] h-[300px] relative cursor-pointer z-0"
           onMouseOver={() => {
             handleMouseOver(postData._id);
           }}
@@ -183,7 +183,7 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
           {isHover && hoveredPhoto === postData._id && (
             <div
               // onClick={handleCommentClick}
-              className="w-[300px] h-[300px] absolute  bg-black opacity-50 flex items-center justify-center gap-3 text-2xl text-white  top-0 left-0"
+              className="w-[300px] h-[300px] absolute  bg-black opacity-50 flex items-center justify-center gap-3 text-2xl text-white  top-0 left-0 z-0"
             >
               <div className="flex flex-row items-center justify-center gap-2 ">
                 <RiHeartFill /> <span>{postData.likes.length}</span>
@@ -204,7 +204,7 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
           />
         </div>
       ) : (
-        <div className="">
+        <div className="z-0">
           <div className="relative">
             <div className="bg-white border-b rounded-sm max-w-md">
               <NavLink to={`/friend/${userName}`}>
