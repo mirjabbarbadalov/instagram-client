@@ -56,7 +56,12 @@ function Favourites() {
         <p className="ml-[150px] text-lg">You don't have favorite posts.</p>
       )}
       {favoritePosts.map((post) => (
-        <Post key={post.title} postData={post} />
+        <Post
+          key={post.title}
+          postData={post}
+          isFriend={false}
+          isProfile={false}
+        />
       ))}
     </div>
   );
