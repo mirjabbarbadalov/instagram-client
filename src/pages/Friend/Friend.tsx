@@ -122,7 +122,7 @@ const Friend: React.FC = () => {
     }
 
     return (
-      <div className="flex flex-col items-center ml-[100px] ">
+      <div className="flex flex-col items-center ml-[50px] w-[1000px] ">
         <div className="flex mt-10 gap-10">
           <div className="profile-photo-container">
             {friend.profilePhoto !== null ? (

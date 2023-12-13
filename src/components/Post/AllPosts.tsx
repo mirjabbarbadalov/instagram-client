@@ -55,15 +55,16 @@ const AllPosts: React.FC<AllPostsProps> = ({
     }
   }, [user.id]);
 
+  const reversedPosts = [...allPosts].reverse();
   return (
     <div
       className={
         isProfile || isFriend
-          ? " flex flex-row items-center justify-start gap-5 mt-5 w-[80%] flex-wrap"
+          ? " flex flex-row items-center justify-start gap-5 mt-5  flex-wrap ml-10"
           : "flex flex-col gap-5 py-6"
       }
     >
-      {allPosts.map((post, index) => (
+      {reversedPosts.map((post, index) => (
         <Post
           key={index}
           postData={post}
