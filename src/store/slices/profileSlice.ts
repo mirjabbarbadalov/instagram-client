@@ -8,17 +8,21 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { User } from "../../types/types";
 
+const api = axios.create({
+  baseURL: "https://instagram-api-88fv.onrender.com",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 const fetchProfileDetails: AsyncThunk<User, void, object> = createAsyncThunk(
   "profile/fetchProfileDetails",
   async () => {
-    const response = await axios.get(
-      "https://instagram-api-88fv.onrender.com/users/signedin",
-      {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      }
-    );
+    const response = await api.get("/users/signedin", {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+      },
+    });
     return response.data;
   }
 );
