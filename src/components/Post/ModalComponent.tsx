@@ -48,6 +48,8 @@ const ModalComponent = ({
       console.error("Error fetching user info:", error);
     }
   }
+
+  console.log(postData.postPhoto);
   return (
     <div
       className={`fixed inset-0 flex justify-center items-center z-30   ${
@@ -67,7 +69,7 @@ const ModalComponent = ({
       >
         <div className="w-[700px]">
           <img
-            src={postData.postUrl}
+            src={postData.postPhoto}
             alt="Sample"
             className="w-full h-full object-cover"
           />
