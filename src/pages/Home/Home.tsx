@@ -9,7 +9,7 @@ export default function Home() {
     <div className="w-[100vw] ml-[100px]">
       {/* Top Part - Interactions */}
       <div className="flex items-center justify-between min-w-screen">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center z-0">
           <Search />
           <div className="ml-4">
             <AddPostButton />
@@ -22,7 +22,7 @@ export default function Home() {
 
       {/* Main Feed - All Posts */}
       <div className="flex ">
-        <AllPosts />
+        <AllPosts isFriend={false} isProfile={false} />
         <div className="mt-[35px] ml-[250px]">
           <Suggestions />
         </div>

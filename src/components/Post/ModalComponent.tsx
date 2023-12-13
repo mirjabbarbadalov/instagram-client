@@ -50,7 +50,7 @@ const ModalComponent = ({
   }
   return (
     <div
-      className={`fixed inset-0 flex justify-center items-center z-10 ${
+      className={`fixed inset-0 flex justify-center items-center z-30   ${
         showModal
           ? "bg-black bg-opacity-60 opacity-100 "
           : "opacity-0 pointer-events-none"
@@ -60,7 +60,7 @@ const ModalComponent = ({
       }}
     >
       <div
-        className="bg-white w-full max-w-3xl mx-4 md:mx-auto rounded-lg overflow-hidden shadow-lg flex h-[500px] relative z-10"
+        className="bg-white w-full max-w-3xl mx-4 md:mx-auto rounded-lg overflow-hidden shadow-lg flex h-[500px] relative z-40"
         onClick={(event) => {
           event.stopPropagation();
         }}
@@ -85,7 +85,7 @@ const ModalComponent = ({
             )
           )}
 
-          <div className="absolute bottom-2">
+          <div className="absolute bottom-2 text-black">
             <div className=" w-[300px] justify-end  ">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex gap-3">
@@ -145,7 +145,7 @@ const ModalComponent = ({
         </div>
         <div
           onClick={onClose}
-          className="cursor-pointer font mt-5 mr-5 text-3xl"
+          className="cursor-pointer font mt-5 mr-5 text-3xl text-black"
         >
           <IoClose />
         </div>
