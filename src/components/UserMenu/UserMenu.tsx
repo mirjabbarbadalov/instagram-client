@@ -1,47 +1,23 @@
-import { CircularProgress } from "@mui/material";
-import Cookies from "js-cookie";
+import { Skeleton } from "@mui/material";
+import { Action } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { ThunkDispatch } from "redux-thunk";
+import { fetchProfileDetails } from "../../store/slices/profileSlice";
+import { RootState } from "../../store/store";
+import { State } from "../../types/types";
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (profilePhoto !== null) {
-      setLoading(false);
-    }
-  }, [profilePhoto]);
-
+  const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
+  const profilePhoto = useSelector(
+    (state: RootState) => state.profile.user.profilePhoto
+  );
+  const status = useSelector((state: RootState) => state.profile.status);
   const navigate = useNavigate();
-
-  const getUserDetails = async () => {
-    try {
-      const token = Cookies.get("token");
-      const response = await fetch(
-        "https://instagram-api-88fv.onrender.com/users/signedin",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      if (response.ok) {
-        if (data.profilePhoto) {
-          setProfilePhoto(data.profilePhoto);
-        }
-      }
-    } catch (error) {
-      console.error("An error occurred while fetching user details:", error);
-    }
-  };
-
-  useEffect(() => {
-    getUserDetails();
-  }, []);
 
   useEffect(() => {
     const token = getCookie("token");
@@ -49,6 +25,20 @@ function UserMenu() {
       setIsMenuOpen(false);
     }
   }, []);
+
+  useEffect(() => {
+    if (status === "loading") {
+      setLoading(true);
+    } else if (status === "succeeded" || status === "failed") {
+      setLoading(false);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchProfileDetails());
+    }
+  }, [status, dispatch]);
 
   function getCookie(name: string) {
     const cookies = document.cookie.split(";");
@@ -82,22 +72,18 @@ function UserMenu() {
           onClick={toggleMenu}
         >
           <span className="sr-only">User:</span>
-
           {loading ? (
-            <CircularProgress
-              size={50}
-              style={{
-                position: "absolute",
-                top: "0%",
-                left: "0%",
-                transform: "translate(-50%, -50%)",
-              }}
+            <Skeleton
+              width={"49px"}
+              height={"49px"}
+              variant="circular"
+              animation="wave"
             />
           ) : (
             <img
               src={`data:image/jpeg;base64,${profilePhoto}`}
               alt="Profile Photo"
-              className="absolute inset-0 w-full h-full object-cover rounded-full"
+              className="absolute inset-0  h-[50px] object-cover rounded-full w-[50px]"
             />
           )}
 

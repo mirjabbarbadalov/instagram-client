@@ -29,7 +29,7 @@ const fetchProfileDetails: AsyncThunk<User, void, object> = createAsyncThunk(
 
 type ProfileState = {
   user: User;
-  status: string;
+  status: "idle" | "loading" | "succeeded" | "failed";
   error: string;
 };
 
