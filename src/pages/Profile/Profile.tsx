@@ -41,10 +41,11 @@ const Profile: React.FC = () => {
     if (status === "loading") {
       return (
         <div className="flex items-center justify-center ml-[500px] mb-[100px]">
-          <CircularProgress size={100} />
+          <CircularProgress size={70} />
         </div>
       );
     }
+
     if (status === "failed") {
       return (
         <div className="flex items-center justify-center">

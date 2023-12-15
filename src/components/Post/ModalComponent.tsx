@@ -3,14 +3,16 @@ import Cookies from "js-cookie";
 import { CiHeart, CiChat1, CiLocationArrow1, CiBookmark } from "react-icons/ci";
 import { RiHeartFill } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
+import { PostData } from "../../types/types";
 
 interface ModalData {
-  postData: any;
+  postData: PostData;
   showModal: boolean;
   onClose: () => void;
   isLiked: boolean;
   userId: string | null;
   triggerLike: (likes: number) => void;
+  index: number;
 }
 
 const ModalComponent = ({
@@ -51,7 +53,7 @@ const ModalComponent = ({
 
   return (
     <div
-      className={`fixed inset-0 flex justify-center items-center z-30   ${
+      className={`fixed inset-0 flex justify-center items-center z-30 ${
         showModal
           ? "bg-black bg-opacity-60 opacity-100 "
           : "opacity-0 pointer-events-none"
@@ -66,7 +68,7 @@ const ModalComponent = ({
           event.stopPropagation();
         }}
       >
-        <div className="w-[700px]">
+        <div className="w-[650px]">
           <img
             src={postData.postPhoto}
             alt="Sample"
@@ -75,26 +77,20 @@ const ModalComponent = ({
         </div>
         <div className="w-[400px] p-4 flex flex-col">
           <h2 className="text-2xl font-semibold mb-4 ">{postData.title}</h2>
-          {postData.comments.map(
-            (
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              data: { user: any; comment: string; _id: string },
-              index: number
-            ) => (
-              <div className="mb-2 flex" key={index}>
-                <p className="font-medium text-black text-sm">
-                  {data.user.username}{" "}
-                </p>
-                <p className="text-gray-700 ml-2 text-sm">{data.comment}</p>
-              </div>
-            )
-          )}
+          {postData.comments.map((data, index) => (
+            <div className="mb-2 flex" key={index}>
+              <p className="font-medium text-black text-sm">
+                {data.user.username}{" "}
+              </p>
+              <p className="text-gray-700 ml-2 text-sm">{data.comment}</p>
+            </div>
+          ))}
 
           <div className="absolute bottom-2 text-black">
             <div className=" w-[300px] justify-end  ">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex gap-3">
-                  <p
+                  <span
                     className="text-[32px] cursor-pointer"
                     onClick={() => {
                       triggerLike(likes);
@@ -107,7 +103,7 @@ const ModalComponent = ({
                     ) : (
                       <CiHeart />
                     )}
-                  </p>
+                  </span>
                   <p className="text-[32px] cursor-pointer">
                     <CiChat1 />
                   </p>
@@ -136,6 +132,7 @@ const ModalComponent = ({
               />
               {comment && (
                 <button
+                  type="submit"
                   className="text-sm font-bold text-[#0095f6]"
                   onClick={() => {
                     addCommentToPost(userId, comment);

@@ -11,10 +11,11 @@ import { fetchProfileDetails } from "../../store/slices/profileSlice";
 import { RootState } from "../../store/store";
 import { State } from "../../types/types";
 import logo from "/logo.svg";
+import { Skeleton } from "@mui/material";
 
 export default function Sidebar() {
   const dispatch = useDispatch<ThunkDispatch<State, void, Action>>();
-  const { user } = useSelector((state: RootState) => state.profile);
+  const { user, status } = useSelector((state: RootState) => state.profile);
 
   useEffect(() => {
     dispatch(fetchProfileDetails());
@@ -118,11 +119,20 @@ export default function Sidebar() {
         to={"/profile"}
       >
         <div className="text-[28px]">
-          <img
-            src={`data:image/jpeg;base64,${user.profilePhoto}`}
-            alt="Profile Photo"
-            className="rounded-full w-[30px] h-[30px] object-cover"
-          />
+          {status === "loading" ? (
+            <Skeleton
+              animation="wave"
+              variant="circular"
+              width={30}
+              height={30}
+            />
+          ) : (
+            <img
+              src={`data:image/jpeg;base64,${user.profilePhoto}`}
+              alt="Profile Photo"
+              className="rounded-full w-[30px] h-[30px] object-cover"
+            />
+          )}
         </div>
         <p>Profile</p>
       </NavLink>

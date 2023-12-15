@@ -6,10 +6,10 @@ import UserMenu from "../../components/UserMenu/UserMenu";
 
 export default function Home() {
   return (
-    <div className="w-[100vw] ml-[100px] z-30">
+    <div className="w-[100vw] ml-[100px] z-10">
       {/* Top Part - Interactions */}
       <div className="flex items-center justify-between min-w-screen">
-        <div className="flex items-center justify-center z-30">
+        <div className="flex items-center justify-center">
           <Search />
           <div className="ml-4">
             <AddPostButton />
@@ -21,7 +21,7 @@ export default function Home() {
       </div>
 
       {/* Main Feed - All Posts */}
-      <div className="flex">
+      <div className="flex z-0">
         <AllPosts isFriend={false} isProfile={false} isFavorite={false} />
         <div className="mt-[35px] ml-[250px]">
           <Suggestions />

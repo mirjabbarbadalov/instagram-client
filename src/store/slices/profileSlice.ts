@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  AsyncThunk,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { User } from "../../types/types";
@@ -15,17 +10,22 @@ const api = axios.create({
   },
 });
 
-const fetchProfileDetails: AsyncThunk<User, void, object> = createAsyncThunk(
-  "profile/fetchProfileDetails",
-  async () => {
+const fetchProfileDetails = createAsyncThunk<
+  User,
+  void,
+  { rejectValue: string }
+>("profile/fetchProfileDetails", async (_, { rejectWithValue }) => {
+  try {
     const response = await api.get("/users/signedin", {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },
     });
     return response.data;
+  } catch (error) {
+    return rejectWithValue("Failed to fetch profile details");
   }
-);
+});
 
 type ProfileState = {
   user: User;
@@ -46,7 +46,7 @@ const initialState: ProfileState = {
     _id: "",
   },
   status: "idle",
-  error: "error",
+  error: "",
 };
 
 export const profileSlice = createSlice({
@@ -78,7 +78,7 @@ export const profileSlice = createSlice({
       )
       .addCase(fetchProfileDetails.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message as string;
+        state.error = (action.payload as string) || "Unknown error";
       });
   },
 });

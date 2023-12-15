@@ -1,27 +1,33 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { CiBookmark, CiChat1, CiHeart, CiLocationArrow1 } from "react-icons/ci";
 import { BsFillChatFill } from "react-icons/bs";
+import { CiBookmark, CiChat1, CiHeart, CiLocationArrow1 } from "react-icons/ci";
 import { RiHeartFill } from "react-icons/ri";
-import { PostData } from "../../types/types";
-import ModalComponent from "./ModalComponent";
 import { NavLink } from "react-router-dom";
+import { PostData } from "../../types/types";
 
 interface PostProps {
   postData: PostData;
   isProfile: boolean;
   isFriend: boolean;
   isFavorite: boolean;
+  index: number;
+  onClick: () => void;
 }
 
-function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
+function Post({
+  postData,
+  isProfile,
+  isFriend,
+  isFavorite,
+  onClick,
+}: PostProps) {
   const initialLikes = postData.likes.length;
   const [likes, setLikes] = useState(initialLikes);
   const [isLiked, setIsLiked] = useState(false);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
   const [comment, setComment] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
-  const [showModal, setShowModal] = useState(false);
 
   const [isHover, setIsHover] = useState(false);
   const [hoveredPhoto, setHoveredPhot] = useState<string | unknown>("");
@@ -31,6 +37,9 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
 
   const userName = postData?.user?.username;
   const profilePhoto = postData?.user?.profilePhoto;
+  const openModal = () => {
+    onClick();
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -142,14 +151,6 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
     }
   }
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   const handleMouseOver = (postId: string | unknown) => {
     if (typeof postId === "string") {
       setIsHover(true);
@@ -194,14 +195,6 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
               </div>
             </div>
           )}
-          <ModalComponent
-            showModal={showModal}
-            onClose={closeModal}
-            postData={postData}
-            isLiked={isLiked}
-            userId={userId}
-            triggerLike={triggerLike}
-          />
         </div>
       ) : (
         <div className="z-0">
@@ -317,14 +310,6 @@ function Post({ postData, isProfile, isFriend, isFavorite }: PostProps) {
               </div>
             </div>
           </div>
-          <ModalComponent
-            showModal={showModal}
-            onClose={closeModal}
-            postData={postData}
-            isLiked={isLiked}
-            userId={userId}
-            triggerLike={triggerLike}
-          />
         </div>
       )}
     </>
