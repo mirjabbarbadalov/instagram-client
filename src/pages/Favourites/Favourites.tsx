@@ -45,6 +45,10 @@ function Favourites() {
           isFriend={false}
           isProfile={false}
           isFavorite={true}
+          index={0}
+          onClick={function (): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       ))}
     </div>
