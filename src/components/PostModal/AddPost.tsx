@@ -30,8 +30,8 @@ const AddPost: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const resizeImage = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const maxWidth = 800;
-      const maxHeight = 800;
+      const maxWidth = 700;
+      const maxHeight = 700;
 
       const reader = new FileReader();
 
