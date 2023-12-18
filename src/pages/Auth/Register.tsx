@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { AiFillGoogleSquare } from "react-icons/ai";
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "/logo.svg";
 
 export default function Register() {
@@ -137,17 +136,6 @@ export default function Register() {
           <p className="text-center text-[#737373] font-semibold ">
             Sign up to see photos and videos from your friends
           </p>
-        </div>
-        <div className="mt-3 flex items-center justify-center">
-          <button
-            type="button"
-            className="flex self-center items-center justify-center gap-2 py-[6px] bg-[#0095f6] hover:bg-[#1877f2] cursor-pointer w-[62.5%] rounded-lg text-white font-bold"
-          >
-            <p className="text-xl">
-              <AiFillGoogleSquare />
-            </p>
-            Log in with Google
-          </button>
         </div>
 
         <form
